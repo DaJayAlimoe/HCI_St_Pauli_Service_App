@@ -2,11 +2,6 @@ package com.service.hci.hci_service_app.data_layer;
 
 import java.util.HashMap;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-
 
 public class SessionManager {
     private static SessionManager session = null;
@@ -29,15 +24,34 @@ public class SessionManager {
     }
 
     /**
+     * check if user exists
+     * @return
+     */
+    private static boolean userExists() {
+        return (session != null && session.userSession.containsKey("id"));
+    }
+
+    /**
      * get user session data
      * @param key
      * @return
      */
     public static Object user(String key) {
-        if (session == null) {
-            return null;
+        if (SessionManager.userExists()) {
+            return session.userSession.get(key);
         }
-        return session.userSession.get(key);
+        return Boolean.FALSE;
+    }
+
+    /**
+     * get user Token
+     * @return
+     */
+    public static String getToken() {
+        if (SessionManager.userExists()) {
+            return session.userSession.get("token").toString();
+        }
+        return null;
     }
 
 }
