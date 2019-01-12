@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 repositories {
@@ -24,7 +28,8 @@ repositories {
 
 dependencies {
     implementation('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
-    implementation 'com.android.support:appcompat-v7:27.1.1'   // Version 23+ is required
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    // Version 23+ is required
     implementation 'com.google.zxing:core:3.3.0'
 }
 
