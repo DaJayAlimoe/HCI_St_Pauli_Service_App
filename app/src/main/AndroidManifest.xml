@@ -4,15 +4,15 @@
     package="com.service.hci.hci_service_app">
 
     <application
-        android:name=".Beer2Point"
-        android:allowBackup="false"
-        android:icon="@drawable/icon"
-        android:label="Beer2Point"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="Beer2Point"
-            android:theme="@style/AboutLibrariesTheme">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,5 +20,6 @@
             </intent-filter>
         </activity>
     </application>
+
 
 </manifest>
