@@ -11,29 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import org.json.*;
-import javax.net.ssl.HttpsURLConnection;
 
 public class Api {
     private String baseUrl;
 
     public Api(){
         baseUrl = "http://192.168.178.11:443/";
-    }
-
-    /**
-     * get request body containing token
-     * @return
-     */
-    private JSONObject requestBody() {
-        String token = SessionManager.getToken();
-        if(token != null) {
-            try {
-                return new JSONObject(String.format("{\"token\": \"%s\"}", token));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return new JSONObject();
     }
 
     /**
@@ -67,11 +50,11 @@ public class Api {
             JSONObject data = this.getResponseData(result);
             if(data != null) {
                 if(data.has("employee")) {
-                    SessionManager.setUserData("isEmployee", true);
-                    SessionManager.setUserData("id", data.get("employee.id"));
+                    SessionManager.setUserData("isEmployee", Boolean.TRUE);
+                    SessionManager.setUserData("id", data.getJSONObject("employee").getInt("id"));
                 }else if(data.has("seat")) {
-                    SessionManager.setUserData("isEmployee", false);
-                    SessionManager.setUserData("id", data.get("seat.id"));
+                    SessionManager.setUserData("isEmployee", Boolean.FALSE);
+                    SessionManager.setUserData("id", data.getJSONObject("seat").getInt("id"));
                 }
             }
         } catch (InterruptedException | ExecutionException | JSONException e) {
@@ -87,15 +70,13 @@ public class Api {
         JSONObject data = null;
         try {
             Request request = new Request();
-            JSONObject requestBody = this.requestBody();
-            JSONObject result = (JSONObject) request.execute("/v1/item", "GET", requestBody).get();
+            JSONObject result = (JSONObject) request.execute("/v1/item", "GET", new JSONObject(), SessionManager.getToken()).get();
             data = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
             System.out.println("Exception while getting Items: " + e);
         }
         return data;
     }
-
 
     /**
      * get Orders
@@ -105,8 +86,7 @@ public class Api {
         JSONObject data = null;
         try {
             Request request = new Request();
-            JSONObject requestBody = this.requestBody();
-            JSONObject result = (JSONObject) request.execute("/v1/booking/list", "GET", requestBody).get();
+            JSONObject result = (JSONObject) request.execute("/v1/booking/list", "GET", new JSONObject(), SessionManager.getToken()).get();
             data = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
             System.out.println("Exception while getting Items: " + e);
@@ -122,18 +102,18 @@ public class Api {
         JSONObject responseData = null;
         try {
             JSONObject requestData = new JSONObject();
-            if(!(Boolean) SessionManager.user("isEmployee")) {
-                requestData.put("employee_id", SessionManager.user("id").toString());
+            if(SessionManager.user("isEmployee").equals(Boolean.TRUE)) {
+                requestData.put("employee_id", SessionManager.user("id"));
             } else {
-                requestData.put("seat_id", SessionManager.user("id").toString());
+                requestData.put("seat_id", SessionManager.user("id"));
             }
-            JSONObject requestBody = this.requestBody();
+            JSONObject requestBody = new JSONObject();
             requestBody.put("data", requestData);
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/booking/id", "GET", requestBody).get();
+            JSONObject result = (JSONObject) request.execute("/v1/booking/id", "GET", requestBody, SessionManager.getToken()).get();
             responseData = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException | JSONException e) {
-            System.out.println("Exception while getting Items: " + e);
+            System.out.println("Exception while getting Orders: " + e);
         }
         return responseData;
     }
@@ -156,13 +136,13 @@ public class Api {
                     order.put("seat_id", SessionManager.user("id").toString());
                     requestData.put(String.valueOf(itemCount--), order);
                 }
-                JSONObject requestBody = this.requestBody();
+                JSONObject requestBody = new JSONObject();
                 requestBody.put("data", requestData);
                 Request request = new Request();
-                JSONObject result = (JSONObject) request.execute("/v1/booking", "POST", requestBody).get();
+                JSONObject result = (JSONObject) request.execute("/v1/booking", "POST", requestBody, SessionManager.getToken()).get();
                 responseData = this.getResponseData(result);
             } catch (JSONException | InterruptedException | ExecutionException e) {
-                System.out.println("Error while placing order: " + e);
+                System.out.println("Error while placing Order: " + e);
                 e.printStackTrace();
             }
         }
@@ -186,10 +166,10 @@ public class Api {
                     order.put("employee_id", SessionManager.user("id").toString());
                     requestData.put(String.valueOf(itemCount--), order);
                 }
-                JSONObject requestBody = this.requestBody();
+                JSONObject requestBody = new JSONObject();
                 requestBody.put("data", requestData);
                 Request request = new Request();
-                JSONObject result = (JSONObject) request.execute("/v1/booking", "PUT", requestBody).get();
+                JSONObject result = (JSONObject) request.execute("/v1/booking", "PUT", requestBody, SessionManager.getToken()).get();
                 responseData = this.getResponseData(result);
             } catch (JSONException | InterruptedException | ExecutionException e) {
                 System.out.println("Error while placing order: " + e);
@@ -208,10 +188,10 @@ public class Api {
         try {
             JSONObject requestData = new JSONObject();
             requestData.put("id", orderID);
-            JSONObject requestBody = this.requestBody();
+            JSONObject requestBody = new JSONObject();
             requestBody.put("data", requestData);
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/booking", "DELETE", requestBody).get();
+            JSONObject result = (JSONObject) request.execute("/v1/booking", "DELETE", requestBody, SessionManager.getToken()).get();
             this.getResponseData(result);
         } catch (JSONException | InterruptedException | ExecutionException e) {
             System.out.println("Error while removing order: " + e);
@@ -236,7 +216,7 @@ public class Api {
                 JSONObject data = (JSONObject) param[2];
 
                 // Open new Connection to server and send data
-                Connection connection = new Connection(baseUrl+endpoint, method);
+                Connection connection = new Connection(baseUrl+endpoint, method, param[3].toString());
                 connection.send(data.toString());
 
                 // if there is a response code AND that response code is 200 OK
@@ -265,77 +245,77 @@ public class Api {
 //        protected void onPostExecute(Object o) {
 //            super.onPostExecute(o);
 //        }
+    }
+
+    /**
+     * Connection class
+     */
+    private class Connection {
+        private HttpURLConnection conn;
+        private BufferedReader reader;
+        private OutputStreamWriter writer;
 
         /**
-         * Connection class
+         * Open new connection
+         * @param url
+         * @param method
+         * @throws IOException
          */
-        private class Connection {
-            private HttpsURLConnection conn;
-            private BufferedReader reader;
-            private OutputStreamWriter writer;
+        public Connection(String url, String method, String token) throws IOException {
+            URL obj = new URL(url);
+            conn = (HttpURLConnection) obj.openConnection();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty("Authorization", token);
+            conn.setRequestMethod(method);
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            writer = new OutputStreamWriter(conn.getOutputStream());
+        }
 
-            /**
-             * Open new connection
-             * @param url
-             * @param method
-             * @throws IOException
-             */
-            public Connection(String url, String method) throws IOException {
-                URL obj = new URL(url);
-                conn = (HttpsURLConnection) obj.openConnection();
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Accept", "application/json");
-                conn.setRequestMethod(method);
-                reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                writer = new OutputStreamWriter(conn.getOutputStream());
+        /**
+         * get the response code
+         * @return
+         * @throws IOException
+         */
+        public int getResponseCode() throws IOException {
+            return conn.getResponseCode();
+        }
+
+        /**
+         * receive response through connection
+         * @return
+         * @throws IOException
+         */
+        public String receive() throws IOException {
+            String response = "";
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response += line;
             }
+            return response;
+        }
 
-            /**
-             * get the response code
-             * @return
-             * @throws IOException
-             */
-            public int getResponseCode() throws IOException {
-                return conn.getResponseCode();
-            }
+        /**
+         * send data through connection
+         * @param data
+         * @throws IOException
+         */
+        public void send(String data) throws IOException {
+            writer.write(data);
+            writer.flush();
 
-            /**
-             * receive response through connection
-             * @return
-             * @throws IOException
-             */
-            public String receive() throws IOException {
-                String response = "";
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    response += line;
-                }
-                return response;
-            }
+        }
 
-            /**
-             * send data through connection
-             * @param data
-             * @throws IOException
-             */
-            public void send(String data) throws IOException {
-                writer.write(data);
-                writer.flush();
-
-            }
-
-            /**
-             * close connection
-             * @throws IOException
-             */
-            public void close () throws IOException{
-                writer.close();
-                reader.close();
-                conn.disconnect();
-            }
-
+        /**
+         * close connection
+         * @throws IOException
+         */
+        public void close () throws IOException{
+            writer.close();
+            reader.close();
+            conn.disconnect();
         }
 
     }
