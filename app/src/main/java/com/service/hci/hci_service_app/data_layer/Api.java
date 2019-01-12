@@ -125,7 +125,7 @@ public class Api {
      */
     public JSONObject placeOrder(Map<Integer, Integer> orderList) {
         JSONObject responseData = null;
-        if(!(Boolean) SessionManager.user("isEmployee")) {
+        if(SessionManager.user("isEmployee").equals(Boolean.FALSE)) {
             try {
                 int itemCount = orderList.size();
                 JSONObject requestData = new JSONObject();
@@ -156,7 +156,7 @@ public class Api {
      */
     public JSONObject takeOrder(List<Integer> orderList) {
         JSONObject responseData = null;
-        if((Boolean) SessionManager.user("isEmployee")) {
+        if(SessionManager.user("isEmployee").equals(Boolean.TRUE)) {
             try {
                 int itemCount = orderList.size();
                 JSONObject requestData = new JSONObject();
