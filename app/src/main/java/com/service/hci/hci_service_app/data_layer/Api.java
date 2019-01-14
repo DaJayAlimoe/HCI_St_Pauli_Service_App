@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.OutputStreamWriter;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import org.json.*;
 
@@ -16,50 +14,46 @@ public class Api {
     private String baseUrl;
 
     public Api(){
-        baseUrl = "http://192.168.178.11:443/";
+        baseUrl = "http://http://localhost:443/";
     }
 
     /**
      * save response token and return response data
-     * @param response
+     * @param resp
      * @return
      */
-    private JSONObject getResponseData(JSONObject response) {
-        JSONObject data = null;
-        if(response != null && response.has("token")) {
-            try {
-                SessionManager.setUserData("token", response.get("token").toString());
-                if (response.has("data"))
-                    data = new JSONObject(response.get("data").toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return data;
+    private JSONObject getResponseData(Object resp) {
+        JSONObject response = (JSONObject)resp;
+        return (response != null && response.length() > 0)? response : null;
     }
 
     /**
      * authenticate qr code
      * @param qrToken
      */
-    public void authenticate(String qrToken) {
+    public boolean authenticate(String qrToken) {
+        boolean identified = false;
         Request request = new Request();
         try {
-            JSONObject requestBody = new JSONObject(String.format("{\"data\": {\"token\": \"%s\"}}", qrToken));
-            JSONObject result = (JSONObject) request.execute("/v1/token", "GET", requestBody).get();
+            Object result = request.execute("/v1/User", "GET", new JSONObject()).get();
             JSONObject data = this.getResponseData(result);
             if(data != null) {
                 if(data.has("employee")) {
-                    SessionManager.setUserData("isEmployee", Boolean.TRUE);
-                    SessionManager.setUserData("id", data.getJSONObject("employee").getInt("id"));
+                    Session.setUserData("isEmployee", Boolean.TRUE);
+                    Session.setUserData("id", data.getJSONObject("employee").getInt("id"));
+                    identified = true;
                 }else if(data.has("seat")) {
-                    SessionManager.setUserData("isEmployee", Boolean.FALSE);
-                    SessionManager.setUserData("id", data.getJSONObject("seat").getInt("id"));
+                    Session.setUserData("isEmployee", Boolean.FALSE);
+                    Session.setUserData("id", data.getJSONObject("seat").getInt("id"));
+                    identified = true;
+                } else {
+                    identified = false;
                 }
             }
         } catch (InterruptedException | ExecutionException | JSONException e) {
             System.out.println("Exception while authenticating user: " + e);
         }
+        return identified;
     }
 
     /**
@@ -70,7 +64,7 @@ public class Api {
         JSONObject data = null;
         try {
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/item", "GET", new JSONObject(), SessionManager.getToken()).get();
+            Object result = request.execute("/v1/Item", "GET", new JSONObject(), Session.getToken()).get();
             data = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
             System.out.println("Exception while getting Items: " + e);
@@ -86,7 +80,7 @@ public class Api {
         JSONObject data = null;
         try {
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/booking/list", "GET", new JSONObject(), SessionManager.getToken()).get();
+            Object result = request.execute("/v1/Booking/List", "GET", new JSONObject(), Session.getToken()).get();
             data = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
             System.out.println("Exception while getting Items: " + e);
@@ -101,18 +95,10 @@ public class Api {
     public JSONObject getMyOrders() {
         JSONObject responseData = null;
         try {
-            JSONObject requestData = new JSONObject();
-            if(SessionManager.user("isEmployee").equals(Boolean.TRUE)) {
-                requestData.put("employee_id", SessionManager.user("id"));
-            } else {
-                requestData.put("seat_id", SessionManager.user("id"));
-            }
-            JSONObject requestBody = new JSONObject();
-            requestBody.put("data", requestData);
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/booking/id", "GET", requestBody, SessionManager.getToken()).get();
+            Object result =  request.execute("/v1/Booking", "GET", new JSONObject(), Session.getToken()).get();
             responseData = this.getResponseData(result);
-        } catch (InterruptedException | ExecutionException | JSONException e) {
+        } catch (InterruptedException | ExecutionException e) {
             System.out.println("Exception while getting Orders: " + e);
         }
         return responseData;
@@ -123,25 +109,14 @@ public class Api {
      * @param orderList
      * @return
      */
-    public JSONObject placeOrder(Map<Integer, Integer> orderList) {
+    public JSONObject placeOrder(JSONObject orderList) {
         JSONObject responseData = null;
-        if(SessionManager.user("isEmployee").equals(Boolean.FALSE)) {
+        if (Session.user("isEmployee").equals(Boolean.FALSE)) {
             try {
-                int itemCount = orderList.size();
-                JSONObject requestData = new JSONObject();
-                for (Map.Entry<Integer, Integer> entry : orderList.entrySet()) {
-                    JSONObject order = new JSONObject();
-                    order.put("item_id", entry.getKey());
-                    order.put("amount", entry.getValue());
-                    order.put("seat_id", SessionManager.user("id").toString());
-                    requestData.put(String.valueOf(itemCount--), order);
-                }
-                JSONObject requestBody = new JSONObject();
-                requestBody.put("data", requestData);
                 Request request = new Request();
-                JSONObject result = (JSONObject) request.execute("/v1/booking", "POST", requestBody, SessionManager.getToken()).get();
+                JSONObject result = (JSONObject) request.execute("/v1/Booking", "POST", orderList, Session.getToken()).get();
                 responseData = this.getResponseData(result);
-            } catch (JSONException | InterruptedException | ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 System.out.println("Error while placing Order: " + e);
                 e.printStackTrace();
             }
@@ -154,24 +129,14 @@ public class Api {
      * @param orderList
      * @return
      */
-    public JSONObject takeOrder(List<Integer> orderList) {
+    public JSONObject takeOrder(JSONObject orderList) {
         JSONObject responseData = null;
-        if(SessionManager.user("isEmployee").equals(Boolean.TRUE)) {
+        if(Session.user("isEmployee").equals(Boolean.TRUE)) {
             try {
-                int itemCount = orderList.size();
-                JSONObject requestData = new JSONObject();
-                for (Integer orderID : orderList) {
-                    JSONObject order = new JSONObject();
-                    order.put("id", orderID);
-                    order.put("employee_id", SessionManager.user("id").toString());
-                    requestData.put(String.valueOf(itemCount--), order);
-                }
-                JSONObject requestBody = new JSONObject();
-                requestBody.put("data", requestData);
                 Request request = new Request();
-                JSONObject result = (JSONObject) request.execute("/v1/booking", "PUT", requestBody, SessionManager.getToken()).get();
+                JSONObject result = (JSONObject) request.execute("/v1/booking", "PUT", orderList, Session.getToken()).get();
                 responseData = this.getResponseData(result);
-            } catch (JSONException | InterruptedException | ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 System.out.println("Error while placing order: " + e);
                 e.printStackTrace();
             }
@@ -186,12 +151,10 @@ public class Api {
      */
     public void removeOrder(int orderID) {
         try {
-            JSONObject requestData = new JSONObject();
-            requestData.put("id", orderID);
             JSONObject requestBody = new JSONObject();
-            requestBody.put("data", requestData);
+            requestBody.put("id", orderID);
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/booking", "DELETE", requestBody, SessionManager.getToken()).get();
+            JSONObject result = (JSONObject) request.execute("/v1/booking", "DELETE", requestBody, Session.getToken()).get();
             this.getResponseData(result);
         } catch (JSONException | InterruptedException | ExecutionException e) {
             System.out.println("Error while removing order: " + e);
@@ -268,7 +231,7 @@ public class Api {
             conn.setDoInput(true);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Authorization", token);
+            conn.setRequestProperty("token", token);
             conn.setRequestMethod(method);
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             writer = new OutputStreamWriter(conn.getOutputStream());
