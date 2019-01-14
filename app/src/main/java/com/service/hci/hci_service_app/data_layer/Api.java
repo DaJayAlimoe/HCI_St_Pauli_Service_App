@@ -38,11 +38,11 @@ public class Api {
             Object result = request.execute("/v1/User", "GET", new JSONObject()).get();
             JSONObject data = this.getResponseData(result);
             if(data != null) {
-                if(data.has("employee")) {
+                if(!data.isNull("employee")) {
                     Session.setUserData("isEmployee", Boolean.TRUE);
                     Session.setUserData("id", data.getJSONObject("employee").getInt("id"));
                     identified = true;
-                }else if(data.has("seat")) {
+                }else if(!data.isNull("seat")) {
                     Session.setUserData("isEmployee", Boolean.FALSE);
                     Session.setUserData("id", data.getJSONObject("seat").getInt("id"));
                     identified = true;
