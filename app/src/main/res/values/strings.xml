@@ -3,8 +3,20 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="qr_code">QR-Code</string>
+    <string name="zur_service_uebersicht">Zur Service Übersicht</string>
+    <string name="zur_kunden_uebersicht">Zur Kunden Übersicht</string>
+    <string name="tab_qr_code">Qr-Code</string>
+    <string name="tab_karte">Karte</string>
+    <string name="tab_bestellung">Bestellung</string>
+    <string name="hier_kommen_die_bestellungen_hinein">Hier kommen die Bestellungen hinein!</string>
+    <string name="textview3">TextView3</string>
+    <string name="textview2">TextView2</string>
+    <string name="textview1">TextView1</string>
 
     <string name="service_all_orders_name">All Orders</string>
     <string name="service_selected_orders_name">Selected Orders</string>
     <string name="service_selected_orders_button">Done</string>
+    <string name="btn_exit">X</string>
+    <string name="bestellen">Bestellen</string>
 </resources>

@@ -14,7 +14,7 @@
         android:layout_gravity="end"
         android:background="@drawable/cerclebackground"
         android:gravity="center"
-        android:text="X"
+        android:text="@string/btn_exit"
         android:textColor="@color/white"
         android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
         android:background="@color/white"
-        android:text="Bestellen"
+        android:text="@string/bestellen"
         android:textColor="@color/Black" />
 
 </LinearLayout>

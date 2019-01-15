@@ -1,4 +1,5 @@
 package com.service.hci.hci_service_app.activity_handler.customer;
+
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,24 +21,24 @@ public class ShoppingCart extends AppCompatActivity implements View.OnClickListe
 
 
     public void ShowPopup(View v) {
-       TextView txtclose;
-       Button btnOrder;
+        TextView txtclose;
+        Button btnOrder;
 
-       myDialog.setContentView(R.layout.customer_shoppingcart);
-       txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
-      txtclose.setText("M");
-      btnOrder = (Button) myDialog.findViewById(R.id.btnOrder);
-      btnOrder.setOnClickListener(this);
-      //TODO Logic was dan passieren soll
-       txtclose.setOnClickListener(new View.OnClickListener() {
+        myDialog.setContentView(R.layout.customer_shoppingcart);
+        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
+        txtclose.setText("M");
+        btnOrder = (Button) myDialog.findViewById(R.id.btnOrder);
+        btnOrder.setOnClickListener(this);
+        //TODO Logic was dan passieren soll
+        txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myDialog.dismiss();
             }
         });
-       myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-       myDialog.show();
-   }
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
 
     @Override
     public void onClick(View view) {
