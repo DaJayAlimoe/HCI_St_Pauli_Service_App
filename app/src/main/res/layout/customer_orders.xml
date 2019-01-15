@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/customer_orders"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity_handler.service.fragments.AllOrdersFragment">
+    android:layout_height="match_parent">
 
     <ListView
         android:layout_width="match_parent"
