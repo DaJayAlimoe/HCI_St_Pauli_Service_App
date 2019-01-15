@@ -9,9 +9,9 @@ import android.widget.ListView;
 import com.service.hci.hci_service_app.R;
 
 public class Orders {
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.customer_orders, container, false);
+
+
     }
 }
