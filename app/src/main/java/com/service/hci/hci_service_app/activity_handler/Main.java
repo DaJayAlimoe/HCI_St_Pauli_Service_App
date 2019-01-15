@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.service.hci.hci_service_app.R;
 
 public class Main extends AppCompatActivity {
     Dialog myDialog;

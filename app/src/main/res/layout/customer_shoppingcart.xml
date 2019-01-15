@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="375dp"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:padding="5dp">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/txtclose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:background="@drawable/cerclebackground"
+        android:gravity="center"
+        android:text="X"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="229dp" />
+
+    <Button
+        android:id="@+id/btnOrder"
+        style="@android:style/Widget.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:background="@color/white"
+        android:text="Bestellen"
+        android:textColor="@color/Black" />
+
+</LinearLayout>
