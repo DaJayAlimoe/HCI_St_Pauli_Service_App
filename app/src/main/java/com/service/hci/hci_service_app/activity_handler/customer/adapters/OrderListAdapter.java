@@ -68,8 +68,8 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
 
             // to show animation
             holder = new ViewHolder();
-            holder.name = (TextView) convertView.findViewById(R.id.textView_Item_Description);
-            holder.description = (TextView) convertView.findViewById(R.id.textView_Amount);
+            holder.description = (TextView) convertView.findViewById(R.id.textView_Item_Description);
+            holder.amount = (TextView) convertView.findViewById(R.id.textView_Amount);
             holder.picture = (TextView) convertView.findViewById(R.id.textView_Status);
 
             result = convertView;
@@ -85,15 +85,15 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
         result.startAnimation(animation);
         lastPosition = position;
 
-        holder.name.setText(order.getOrderNR());
-        holder.description.setText(order.getItem().getDescription());
+        holder.amount.setText(order.getAmount());
+        holder.description.setText("ONR : "+" "+ order.getOrderNR()+" "+order.getItem().getDescription());
         holder.picture.setText(order.getItem().getPicture());
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView name;
+        public TextView amount;
         TextView description;
         TextView picture;
     }
