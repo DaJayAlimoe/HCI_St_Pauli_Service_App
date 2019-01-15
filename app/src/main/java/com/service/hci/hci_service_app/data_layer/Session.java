@@ -3,11 +3,11 @@ package com.service.hci.hci_service_app.data_layer;
 import java.util.HashMap;
 
 
-public class SessionManager {
-    private static SessionManager session = null;
+public class Session {
+    private static Session session = null;
     private HashMap<String, Object> userSession;
 
-    private SessionManager() {
+    private Session() {
         userSession = new HashMap<>();
     }
 
@@ -18,7 +18,7 @@ public class SessionManager {
      */
     public static void setUserData(String key, Object value) {
         if (session == null) {
-            session = new SessionManager();
+            session = new Session();
         }
         session.userSession.put(key, value);
     }
@@ -37,7 +37,7 @@ public class SessionManager {
      * @return
      */
     public static Object user(String key) {
-        if (SessionManager.userExists()) {
+        if (Session.userExists()) {
             return session.userSession.get(key);
         }
         return Boolean.FALSE;
@@ -48,7 +48,7 @@ public class SessionManager {
      * @return
      */
     public static String getToken() {
-        if (SessionManager.userExists()) {
+        if (Session.userExists()) {
             return session.userSession.get("token").toString();
         }
         return null;

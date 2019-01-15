@@ -9,10 +9,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity_handler.service.ServiceOrdersActivity"></activity>
         <activity
             android:name=".activity_handler.Main"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +21,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>
