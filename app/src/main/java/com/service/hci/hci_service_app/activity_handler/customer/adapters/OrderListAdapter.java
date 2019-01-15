@@ -50,7 +50,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String orderNR = getItem(position).getOrderNR();
         Item description = getItem(position).getItem();
-        Integer orderStatus = getItem(position).getAmount();
+        int orderStatus = getItem(position).getAmount();
 
         // create item object with information
         Order order = new Order(orderNR,description,orderStatus);
@@ -85,15 +85,15 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
         result.startAnimation(animation);
         lastPosition = position;
 
-        holder.amount.setText(order.getAmount());
-        holder.description.setText("ONR : "+" "+ order.getOrderNR()+" "+order.getItem().getDescription());
+        holder.amount.setText(order.getAmount().toString());
+        holder.description.setText("ONR : "+" "+ order.getOrderNR().toString()+" "+order.getItem().getDescription().toString());
         holder.picture.setText(order.getItem().getPicture());
 
         return convertView;
     }
 
     static class ViewHolder {
-        public TextView amount;
+        TextView amount;
         TextView description;
         TextView picture;
     }

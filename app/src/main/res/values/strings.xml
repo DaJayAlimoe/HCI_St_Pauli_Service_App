@@ -19,4 +19,9 @@
     <string name="service_selected_orders_button">Done</string>
     <string name="btn_exit">X</string>
     <string name="bestellen">Bestellen</string>
+    <string name="dem_warenkorb_hinzuf_gen">Dem Warenkorb hinzufügen</string>
+    <string name="sub">-</string>
+    <string name="anzahl">Anzahl</string>
+    <string name="add">+</string>
+    <string name="picture_itemView">TODO</string>
 </resources>
