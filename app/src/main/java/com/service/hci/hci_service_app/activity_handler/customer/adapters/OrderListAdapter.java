@@ -68,9 +68,9 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
 
             // to show animation
             holder = new ViewHolder();
-            holder.name = (TextView) convertView.findViewById(R.id.textView_name);
-            holder.description = (TextView) convertView.findViewById(R.id.textView_description);
-            holder.picture = (TextView) convertView.findViewById(R.id.textView_picture);
+            holder.name = (TextView) convertView.findViewById(R.id.textView_Item_Description);
+            holder.description = (TextView) convertView.findViewById(R.id.textView_Amount);
+            holder.picture = (TextView) convertView.findViewById(R.id.textView_Status);
 
             result = convertView;
             convertView.setTag(holder);
@@ -79,8 +79,6 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
             holder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
-
-
         Animation animation = AnimationUtils.loadAnimation(
                 context, (position > lastPosition) ? R.anim.anim_down_loader : R.anim.anim_up_loader);
 
