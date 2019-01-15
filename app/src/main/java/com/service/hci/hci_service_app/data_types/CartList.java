@@ -6,8 +6,8 @@ public class CartList {
 
     private static ArrayList<Item> itemArrayList;
 
-    public CartList(ArrayList<Item> itemArrayList) {
-        this.itemArrayList = itemArrayList;
+    public CartList() {
+        itemArrayList = new ArrayList<>();
     }
 
     public ArrayList<Item> getItemArrayList() {
