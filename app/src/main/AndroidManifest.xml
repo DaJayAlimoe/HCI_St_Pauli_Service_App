@@ -40,7 +40,7 @@
             android:name=".activity_handler.customer.ItemConfirmView"
             android:label="@string/app_name" />
         <activity
-            android:name=".activity_handler.service.ServiceOrdersActivity"
+            android:name=".activity_handler.service.ServiceMain"
             android:label="@string/app_name">
 
 

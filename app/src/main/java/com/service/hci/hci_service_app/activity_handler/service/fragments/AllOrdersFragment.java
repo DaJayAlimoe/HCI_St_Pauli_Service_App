@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
 import com.service.hci.hci_service_app.activity_handler.service.adapters.PartialOrdersAdapter;
@@ -26,6 +27,16 @@ public class AllOrdersFragment extends Fragment {
         View view = inflater.inflate(R.layout.service_orders, container, false);
 
         ListView listView = view.findViewById(R.id.service_all_orders_listView);
+
+        TextView header1 = view.findViewById(R.id.textView_ser_orders_header1);
+        TextView header2 = view.findViewById(R.id.textView_ser_orders_header2);
+        TextView header3 = view.findViewById(R.id.textView_ser_orders_header3);
+        TextView header4 = view.findViewById(R.id.textView_ser_orders_header4);
+
+        header1.setText("Sitz-Nr:");
+        header2.setText("Menge:");
+        header3.setText("Typ:");
+        header4.setText("In Auftrag nehmen:");
 
         //Dummy Liste
         PartialOrder p1 = new PartialOrder(5060, 2, "Bier");

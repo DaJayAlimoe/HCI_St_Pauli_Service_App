@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.CustomerMain;
 import com.service.hci.hci_service_app.activity_handler.customer.ItemConfirmView;
-import com.service.hci.hci_service_app.activity_handler.service.ServiceOrdersActivity;
+import com.service.hci.hci_service_app.activity_handler.service.ServiceMain;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,7 +41,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             Intent intent = new Intent(Main.this, CustomerMain.class);
             startActivity(intent);
         }else if(actView == R.id.btn_to_service){
-            Intent intent = new Intent(this, ServiceOrdersActivity.class);
+            Intent intent = new Intent(this, ServiceMain.class);
             startActivity(intent);
         }
 

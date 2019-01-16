@@ -18,13 +18,13 @@ import com.service.hci.hci_service_app.data_types.Item;
 import java.util.ArrayList;
 
 
-public class ShoppingCartItemListAdapters extends ArrayAdapter<Item> {
+public class ShoppingCartItemListAdapter extends ArrayAdapter<Item> {
 
     private Context context;
     private int ressource;
     private int lastPosition = -1;
 
-    public ShoppingCartItemListAdapters(@NonNull Context context, int resource, @NonNull ArrayList<Item> objects) {
+    public ShoppingCartItemListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item> objects) {
         super(context, resource, objects);
         this.context = context;
         this.ressource = resource;

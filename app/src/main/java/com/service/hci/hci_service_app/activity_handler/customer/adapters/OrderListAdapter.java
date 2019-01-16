@@ -86,8 +86,8 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
         result.startAnimation(animation);
         lastPosition = position;
 
-        holder.amount.setText(order.getAmount().toString());
-        holder.description.setText("ONR : "+" "+ order.getOrderNR().toString()+" "+order.getItem().getDescription().toString());
+        holder.amount.setText(order.getItem().getDescription().toString());
+        holder.description.setText("Best.Nr: "+ order.getOrderNR().toString()+" Menge: "+order.getAmount().toString());
         holder.picture.setImageResource(order.getItem().getPicture());
 
         return convertView;

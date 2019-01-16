@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
+
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.ItemConfirmView;
@@ -17,9 +17,9 @@ import com.service.hci.hci_service_app.activity_handler.customer.adapters.ItemLi
 
 import java.util.ArrayList;
 
-public class Menu extends Fragment{
+public class MenuFragment extends Fragment{
 
-    public Menu() {
+    public MenuFragment() {
     }
 
     @Override
@@ -29,10 +29,6 @@ public class Menu extends Fragment{
         View view = inflater.inflate(R.layout.customer_menu, container, false);
 
         ListView listView = (ListView) view.findViewById(R.id.listView); // get the chil d text view
-
-
-
-
 
         Item item1 = new Item("Ingredients","Cola", R.drawable.cola);
         Item item2 = new Item("Ingredients","Fanta", R.drawable.fanta);

@@ -13,7 +13,7 @@ public class ItemConfirmView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_item_confirm_view);
-//
+
 ////        listdata = findViewById(R.id.listdata);
 ////        imageView = findViewById(R.id.imageView);
         Intent intent = getIntent();
