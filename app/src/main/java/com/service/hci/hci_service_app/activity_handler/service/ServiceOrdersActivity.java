@@ -13,7 +13,7 @@ public class ServiceOrdersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_orders);
+        setContentView(R.layout.service_main);
 
         ViewPager viewPager = findViewById(R.id.service_orders_viewpager);
 

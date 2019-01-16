@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
@@ -31,6 +32,8 @@ public class Orders extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.customer_orders, container, false);
+        TextView header1 = (TextView) view.findViewById(R.id.textView_ser_selected_orders_header1);
+        TextView header2 = (TextView) view.findViewById(R.id.textView_ser_selected_orders_header2);
 
         ListView listView = (ListView) view.findViewById(R.id.customer_AllOrdersView); // get the child text view
         Item item1 = new Item("Ingredients","Cola", R.drawable.cola);
@@ -75,6 +78,11 @@ public class Orders extends Fragment {
         itemArrayList.add(p12);
         itemArrayList.add(p13);
         itemArrayList.add(p14);
+
+
+
+        header1.setText("MyHeder Eins");
+        header2.setText("Zweiter Header");
 
 
         CartList cartList;

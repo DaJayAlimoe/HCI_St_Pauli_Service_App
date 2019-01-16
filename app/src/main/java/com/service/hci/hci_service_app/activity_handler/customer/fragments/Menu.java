@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.ItemConfirmView;
@@ -60,6 +61,8 @@ public class Menu extends Fragment{
         itemArrayList.add(item11);
         itemArrayList.add(item12);
         itemArrayList.add(item13);
+
+        //listView.addHeaderView(textView);
 
         ItemListAdapter itemListAdapter = new ItemListAdapter(view.getContext() ,R.layout.customer_item_view, itemArrayList);
         listView.setAdapter(itemListAdapter);
