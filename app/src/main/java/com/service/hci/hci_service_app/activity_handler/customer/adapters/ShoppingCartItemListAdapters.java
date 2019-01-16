@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.service.hci.hci_service_app.R;
@@ -50,7 +51,7 @@ public class ShoppingCartItemListAdapters extends ArrayAdapter<Item> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String name = getItem(position).getName();
         String description = getItem(position).getDescription();
-        String picture = getItem(position).getPicture();
+        int picture = getItem(position).getPicture();
 
         // create item object with information
         Item item = new Item(description, name, picture);
@@ -68,7 +69,7 @@ public class ShoppingCartItemListAdapters extends ArrayAdapter<Item> {
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.textView_name2);
             holder.description = (TextView) convertView.findViewById(R.id.textView_description2);
-            holder.picture = (TextView) convertView.findViewById(R.id.textView_picture2);
+            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture);
 
             result = convertView;
             convertView.setTag(holder);
@@ -87,7 +88,7 @@ public class ShoppingCartItemListAdapters extends ArrayAdapter<Item> {
 
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
-        holder.picture.setText(item.getPicture());
+        holder.picture.setImageResource(item.getPicture());
 
         return convertView;
     }
@@ -95,6 +96,6 @@ public class ShoppingCartItemListAdapters extends ArrayAdapter<Item> {
     static class ViewHolder {
         TextView name;
         TextView description;
-        TextView picture;
+        ImageView picture;
     }
 }

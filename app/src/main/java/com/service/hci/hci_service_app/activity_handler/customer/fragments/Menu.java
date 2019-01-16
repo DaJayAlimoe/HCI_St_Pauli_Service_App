@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.service.hci.hci_service_app.R;
@@ -27,35 +28,39 @@ public class Menu extends Fragment{
 
         View view = inflater.inflate(R.layout.customer_menu, container, false);
 
-        ListView listView = (ListView) view.findViewById(R.id.listView); // get the child text view
+        ListView listView = (ListView) view.findViewById(R.id.listView); // get the chil d text view
 
-        Item item1 = new Item("Cola","Cola","Cola");
-        Item item2 = new Item("Fanta","Fanta","Fanta");
-        Item item3 = new Item("Sprite","Sprite","Sprite");
-        Item item4 = new Item("Bier","Bier","Bier");
-        Item item5 = new Item("Wasser","Wasser","Wasser");
-        Item item6 = new Item("Snack1","Snack1","Snack1");
-        Item item7 = new Item("Snack2","Snack2","Snack2");
-        Item item8 = new Item("Snack3","Snack3","Snack3");
-        Item item9 = new Item("Snack4","Snack4","Snack4");
-        Item item10 = new Item("Snack5","Snack5","Snack5");
-        Item item11 = new Item("Snack6","Snack6","Snack6");
-        Item item12 = new Item("Snack7","Snack7","Snack7");
-        Item item13 = new Item("Snack8","Snack8","Snack8");
+
+
+
+
+        Item item1 = new Item("Cola","Cola", R.drawable.rsz_beer);
+//        Item item2 = new Item("Fanta","Fanta", R.drawable.fanta);
+//        Item item3 = new Item("Sprite","Sprite", R.drawable.sprite);
+//        Item item4 = new Item("Bier","Bier", R.drawable.beer);
+//        Item item5 = new Item("Wasser","Wasser", R.drawable.water);
+//        Item item6 = new Item("brezel","Brezel", R.drawable.brezel);
+//        Item item7 = new Item("bratwurst","Bratwurst", R.drawable.bratwurst);
+//        Item item8 = new Item("Snack3","Snack3", R.drawable.cola);
+//        Item item9 = new Item("Snack4","Snack4", R.drawable.cola);
+//        Item item10 = new Item("Snack5","Snack5", R.drawable.cola);
+//        Item item11 = new Item("Snack6","Snack6", R.drawable.cola);
+//        Item item12 = new Item("Snack7","Snack7", R.drawable.cola);
+//        Item item13 = new Item("Snack8","Snack8", R.drawable.cola);
         ArrayList<Item> itemArrayList = new ArrayList<>();
         itemArrayList.add(item1);
-        itemArrayList.add(item2);
-        itemArrayList.add(item3);
-        itemArrayList.add(item4);
-        itemArrayList.add(item5);
-        itemArrayList.add(item6);
-        itemArrayList.add(item7);
-        itemArrayList.add(item8);
-        itemArrayList.add(item9);
-        itemArrayList.add(item10);
-        itemArrayList.add(item11);
-        itemArrayList.add(item12);
-        itemArrayList.add(item13);
+//        itemArrayList.add(item2);
+//        itemArrayList.add(item3);
+//        itemArrayList.add(item4);
+//        itemArrayList.add(item5);
+//        itemArrayList.add(item6);
+//        itemArrayList.add(item7);
+//        itemArrayList.add(item8);
+//        itemArrayList.add(item9);
+//        itemArrayList.add(item10);
+//        itemArrayList.add(item11);
+//        itemArrayList.add(item12);
+//        itemArrayList.add(item13);
 
         ItemListAdapter itemListAdapter = new ItemListAdapter(view.getContext() ,R.layout.customer_item_view, itemArrayList);
         listView.setAdapter(itemListAdapter);

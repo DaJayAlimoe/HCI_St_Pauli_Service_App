@@ -1,9 +1,12 @@
 package com.service.hci.hci_service_app.data_types;
 
+import android.media.Image;
+import android.widget.ImageView;
+
 public class Item {
     private String description;
     private String name;
-    private String picture;
+    private int picture;
 
     public String getDescription() {
         return description;
@@ -21,15 +24,15 @@ public class Item {
         this.name = name;
     }
 
-    public String getPicture() {
+    public int getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(int picture) {
         this.picture = picture;
     }
 
-    public Item(String description, String name, String picture) {
+    public Item(String description, String name, int picture) {
 
         this.description = description;
         this.name = name;

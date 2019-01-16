@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.service.hci.hci_service_app.R;
@@ -50,7 +51,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String orderNR = getItem(position).getOrderNR();
         Item description = getItem(position).getItem();
-        int orderStatus = getItem(position).getAmount();
+        Integer orderStatus = getItem(position).getAmount();
 
         // create item object with information
         Order order = new Order(orderNR,description,orderStatus);
@@ -70,7 +71,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
             holder = new ViewHolder();
             holder.description = (TextView) convertView.findViewById(R.id.textView_Item_Description);
             holder.amount = (TextView) convertView.findViewById(R.id.textView_Amount);
-            holder.picture = (TextView) convertView.findViewById(R.id.textView_Status);
+            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture);
 
             result = convertView;
             convertView.setTag(holder);
@@ -87,7 +88,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
 
         holder.amount.setText(order.getAmount().toString());
         holder.description.setText("ONR : "+" "+ order.getOrderNR().toString()+" "+order.getItem().getDescription().toString());
-        holder.picture.setText(order.getItem().getPicture());
+        holder.picture.setImageResource(order.getItem().getPicture());
 
         return convertView;
     }
@@ -95,7 +96,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
     static class ViewHolder {
         TextView amount;
         TextView description;
-        TextView picture;
+        ImageView picture;
     }
 
 }

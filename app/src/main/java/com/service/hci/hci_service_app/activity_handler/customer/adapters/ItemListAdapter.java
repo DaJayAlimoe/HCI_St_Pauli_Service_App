@@ -1,6 +1,10 @@
 package com.service.hci.hci_service_app.activity_handler.customer.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -52,7 +57,7 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String name = getItem(position).getName();
         String description = getItem(position).getDescription();
-        String picture = getItem(position).getPicture();
+        int picture = getItem(position).getPicture();
 
         // create item object with information
         Item item = new Item(description, name, picture);
@@ -72,7 +77,7 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.textView_name);
             holder.description = (TextView) convertView.findViewById(R.id.textView_description);
-            holder.picture = (TextView) convertView.findViewById(R.id.textView_picture);
+            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture);
 
             result = convertView;
             convertView.setTag(holder);
@@ -91,14 +96,45 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
 
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
-        holder.picture.setText(item.getPicture());
+        holder.picture.setImageResource(item.getPicture());
 
         return convertView;
+    }
+
+    private BitmapDrawable getResizedImageBitmap(View convertView, int picture) {
+        Bitmap bitmapOrg = BitmapFactory.decodeResource(convertView.getResources(),
+                picture);
+
+        int width = bitmapOrg.getWidth();
+        int height = bitmapOrg.getHeight();
+        int newWidth = 60;
+        int newHeight = 60;
+
+        // calculate the scale - in this case = 0.4f
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        // createa matrix for the manipulation
+        Matrix matrix = new Matrix();
+        // resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+        // rotate the Bitmap
+        matrix.postRotate(45);
+
+        // recreate the new Bitmap
+        Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0,
+                width, height, matrix, true);
+
+        // make a Drawable from Bitmap to allow to set the BitMap
+        // to the ImageView, ImageButton or what ever
+        return new BitmapDrawable(convertView.getResources(), resizedBitmap);
+
+
     }
 
     static class ViewHolder {
         TextView name;
         TextView description;
-        TextView picture;
+        ImageView picture;
     }
 }
