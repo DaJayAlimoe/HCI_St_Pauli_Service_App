@@ -1,6 +1,7 @@
 package com.service.hci.hci_service_app.data_layer;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -15,9 +16,10 @@ import org.json.*;
 public class Api {
     private String baseUrl;
 
-
+    // to test on Emulator "http://10.0.2.2:443/";
+    // local ip
     public Api(){
-        baseUrl = "http://141.22.243.233:443";
+        baseUrl = "http://192.168.178.11:443";
     }
 
     /**
@@ -183,17 +185,17 @@ public class Api {
 
                 // Open new Connection to server and send data
                 Connection connection = new Connection(baseUrl+endpoint, method, param[3].toString());
-                connection.send(data.toString());
+                //connection.send(data.toString());
 
                 // if there is a response code AND that response code is 200 OK
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     String received = connection.receive();
-                    JSONObject response = new JSONObject(received);
-                    if(response.get("status").equals("OK")) {
-                        Object jwt = response.get("token");
-                        responseData = new JSONObject(response.get("data").toString());
-                    }
+                    Log.i("Daten bekommen: ",received);
+//                    JSONObject response = new JSONObject(received);
+//                    Object jwt = response.get("token");
+//                    responseData = new JSONObject(response.get("data").toString());
+                    responseData = new JSONObject(received);
                 } else {
                     // Server returned HTTP error code.
                     System.out.println("HTTP RESPONSE CODE: " + responseCode);
@@ -230,7 +232,7 @@ public class Api {
         public Connection(String url, String method, String token) throws IOException {
             URL obj = new URL(url);
             conn = (HttpURLConnection) obj.openConnection();
-            conn.setDoOutput(true);
+            //conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setRequestMethod(method);
             conn.setRequestProperty("Content-Type", "application/json");
@@ -238,7 +240,7 @@ public class Api {
             conn.setRequestProperty("token", token);
 
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            writer = new OutputStreamWriter(conn.getOutputStream());
+            //writer = new OutputStreamWriter(conn.getOutputStream());
         }
 
         /**
@@ -280,7 +282,7 @@ public class Api {
          * @throws IOException
          */
         public void close () throws IOException{
-            writer.close();
+//            writer.close();
             reader.close();
             conn.disconnect();
         }
