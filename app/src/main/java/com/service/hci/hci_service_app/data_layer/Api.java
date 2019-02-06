@@ -232,6 +232,7 @@ public class Api {
             conn = (HttpURLConnection) obj.openConnection();
             conn.setDoOutput(true);
             conn.setDoInput(true);
+            conn.setRequestMethod(method);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
             conn.setRequestProperty("token", token);
