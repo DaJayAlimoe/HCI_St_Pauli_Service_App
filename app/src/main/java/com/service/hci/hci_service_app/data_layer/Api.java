@@ -1,6 +1,8 @@
 package com.service.hci.hci_service_app.data_layer;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +17,7 @@ public class Api {
 
 
     public Api(){
-        baseUrl = "http://localhost:443/";
+        baseUrl = "http://141.22.243.233:443";
     }
 
     /**
@@ -36,7 +38,7 @@ public class Api {
         boolean identified = false;
         Request request = new Request();
         try {
-            Object result = request.execute("/v1/User", "GET", new JSONObject()).get();
+            Object result = request.execute("/v1/User", "GET", new JSONObject(), qrToken).get();
             JSONObject data = this.getResponseData(result);
             if(data != null) {
                 if(!data.isNull("employee")) {
@@ -233,7 +235,7 @@ public class Api {
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
             conn.setRequestProperty("token", token);
-            conn.setRequestMethod(method);
+
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             writer = new OutputStreamWriter(conn.getOutputStream());
         }

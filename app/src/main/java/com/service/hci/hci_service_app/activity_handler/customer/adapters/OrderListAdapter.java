@@ -80,6 +80,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
             holder = (ViewHolder) convertView.getTag();
             result = convertView;
         }
+
         Animation animation = AnimationUtils.loadAnimation(
                 context, (position > lastPosition) ? R.anim.anim_down_loader : R.anim.anim_up_loader);
 

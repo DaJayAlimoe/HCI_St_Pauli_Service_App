@@ -59,10 +59,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         Api stApi = new Api();
 
         // User : SEAT
-        stApi.authenticate("seat:199c14c81cce07eb");
+        return String.valueOf(stApi.authenticate("seat:52be3b3c1dd78661"));
 
-        JSONObject items = stApi.getItems();
-        return items.toString();
+//        JSONObject items = stApi.getItems();
+//        return items.toString();
 //        System.out.println(items.toString());
 //
 //        JSONObject orders = stApi.getOrders();
