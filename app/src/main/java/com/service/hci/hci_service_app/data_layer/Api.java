@@ -13,68 +13,9 @@ import org.json.*;
 public class Api {
     private String baseUrl;
 
-    public static void main(String a[]) {
-
-        Api stApi = new Api();
-
-        // User : SEAT
-        stApi.authenticate("seat:199c14c81cce07eb");
-
-        JSONObject items = stApi.getItems();
-        System.out.println(items.toString());
-
-        JSONObject orders = stApi.getOrders();
-        System.out.println(orders.toString());
-
-        JSONObject myOrders = stApi.getMyOrders();
-        System.out.println(myOrders);
-
-        JSONObject orderList = null;
-        try {
-            orderList = new JSONObject("{" +
-                    "{\"amount\": 5, \"item_id\": 2, \"seat_id\": 28}," +
-                    "{\"amount\": 5, \"item_id\": 1, \"seat_id\": 28}," +
-                    "{\"amount\": 5, \"item_id\": 3, \"seat_id\": 28} " +
-                    "}");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JSONObject placedOrders = stApi.placeOrder(orderList);
-        System.out.println(placedOrders);
-
-        items = null;
-        orders = null;
-        myOrders = null;
-        orderList = null;
-
-        // User : Employee
-        stApi.authenticate("empl:61260b2407acf125");
-
-        items = stApi.getItems();
-        System.out.println(items.toString());
-
-        orders = stApi.getOrders();
-        System.out.println(orders.toString());
-
-        myOrders = stApi.getMyOrders();
-        System.out.println(myOrders);
-
-        orderList = null;
-        try {
-            orderList = new JSONObject("{" +
-                    "{\"booking_id\": 61}," +
-                    "{\"booking_id\": 62}," +
-                    "{\"booking_id\": 63}," +
-                    "}");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JSONObject takenOrders = stApi.takeOrder(orderList);
-        System.out.println(takenOrders);
-    }
 
     public Api(){
-        baseUrl = "http://http://localhost:443/";
+        baseUrl = "http://localhost:443/";
     }
 
     /**
