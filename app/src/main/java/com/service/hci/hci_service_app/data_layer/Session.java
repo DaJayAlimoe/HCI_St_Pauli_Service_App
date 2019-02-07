@@ -1,46 +1,75 @@
 package com.service.hci.hci_service_app.data_layer;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.HashMap;
 
 
+// this class holds the session over the match-day. After that time, the properties are reset!
 public class Session {
     private static Session session = null;
-    private HashMap<String, Object> userSession;
 
-    private Session() {
-        userSession = new HashMap<>();
+    // Sharedpref file name
+    private static final String PREF_NAME = "sharedSession";
+
+    private static final String IS_EMPLOYEE = "isEmployee";
+
+    private static final String IS_SEAT = "isSeat";
+
+    private static final String TOKEN = "token";
+
+    private static final String ID = "id";
+
+    // initialize helpful variable
+    private static SharedPreferences.Editor editor;
+
+    private static SharedPreferences preferences;
+
+
+    private Session(Context context) {
+        this.preferences = context.getSharedPreferences(PREF_NAME, 0); // 0 - for private mode
+        this.editor = preferences.edit();
     }
 
     /**
      * set user session data
-     * @param key
-     * @param value
+     * @param isEmpl
+     * @param id
+     * @param qrToken
      */
-    public static void setUserData(String key, Object value) {
+    public static void setUserData(Context context, boolean isEmpl, int id, String qrToken) {
         if (session == null) {
-            session = new Session();
+            session = new Session(context);
         }
-        session.userSession.put(key, value);
+        if(isEmpl) {
+            editor.putBoolean(IS_EMPLOYEE, true);
+            editor.putBoolean(IS_SEAT, false);
+
+        }else{
+            editor.putBoolean(IS_EMPLOYEE, false);
+            editor.putBoolean(IS_SEAT, true);
+        }
+        editor.putString(TOKEN, qrToken);
+        editor.putInt(ID, id);
+
+        editor.commit();
     }
 
     /**
      * check if user exists
-     * @return
+     * @return boolean
      */
-    private static boolean userExists() {
-        return (session != null && session.userSession.containsKey("id"));
+    public static Boolean isSeat() {
+        return preferences.getBoolean(IS_SEAT,false);
     }
 
     /**
      * get user session data
-     * @param key
-     * @return
+     * @return boolean
      */
-    public static Object user(String key) {
-        if (Session.userExists()) {
-            return session.userSession.get(key);
-        }
-        return Boolean.FALSE;
+    public static Boolean isEmployee() {
+            return preferences.getBoolean(IS_EMPLOYEE,false);
     }
 
     /**
@@ -48,10 +77,15 @@ public class Session {
      * @return
      */
     public static String getToken() {
-        if (Session.userExists()) {
-            return session.userSession.get("token").toString();
-        }
-        return null;
+        return preferences.getString(TOKEN,null);
+    }
+
+    /**
+     * get user Token
+     * @return
+     */
+    public static int getUserId() {
+        return preferences.getInt(ID,-1);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.service.hci.hci_service_app.data_layer;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -36,7 +37,7 @@ public class Api {
      * authenticate qr code
      * @param qrToken
      */
-    public boolean authenticate(String qrToken) {
+    public boolean authenticate(Context context, String qrToken) {
         boolean identified = false;
         Request request = new Request();
         try {
@@ -44,12 +45,10 @@ public class Api {
             JSONObject data = this.getResponseData(result);
             if(data != null) {
                 if(!data.isNull("employee")) {
-                    Session.setUserData("isEmployee", Boolean.TRUE);
-                    Session.setUserData("id", data.getJSONObject("employee").getInt("id"));
+                    Session.setUserData(context, true,data.getJSONObject("employee").getInt("id"),qrToken);
                     identified = true;
                 }else if(!data.isNull("seat")) {
-                    Session.setUserData("isEmployee", Boolean.FALSE);
-                    Session.setUserData("id", data.getJSONObject("seat").getInt("id"));
+                    Session.setUserData(context, false,data.getJSONObject("seat").getInt("id"),qrToken);
                     identified = true;
                 } else {
                     identified = false;
@@ -114,19 +113,20 @@ public class Api {
      * @param orderList
      * @return
      */
-    public JSONObject placeOrder(JSONObject orderList) {
-        JSONObject responseData = null;
-        if (Session.user("isEmployee").equals(Boolean.FALSE)) {
+    public Boolean placeOrder(JSONArray orderList) {
+        boolean response = false;
+        if (Session.isSeat()) {
             try {
                 Request request = new Request();
-                JSONObject result = (JSONObject) request.execute("/v1/Booking", "POST", orderList, Session.getToken()).get();
-                responseData = this.getResponseData(result);
+                request.execute("/v1/Booking", "POST", orderList, Session.getToken()).get();
+                response = true;
             } catch (InterruptedException | ExecutionException e) {
                 System.out.println("Error while placing Order: " + e);
+                response = false;
                 e.printStackTrace();
             }
         }
-        return responseData;
+        return response;
     }
 
     /**
@@ -136,7 +136,7 @@ public class Api {
      */
     public JSONObject takeOrder(JSONObject orderList) {
         JSONObject responseData = null;
-        if(Session.user("isEmployee").equals(Boolean.TRUE)) {
+        if(Session.isEmployee()) {
             try {
                 Request request = new Request();
                 JSONObject result = (JSONObject) request.execute("/v1/booking", "PUT", orderList, Session.getToken()).get();
@@ -180,12 +180,23 @@ public class Api {
             String endpoint = param[0].toString();
             String method = param[1].toString();
             JSONObject responseData = null;
+
             try {
-                JSONObject data = (JSONObject) param[2];
 
                 // Open new Connection to server and send data
                 Connection connection = new Connection(baseUrl+endpoint, method, param[3].toString());
-                //connection.send(data.toString());
+                if(method.equalsIgnoreCase("POST")) {
+                    if(param[2] instanceof JSONArray){
+                        JSONArray data = (JSONArray) param[2];
+                        connection.send(data.toString());
+                        Log.i("DatenArray gesendet: ",data.toString());
+                    }
+                    else {
+                        JSONObject data = (JSONObject) param[2];
+                        connection.send(data.toString());
+                        Log.i("DatenObject gesendet: ",data.toString());
+                    }
+                }
 
                 // if there is a response code AND that response code is 200 OK
                 int responseCode = connection.getResponseCode();
@@ -201,8 +212,13 @@ public class Api {
                     System.out.println("HTTP RESPONSE CODE: " + responseCode);
                 }
 
+
                 // Close the connection to the server
-                connection.close();
+                if(method.equalsIgnoreCase("POST")) {
+                    connection.closeWithWriter();
+                }else{
+                    connection.close();
+                }
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -232,15 +248,21 @@ public class Api {
         public Connection(String url, String method, String token) throws IOException {
             URL obj = new URL(url);
             conn = (HttpURLConnection) obj.openConnection();
-            //conn.setDoOutput(true);
+
             conn.setDoInput(true);
             conn.setRequestMethod(method);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
             conn.setRequestProperty("token", token);
 
+            if(method.equalsIgnoreCase("POST")) {
+                conn.setDoOutput(true);
+                writer = new OutputStreamWriter(conn.getOutputStream());
+            }
+
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            //writer = new OutputStreamWriter(conn.getOutputStream());
+
+
         }
 
         /**
@@ -282,7 +304,16 @@ public class Api {
          * @throws IOException
          */
         public void close () throws IOException{
-//            writer.close();
+            reader.close();
+            conn.disconnect();
+        }
+
+        /**
+         * close connection
+         * @throws IOException
+         */
+        public void closeWithWriter () throws IOException{
+            writer.close();
             reader.close();
             conn.disconnect();
         }
