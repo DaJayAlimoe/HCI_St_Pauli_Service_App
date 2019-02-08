@@ -79,7 +79,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         Api stApi = new Api();
 
         //employee test
-        boolean auth = stApi.authenticate(this,"seat:8ea732f038d22e7");
+        boolean auth = stApi.authenticate(this,"seat:68e8d8cc9faca201");
 
         Log.i("Authenticate- flag: ", Boolean.toString(auth));
         Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
@@ -136,31 +136,34 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             j7.put("seat_id", userID);
             orderList.put(j7);
 
-            Log.i("orderList: ", orderList.toString());
+            Log.i("orderList seat: ", orderList.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         boolean placedOrders = stApi.placeOrder(orderList);
-        Log.i("placed Orders: ", Boolean.toString(placedOrders));
+        Log.i("placed Orders seat: ", Boolean.toString(placedOrders));
 
 
         JSONObject myOrders = stApi.getMyOrders();
-        Log.i("myOrders: ", myOrders.toString());
+        Log.i("myOrders seat: ", myOrders.toString());
+
+        boolean isCanc = stApi.cancelOrder(63);
+        Log.i("isCanceld seat: ", Boolean.toString(isCanc));
 
 
         // service test
-        boolean auth1 = stApi.authenticate(this,"empl:1f9eced18e9d6145");
+        boolean auth1 = stApi.authenticate(this,"empl:1a51ddf2404ac00");
         Log.i("Authenticate1- flag: ", Boolean.toString(auth1));
         Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
         Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
 
         JSONObject orders = stApi.getOrders();
-        Log.i("orders: ", orders.toString());
+        Log.i("orders empl: ", orders.toString());
 
         JSONObject myOrdersEmpl = stApi.getMyOrders();
-        Log.i("myOrders: ", myOrdersEmpl.toString());
+        Log.i("myOrders empl: ", myOrdersEmpl.toString());
 
         items = stApi.getItems();
         Log.i("items empl: ", items.toString());
@@ -170,7 +173,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         try {
             JSONObject order1 = new JSONObject();
-            order1.put("booking_id",63);
+            order1.put("booking_id",65);
             JSONObject order2 = new JSONObject();
             order2.put("booking_id",64);
 
@@ -180,6 +183,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         Log.i("takeOrders empl: ", orderList1.toString());
         JSONObject takenOrders = stApi.takeOrder(orderList1);
         Log.i("takeOrders empl: ", takenOrders.toString());

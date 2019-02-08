@@ -140,7 +140,7 @@ public class Api {
         if(Session.isEmployee()) {
             try {
                 Request request = new Request();
-                JSONObject result = (JSONObject) request.execute("/v1/booking", "PUT", orderList, Session.getToken()).get();
+                JSONObject result = (JSONObject) request.execute("/v1/Booking", "PUT", orderList, Session.getToken()).get();
                 responseData = this.getResponseData(result);
             } catch (InterruptedException | ExecutionException e) {
                 System.out.println("Error while placing order: " + e);
@@ -155,17 +155,19 @@ public class Api {
      * @param orderID
      * @return
      */
-    public void cancelOrder(int orderID) {
+    public boolean cancelOrder(int orderID) {
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("id", orderID);
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/booking", "DELETE", requestBody, Session.getToken()).get();
+            JSONObject result = (JSONObject) request.execute("/v1/Booking/Cancel", "PUT", requestBody, Session.getToken()).get();
             this.getResponseData(result);
         } catch (JSONException | InterruptedException | ExecutionException e) {
             System.out.println("Error while removing order: " + e);
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
 
@@ -265,7 +267,7 @@ public class Api {
             conn.setRequestProperty("token", token);
 
 
-            if(method.equalsIgnoreCase("POST")) {
+            if(method.equalsIgnoreCase("POST")|| method.equalsIgnoreCase("PUT")) {
                 conn.setDoOutput(true);
                 writer = new OutputStreamWriter(conn.getOutputStream());
             }
