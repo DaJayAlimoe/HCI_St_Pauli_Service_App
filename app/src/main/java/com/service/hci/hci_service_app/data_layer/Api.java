@@ -20,7 +20,8 @@ public class Api {
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
     public Api(){
-        baseUrl = "http://192.168.178.11:443";
+        baseUrl = "http://141.22.246.109:443";
+//        baseUrl = "http://192.168.178.11:443";
     }
 
     /**
@@ -134,7 +135,7 @@ public class Api {
      * @param orderList
      * @return
      */
-    public JSONObject takeOrder(JSONObject orderList) {
+    public JSONObject takeOrder(JSONArray orderList) {
         JSONObject responseData = null;
         if(Session.isEmployee()) {
             try {
@@ -188,8 +189,7 @@ public class Api {
                 // Open new Connection to server and send data
                 Log.i("Methode ",method);
                 Connection connection = new Connection(baseUrl+endpoint, method, param[3].toString());
-                Log.i("ist POST?: ",Boolean.toString(method.equalsIgnoreCase("POST")));
-                if(method.equalsIgnoreCase("POST")) {
+                if(method.equalsIgnoreCase("POST")|| method.equalsIgnoreCase("PUT")) {
                     connection.send(param[2].toString());
 //                    if(param[2] instanceof JSONArray){
 //                        JSONArray data = (JSONArray) param[2];
@@ -223,7 +223,7 @@ public class Api {
 
 
                 // Close the connection to the server
-                if(method.equalsIgnoreCase("POST")) {
+                if(method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT")) {
                     connection.closeWithWriter();
                 }else{
                     connection.close();

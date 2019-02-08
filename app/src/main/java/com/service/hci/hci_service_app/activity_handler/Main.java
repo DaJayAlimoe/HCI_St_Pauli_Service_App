@@ -78,7 +78,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public String test() {
         Api stApi = new Api();
 
-        boolean auth = stApi.authenticate(this,"seat:4f397ce148dabf8c");
+        //employee test
+        boolean auth = stApi.authenticate(this,"seat:8ea732f038d22e7");
 
         Log.i("Authenticate- flag: ", Boolean.toString(auth));
         Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
@@ -88,10 +89,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         JSONObject items = stApi.getItems();
         Log.i("items customer: ", items.toString());
 
-
-// funktioniert noch nicht. Server token muss geprüft werden
-//        JSONObject myOrders = stApi.getMyOrders();
-//        Log.i("myOrders: ", myOrders.toString());
 
         JSONArray orderList = new JSONArray();
         try {
@@ -115,6 +112,30 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             j3.put("seat_id", userID);
             orderList.put(j3);
 
+            JSONObject j4 = new JSONObject();
+            j4.put("amount",5);
+            j4.put("item_id",3);
+            j4.put("seat_id", userID);
+            orderList.put(j4);
+
+            JSONObject j5 = new JSONObject();
+            j5.put("amount",5);
+            j5.put("item_id",3);
+            j5.put("seat_id", userID);
+            orderList.put(j5);
+
+            JSONObject j6 = new JSONObject();
+            j6.put("amount",5);
+            j6.put("item_id",3);
+            j6.put("seat_id", userID);
+            orderList.put(j6);
+
+            JSONObject j7 = new JSONObject();
+            j7.put("amount",5);
+            j7.put("item_id",3);
+            j7.put("seat_id", userID);
+            orderList.put(j7);
+
             Log.i("orderList: ", orderList.toString());
 
         } catch (JSONException e) {
@@ -124,8 +145,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         boolean placedOrders = stApi.placeOrder(orderList);
         Log.i("placed Orders: ", Boolean.toString(placedOrders));
 
+
+        JSONObject myOrders = stApi.getMyOrders();
+        Log.i("myOrders: ", myOrders.toString());
+
+
         // service test
-        boolean auth1 = stApi.authenticate(this,"empl:4d028f8203255ab5");
+        boolean auth1 = stApi.authenticate(this,"empl:1f9eced18e9d6145");
         Log.i("Authenticate1- flag: ", Boolean.toString(auth1));
         Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
         Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
@@ -133,25 +159,31 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         JSONObject orders = stApi.getOrders();
         Log.i("orders: ", orders.toString());
 
+        JSONObject myOrdersEmpl = stApi.getMyOrders();
+        Log.i("myOrders: ", myOrdersEmpl.toString());
+
         items = stApi.getItems();
         Log.i("items empl: ", items.toString());
 
-//
-//        myOrders = stApi.getMyOrders();
-//        System.out.println(myOrders);
-//
-//        orderList = null;
-//        try {
-//            orderList = new JSONObject("{" +
-//                    "{\"booking_id\": 61}," +
-//                    "{\"booking_id\": 62}," +
-//                    "{\"booking_id\": 63}," +
-//                    "}");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        JSONObject takenOrders = stApi.takeOrder(orderList);
-//        System.out.println(takenOrders);
+
+        JSONArray orderList1 = new JSONArray();
+
+        try {
+            JSONObject order1 = new JSONObject();
+            order1.put("booking_id",63);
+            JSONObject order2 = new JSONObject();
+            order2.put("booking_id",64);
+
+            orderList1.put(order1);
+            orderList1.put(order2);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.i("takeOrders empl: ", orderList1.toString());
+        JSONObject takenOrders = stApi.takeOrder(orderList1);
+        Log.i("takeOrders empl: ", takenOrders.toString());
+
         return "text complete";
     }
 }
