@@ -18,6 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
     private Button btn_service;
@@ -76,29 +78,20 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public String test() {
         Api stApi = new Api();
 
-        boolean auth = stApi.authenticate(this,"seat:6ed63a5c91810f0c");
+        boolean auth = stApi.authenticate(this,"seat:4f397ce148dabf8c");
 
         Log.i("Authenticate- flag: ", Boolean.toString(auth));
         Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
         Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
 
-//        Log.i("Authenticate1- flag: ", Boolean.toString(auth1));
-//        Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
-//        Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
 
         JSONObject items = stApi.getItems();
-        Log.i("items: ", items.toString());
+        Log.i("items customer: ", items.toString());
 
 
-
-//        // service test
-//        boolean auth1 = stApi.authenticate(this,"empl:1fe8598f0430f512");
-//
+// funktioniert noch nicht. Server token muss geprüft werden
 //        JSONObject myOrders = stApi.getMyOrders();
 //        Log.i("myOrders: ", myOrders.toString());
-//
-//        JSONObject orders = stApi.getOrders();
-//        Log.i("orders: ", orders.toString());
 
         JSONArray orderList = new JSONArray();
         try {
@@ -107,17 +100,23 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             j1.put("amount",5);
             j1.put("item_id",2);
             j1.put("seat_id", userID);
-            JSONObject j2 = new JSONObject();
-            j1.put("amount",5);
-            j1.put("item_id",1);
-            j1.put("seat_id", userID);
-            JSONObject j3 = new JSONObject();
-            j1.put("amount",5);
-            j1.put("item_id",3);
-            j1.put("seat_id", userID);
             orderList.put(j1);
+
+            JSONObject j2 = new JSONObject();
+            j2.put("amount",5);
+            j2.put("item_id",1);
+            j2.put("seat_id", userID);
             orderList.put(j2);
+
+
+            JSONObject j3 = new JSONObject();
+            j3.put("amount",5);
+            j3.put("item_id",3);
+            j3.put("seat_id", userID);
             orderList.put(j3);
+
+            Log.i("orderList: ", orderList.toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -125,19 +124,18 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         boolean placedOrders = stApi.placeOrder(orderList);
         Log.i("placed Orders: ", Boolean.toString(placedOrders));
 
-//        items = null;
-//        orders = null;
-//        myOrders = null;
-//        orderList = null;
-//
-//        // User : Employee
-//        stApi.authenticate("empl:62dd274c2cd77eac");
-//
-//        items = stApi.getItems();
-//        System.out.println(items.toString());
-//
-//        orders = stApi.getOrders();
-//        System.out.println(orders.toString());
+        // service test
+        boolean auth1 = stApi.authenticate(this,"empl:4d028f8203255ab5");
+        Log.i("Authenticate1- flag: ", Boolean.toString(auth1));
+        Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
+        Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
+
+        JSONObject orders = stApi.getOrders();
+        Log.i("orders: ", orders.toString());
+
+        items = stApi.getItems();
+        Log.i("items empl: ", items.toString());
+
 //
 //        myOrders = stApi.getMyOrders();
 //        System.out.println(myOrders);

@@ -154,7 +154,7 @@ public class Api {
      * @param orderID
      * @return
      */
-    public void removeOrder(int orderID) {
+    public void cancelOrder(int orderID) {
         try {
             JSONObject requestBody = new JSONObject();
             requestBody.put("id", orderID);
@@ -180,36 +180,45 @@ public class Api {
             String endpoint = param[0].toString();
             String method = param[1].toString();
             JSONObject responseData = null;
+            Log.i("instance of array ", String.valueOf(param[2] instanceof JSONArray));
+            Log.i("instance of object ", String.valueOf(param[2] instanceof JSONObject));
 
             try {
 
                 // Open new Connection to server and send data
+                Log.i("Methode ",method);
                 Connection connection = new Connection(baseUrl+endpoint, method, param[3].toString());
+                Log.i("ist POST?: ",Boolean.toString(method.equalsIgnoreCase("POST")));
                 if(method.equalsIgnoreCase("POST")) {
-                    if(param[2] instanceof JSONArray){
-                        JSONArray data = (JSONArray) param[2];
-                        connection.send(data.toString());
-                        Log.i("DatenArray gesendet: ",data.toString());
-                    }
-                    else {
-                        JSONObject data = (JSONObject) param[2];
-                        connection.send(data.toString());
-                        Log.i("DatenObject gesendet: ",data.toString());
-                    }
+                    connection.send(param[2].toString());
+//                    if(param[2] instanceof JSONArray){
+//                        JSONArray data = (JSONArray) param[2];
+//                        connection.send(data.toString());
+//                        Log.i("DatenArray gesendet: ",data.toString());
+//                    }
+//                    else {
+//                        JSONObject data = (JSONObject) param[2];
+//                        connection.send(data.toString());
+//                        Log.i("DatenObject gesendet: ",data.toString());
+//                    }
+                    Log.i("Connection gesendet ","");
                 }
+
 
                 // if there is a response code AND that response code is 200 OK
                 int responseCode = connection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
+                if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
                     String received = connection.receive();
-                    Log.i("Daten bekommen: ",received);
+                    Log.i("Data received: ",received);
 //                    JSONObject response = new JSONObject(received);
 //                    Object jwt = response.get("token");
 //                    responseData = new JSONObject(response.get("data").toString());
-                    responseData = new JSONObject(received);
+                    if(!received.isEmpty()){
+                        responseData = new JSONObject(received);
+                    }
                 } else {
                     // Server returned HTTP error code.
-                    System.out.println("HTTP RESPONSE CODE: " + responseCode);
+                    Log.i("HTTP RESPONSE CODE: ", String.valueOf(responseCode));
                 }
 
 
@@ -255,14 +264,11 @@ public class Api {
             conn.setRequestProperty("Accept", "application/json");
             conn.setRequestProperty("token", token);
 
+
             if(method.equalsIgnoreCase("POST")) {
                 conn.setDoOutput(true);
                 writer = new OutputStreamWriter(conn.getOutputStream());
             }
-
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-
         }
 
         /**
@@ -280,6 +286,8 @@ public class Api {
          * @throws IOException
          */
         public String receive() throws IOException {
+
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String response = "";
             String line;
             while ((line = reader.readLine()) != null) {
@@ -296,7 +304,6 @@ public class Api {
         public void send(String data) throws IOException {
             writer.write(data);
             writer.flush();
-
         }
 
         /**
