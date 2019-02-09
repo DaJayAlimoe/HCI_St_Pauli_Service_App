@@ -20,7 +20,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="41dp"
-        android:text="@string/zur_kunden_uebersicht" />
+        android:text="@string/zur_kunden_uebersicht"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_to_service"
@@ -29,7 +30,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="118dp"
-        android:text="@string/zur_service_uebersicht" />
+        android:text="@string/zur_service_uebersicht"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_to_qr"

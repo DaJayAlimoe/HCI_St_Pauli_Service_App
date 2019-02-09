@@ -46,10 +46,10 @@ public class Api {
             JSONObject data = this.getResponseData(result);
             if(data != null) {
                 if(!data.isNull("employee")) {
-                    Session.setUserData(context, true,data.getJSONObject("employee").getInt("id"),qrToken);
+                    Session.setUserData(true,data.getJSONObject("employee").getInt("id"),qrToken);
                     identified = true;
                 }else if(!data.isNull("seat")) {
-                    Session.setUserData(context, false,data.getJSONObject("seat").getInt("id"),qrToken);
+                    Session.setUserData(false,data.getJSONObject("seat").getInt("id"),qrToken);
                     identified = true;
                 } else {
                     identified = false;

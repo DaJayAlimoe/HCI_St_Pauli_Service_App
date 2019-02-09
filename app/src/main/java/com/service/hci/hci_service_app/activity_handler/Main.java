@@ -39,56 +39,79 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
     private static final int MY_PERMISSIONS_REQUEST = 1;
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new Session(this);
+        Session.remove();
+    }
 
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        appCurrentlyRun();
+//    }
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        appCurrentlyRun();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // test comment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        // the button are invisible now, but still there. to reactivate go to main.xml and click on the button -> visibility -> none
         // findViewById for booth buttons and add a onClickListener object to it
-        this.btn_customer = findViewById(R.id.btn_to_customer);
-        btn_customer.setOnClickListener(this);
-        this.btn_service = findViewById(R.id.btn_to_service);
-        btn_service.setOnClickListener(this);
+//        this.btn_customer = findViewById(R.id.btn_to_customer);
+//        btn_customer.setOnClickListener(this);
+//        this.btn_service = findViewById(R.id.btn_to_service);
+//        btn_service.setOnClickListener(this);
         this.btn_qr = findViewById(R.id.btn_to_qr);
         btn_qr.setOnClickListener(this);
 
-        TextView tv = findViewById(R.id.tv_qrcode);
-        tv.setText(this.test());
+//        TextView tv = findViewById(R.id.tv_qrcode);
+//        tv.setText(this.test());
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
             Intent intent = new Intent(getApplicationContext(), Main.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+//
+//        new Session(this);
+//        appCurrentlyRun();
 
+    }
+
+    private void appCurrentlyRun() {
         // check, if session already available
         Intent intent;
-        if(Session.isSeat()){
+        if (Session.isSeat()) {
             intent = new Intent(Main.this, CustomerMain.class);
-        }else if(Session.isEmployee()){
+            startActivity(intent);
+            finish();
+        } else if (Session.isEmployee()) {
             intent = new Intent(Main.this, ServiceMain.class);
-        } else {
-            intent = new Intent(Main.this, Main.class);
+            startActivity(intent);
+            finish();
         }
-
-        startActivity(intent);
-        finish();
     }
 
     @Override
     public void onClick(View v) {
         int actView = v.getId();
 
-        if(actView == R.id.btn_to_customer){
+        if (actView == R.id.btn_to_customer) {
             Intent intent = new Intent(Main.this, CustomerMain.class);
             startActivity(intent);
             finish();
-        }else if(actView == R.id.btn_to_service){
+        } else if (actView == R.id.btn_to_service) {
             Intent intent = new Intent(Main.this, ServiceMain.class);
             startActivity(intent);
             finish();
-        } else if(actView == R.id.btn_to_qr){
+        } else if (actView == R.id.btn_to_qr) {
             // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED ||
@@ -136,15 +159,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(resultCode != Activity.RESULT_OK)
-        {
-            Log.d(LOGTAG,"COULD NOT GET A GOOD RESULT.");
-            if(data==null)
+        if (resultCode != Activity.RESULT_OK) {
+            Log.d(LOGTAG, "COULD NOT GET A GOOD RESULT.");
+            if (data == null)
                 return;
             //Getting the passed result
             String result = data.getStringExtra("com.blikoon.qrcodescanner.error_decoding_image");
-            if( result!=null)
-            {
+            if (result != null) {
                 AlertDialog alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Scan Error");
                 alertDialog.setMessage("QR Code could not be scanned");
@@ -159,143 +180,168 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             return;
 
         }
-        if(requestCode == REQUEST_CODE_QR_SCAN)
-        {
-            if(data==null)
-                return;
-            //Getting the passed result
+        if (requestCode == REQUEST_CODE_QR_SCAN) {
+            Session session = new Session(this);
+
+            Api stApi = new Api();
+
+            boolean auth = false;
+
             String result = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
-            Log.d(LOGTAG,"QR Code scanned; result is: "+ result);
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Scan result");
-            alertDialog.setMessage(result);
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
+            Log.i(LOGTAG, "QR Code scanned; result is: " + result);
+
+            auth = stApi.authenticate(this, result);
+//            Log.i("Authenticate- flag: ", Boolean.toString(auth));
+//            Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
+//            Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
+
+            // check token
+            Intent intent;
+            if (session.isSeat()) {
+                intent = new Intent(Main.this, CustomerMain.class);
+            } else if (session.isEmployee()) {
+                intent = new Intent(Main.this, ServiceMain.class);
+            } else {
+                intent = new Intent(Main.this, Main.class);
+            }
+
+            startActivity(intent);
+            finish();
+//            if(data==null)
+//                return;
+//            //Getting the passed result
+//            String result = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
+//            Log.d(LOGTAG,"QR Code scanned; result is: "+ result);
+//            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+//            alertDialog.setTitle("Scan result");
+//            alertDialog.setMessage(result);
+//            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+//                    new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//            alertDialog.show();
         }
     }
 
-    public String test() {
-        Api stApi = new Api();
-
-        //employee test
-        boolean auth = stApi.authenticate(this,"seat:4842f5964017ee57");
-
-        Log.i("Authenticate- flag: ", Boolean.toString(auth));
-        Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
-        Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
-
-
-        JSONObject items = stApi.getItems();
-        Log.i("items customer: ", items.toString());
-
-
-        JSONArray orderList = new JSONArray();
-        try {
-            int userID = Session.getUserId();
-            JSONObject j1 = new JSONObject();
-            j1.put("amount",5);
-            j1.put("item_id",2);
-            j1.put("seat_id", userID);
-            orderList.put(j1);
-
-            JSONObject j2 = new JSONObject();
-            j2.put("amount",5);
-            j2.put("item_id",1);
-            j2.put("seat_id", userID);
-            orderList.put(j2);
-
-            JSONObject j3 = new JSONObject();
-            j3.put("amount",5);
-            j3.put("item_id",3);
-            j3.put("seat_id", userID);
-            orderList.put(j3);
-
-            JSONObject j4 = new JSONObject();
-            j4.put("amount",5);
-            j4.put("item_id",3);
-            j4.put("seat_id", userID);
-            orderList.put(j4);
-
-            JSONObject j5 = new JSONObject();
-            j5.put("amount",5);
-            j5.put("item_id",3);
-            j5.put("seat_id", userID);
-            orderList.put(j5);
-
-            JSONObject j6 = new JSONObject();
-            j6.put("amount",5);
-            j6.put("item_id",3);
-            j6.put("seat_id", userID);
-            orderList.put(j6);
-
-            JSONObject j7 = new JSONObject();
-            j7.put("amount",5);
-            j7.put("item_id",3);
-            j7.put("seat_id", userID);
-            orderList.put(j7);
-
-            Log.i("orderList seat: ", orderList.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        boolean placedOrders = stApi.placeOrder(orderList);
-        Log.i("placed Orders seat: ", Boolean.toString(placedOrders));
-
-
-        JSONObject myOrders = stApi.getMyOrders();
-        Log.i("myOrders seat: ", myOrders.toString());
-
-        boolean isCanc = stApi.cancelOrder(63);
-        Log.i("isCanceld seat: ", Boolean.toString(isCanc));
-
-
-        // service test
-        boolean auth1 = stApi.authenticate(this,"empl:7d3248f91c93cfa");
-        Log.i("Authenticate1- flag: ", Boolean.toString(auth1));
-        Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
-        Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
-
-        JSONObject orders = stApi.getOrders();
-        Log.i("orders empl: ", orders.toString());
-
-        JSONObject myOrdersEmpl = stApi.getMyOrders();
-        Log.i("myOrders empl: ", myOrdersEmpl.toString());
-
-        items = stApi.getItems();
-        Log.i("items empl: ", items.toString());
-
-        JSONArray orderList1 = new JSONArray();
-
-        try {
-            JSONObject order1 = new JSONObject();
-            order1.put("booking_id",65);
-            JSONObject order2 = new JSONObject();
-            order2.put("booking_id",64);
-
-            orderList1.put(order1);
-            orderList1.put(order2);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Log.i("takeOrders empl: ", orderList1.toString());
-        JSONObject takenOrders = stApi.takeOrder(orderList1);
-        Log.i("takeOrders empl: ", takenOrders.toString());
-
-       boolean confirmOrder = stApi.confirmOrder(65);
-        Log.i("isConfirmed empl: ", Boolean.toString(confirmOrder));
-
-        Log.i("test complete: ", Boolean.toString(true));
-        return "test complete";
-    }
+//    public String test() {
+//        Api stApi = new Api();
+//
+//        //employee test
+//        boolean auth = stApi.authenticate(this,"seat:4842f5964017ee57");
+//
+//        Log.i("Authenticate- flag: ", Boolean.toString(auth));
+//        Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
+//        Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
+//
+//
+//        JSONObject items = stApi.getItems();
+//        Log.i("items customer: ", items.toString());
+//
+//
+//        JSONArray orderList = new JSONArray();
+//        try {
+//            int userID = Session.getUserId();
+//            JSONObject j1 = new JSONObject();
+//            j1.put("amount",5);
+//            j1.put("item_id",2);
+//            j1.put("seat_id", userID);
+//            orderList.put(j1);
+//
+//            JSONObject j2 = new JSONObject();
+//            j2.put("amount",5);
+//            j2.put("item_id",1);
+//            j2.put("seat_id", userID);
+//            orderList.put(j2);
+//
+//            JSONObject j3 = new JSONObject();
+//            j3.put("amount",5);
+//            j3.put("item_id",3);
+//            j3.put("seat_id", userID);
+//            orderList.put(j3);
+//
+//            JSONObject j4 = new JSONObject();
+//            j4.put("amount",5);
+//            j4.put("item_id",3);
+//            j4.put("seat_id", userID);
+//            orderList.put(j4);
+//
+//            JSONObject j5 = new JSONObject();
+//            j5.put("amount",5);
+//            j5.put("item_id",3);
+//            j5.put("seat_id", userID);
+//            orderList.put(j5);
+//
+//            JSONObject j6 = new JSONObject();
+//            j6.put("amount",5);
+//            j6.put("item_id",3);
+//            j6.put("seat_id", userID);
+//            orderList.put(j6);
+//
+//            JSONObject j7 = new JSONObject();
+//            j7.put("amount",5);
+//            j7.put("item_id",3);
+//            j7.put("seat_id", userID);
+//            orderList.put(j7);
+//
+//            Log.i("orderList seat: ", orderList.toString());
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        boolean placedOrders = stApi.placeOrder(orderList);
+//        Log.i("placed Orders seat: ", Boolean.toString(placedOrders));
+//
+//
+//        JSONObject myOrders = stApi.getMyOrders();
+//        Log.i("myOrders seat: ", myOrders.toString());
+//
+//        boolean isCanc = stApi.cancelOrder(63);
+//        Log.i("isCanceld seat: ", Boolean.toString(isCanc));
+//
+//
+//        // service test
+//        boolean auth1 = stApi.authenticate(this,"empl:7d3248f91c93cfa");
+//        Log.i("Authenticate1- flag: ", Boolean.toString(auth1));
+//        Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
+//        Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
+//
+//        JSONObject orders = stApi.getOrders();
+//        Log.i("orders empl: ", orders.toString());
+//
+//        JSONObject myOrdersEmpl = stApi.getMyOrders();
+//        Log.i("myOrders empl: ", myOrdersEmpl.toString());
+//
+//        items = stApi.getItems();
+//        Log.i("items empl: ", items.toString());
+//
+//        JSONArray orderList1 = new JSONArray();
+//
+//        try {
+//            JSONObject order1 = new JSONObject();
+//            order1.put("booking_id",65);
+//            JSONObject order2 = new JSONObject();
+//            order2.put("booking_id",64);
+//
+//            orderList1.put(order1);
+//            orderList1.put(order2);
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Log.i("takeOrders empl: ", orderList1.toString());
+//        JSONObject takenOrders = stApi.takeOrder(orderList1);
+//        Log.i("takeOrders empl: ", takenOrders.toString());
+//
+//       boolean confirmOrder = stApi.confirmOrder(65);
+//        Log.i("isConfirmed empl: ", Boolean.toString(confirmOrder));
+//
+//        Log.i("test complete: ", Boolean.toString(true));
+//        return "test complete";
+//    }
 }
 
 

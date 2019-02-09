@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 // this class holds the session over the match-day. After that time, the properties are reset!
 public class Session {
-    private static Session session = null;
+    //private static Session session = null;
 
     // Sharedpref file name
     private static final String PREF_NAME = "sharedSession";
@@ -21,15 +21,18 @@ public class Session {
 
     private static final String ID = "id";
 
+    private static Context context;
+
     // initialize helpful variable
     private static SharedPreferences.Editor editor;
 
     private static SharedPreferences preferences;
 
 
-    private Session(Context context) {
+    public Session(Context context) {
         this.preferences = context.getSharedPreferences(PREF_NAME, 0); // 0 - for private mode
         this.editor = preferences.edit();
+        this.context = context;
     }
 
     /**
@@ -38,10 +41,10 @@ public class Session {
      * @param id
      * @param qrToken
      */
-    public static void setUserData(Context context, boolean isEmpl, int id, String qrToken) {
-        if (session == null) {
-            session = new Session(context);
-        }
+    public static void setUserData(boolean isEmpl, int id, String qrToken) {
+//        if (session == null) {
+//            session = new Session(context);
+//        }
         if(isEmpl) {
             editor.putBoolean(IS_EMPLOYEE, true);
             editor.putBoolean(IS_SEAT, false);
@@ -99,6 +102,12 @@ public class Session {
      * @param items
      */
     public static void setItems(String items) { editor.putString("items", items);}
+
+    // to clear all session data
+    public static void remove(){
+        editor.clear();
+        editor.commit();
+    }
 
 }
 
