@@ -57,7 +57,7 @@ public class Session {
     }
 
     /**
-     * check if user exists
+     * check if user is a customer
      * @return boolean
      */
     public static Boolean isSeat() {
@@ -65,7 +65,7 @@ public class Session {
     }
 
     /**
-     * get user session data
+     * check if user is a customer
      * @return boolean
      */
     public static Boolean isEmployee() {
@@ -81,12 +81,24 @@ public class Session {
     }
 
     /**
-     * get user Token
+     * get user id
      * @return
      */
     public static int getUserId() {
         return preferences.getInt(ID,-1);
     }
+
+    /**
+     * get menu items
+     * @return
+     */
+    public static String getItems() { return preferences.getString("items", "");}
+
+    /**
+     * set menu items
+     * @param items
+     */
+    public static void setItems(String items) { editor.putString("items", items);}
 
 }
 

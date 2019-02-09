@@ -45,18 +45,17 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         }
 
         // check, if session already available
+        Intent intent;
         if(Session.isSeat()){
-            Intent intent = new Intent(Main.this, CustomerMain.class);
-
-            // the items should be saved here.
-
-            startActivity(intent);
-            finish();
+            intent = new Intent(Main.this, CustomerMain.class);
         }else if(Session.isEmployee()){
-            Intent intent = new Intent(Main.this, ServiceMain.class);
-            startActivity(intent);
-            finish();
+            intent = new Intent(Main.this, ServiceMain.class);
+        } else {
+            intent = new Intent(Main.this, Main.class);
         }
+
+        startActivity(intent);
+        finish();
     }
 
     @Override
