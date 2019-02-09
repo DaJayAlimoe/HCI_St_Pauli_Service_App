@@ -42,8 +42,7 @@ public class MenuFragment extends Fragment{
             JSONArray items = response.getJSONArray("items");
             for (int index = 0; index < items.length(); index++) {
                 JSONObject item = items.getJSONObject(index);
-                itemArrayList.add(new Item(item.getString("description"), item.getString("name"), R.drawable.cola));
-
+                itemArrayList.add(new Item(item.getLong("id"), item.getString("description"), item.getString("name"), item.getString("pic_url")));
             }
         } catch (JSONException e) {
             e.printStackTrace();
