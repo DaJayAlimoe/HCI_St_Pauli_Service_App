@@ -17,7 +17,6 @@ import android.widget.Button;
 import com.blikoon.qrcodescanner.QrCodeActivity;
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.CustomerMain;
-import com.service.hci.hci_service_app.activity_handler.customer.ItemConfirmView;
 import com.service.hci.hci_service_app.activity_handler.service.ServiceMain;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
@@ -29,7 +28,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private static final int REQUEST_CODE_QR_SCAN = 101;
     private final String LOGTAG = "ScanQRCode";
 
-    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+    private static final int MY_PERMISSIONS_REQUEST = 1;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // test comment
@@ -63,11 +64,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         } else if(actView == R.id.btn_to_qr){
             // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
+                    != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        MY_PERMISSIONS_REQUEST_CAMERA);
+                        new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST);
 
             } else {
                 Intent intent = new Intent(this, QrCodeActivity.class);
@@ -81,11 +84,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_CAMERA: {
+            case MY_PERMISSIONS_REQUEST: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 1
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
                     Intent intent = new Intent(this, QrCodeActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_QR_SCAN);
@@ -93,13 +98,12 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 } else {
                     AlertDialog alertDialog = new AlertDialog.Builder(this).create();
                     alertDialog.setTitle("Zugriffsfehler");
-                    alertDialog.setMessage("Kamerazugriff wird für QR Code Scanner benötigt");
+                    alertDialog.setMessage("Zugriff auf Speicher und Kamera wird für QR Code Scanner benötigt");
                 }
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request.
+
         }
     }
 
@@ -145,7 +149,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                         }
                     });
             alertDialog.show();
-
         }
     }
 }
