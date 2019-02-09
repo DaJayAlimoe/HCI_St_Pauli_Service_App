@@ -20,8 +20,8 @@ public class Api {
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
     public Api(){
-        baseUrl = "http://141.22.246.109:443";
-//        baseUrl = "http://192.168.178.11:443";
+//        baseUrl = "http://141.22.246.109:443";
+        baseUrl = "http://192.168.178.11:443";
     }
 
     /**
@@ -161,6 +161,26 @@ public class Api {
             requestBody.put("id", orderID);
             Request request = new Request();
             JSONObject result = (JSONObject) request.execute("/v1/Booking/Cancel", "PUT", requestBody, Session.getToken()).get();
+            this.getResponseData(result);
+        } catch (JSONException | InterruptedException | ExecutionException e) {
+            System.out.println("Error while removing order: " + e);
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * confirm Order
+     * @param orderID
+     * @return
+     */
+    public boolean confirmOrder(int orderID) {
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("id", orderID);
+            Request request = new Request();
+            JSONObject result = (JSONObject) request.execute("/v1/Booking/Confirm", "PUT", requestBody, Session.getToken()).get();
             this.getResponseData(result);
         } catch (JSONException | InterruptedException | ExecutionException e) {
             System.out.println("Error while removing order: " + e);

@@ -78,7 +78,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         Api stApi = new Api();
 
         //employee test
-        boolean auth = stApi.authenticate(this,"seat:68e8d8cc9faca201");
+        boolean auth = stApi.authenticate(this,"seat:4842f5964017ee57");
 
         Log.i("Authenticate- flag: ", Boolean.toString(auth));
         Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
@@ -103,7 +103,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             j2.put("item_id",1);
             j2.put("seat_id", userID);
             orderList.put(j2);
-
 
             JSONObject j3 = new JSONObject();
             j3.put("amount",5);
@@ -153,7 +152,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
 
         // service test
-        boolean auth1 = stApi.authenticate(this,"empl:1a51ddf2404ac00");
+        boolean auth1 = stApi.authenticate(this,"empl:7d3248f91c93cfa");
         Log.i("Authenticate1- flag: ", Boolean.toString(auth1));
         Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
         Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
@@ -166,7 +165,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         items = stApi.getItems();
         Log.i("items empl: ", items.toString());
-
 
         JSONArray orderList1 = new JSONArray();
 
@@ -187,7 +185,75 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         JSONObject takenOrders = stApi.takeOrder(orderList1);
         Log.i("takeOrders empl: ", takenOrders.toString());
 
-        return "text complete";
+       boolean confirmOrder = stApi.confirmOrder(65);
+        Log.i("isConfirmed empl: ", Boolean.toString(confirmOrder));
+
+        Log.i("test complete: ", Boolean.toString(true));
+        return "test complete";
     }
 }
+
+
+// output
+
+//2019-02-09 14:39:17.622 27582-27600/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:17.622 27582-27600/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:17.622 27582-27600/com.service.hci.hci_service_app I/Methode: GET
+//        2019-02-09 14:39:17.625 27582-27600/com.service.hci.hci_service_app D/NetworkSecurityConfig: No Network Security Config specified, using platform default
+//2019-02-09 14:39:17.874 27582-27600/com.service.hci.hci_service_app I/Data received:: {"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"employee":null}
+//        2019-02-09 14:39:17.896 27582-27582/com.service.hci.hci_service_app I/Authenticate- flag:: true
+//        2019-02-09 14:39:17.896 27582-27582/com.service.hci.hci_service_app I/isSeat:: true
+//        2019-02-09 14:39:17.896 27582-27582/com.service.hci.hci_service_app I/isEmployee:: false
+//        2019-02-09 14:39:17.897 27582-27604/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:17.897 27582-27604/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:17.897 27582-27604/com.service.hci.hci_service_app I/Methode: GET
+//        2019-02-09 14:39:17.922 27582-27604/com.service.hci.hci_service_app I/Data received:: {"items":[{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"},{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"},{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"},{"id":4,"name":"Wasser","description":"Wasser","pic_url":"Wasser_pic"},{"id":5,"name":"Sprite","description":"Sprite","pic_url":"Sprite_pic"},{"id":6,"name":"Breezel","description":"Eine leckere st.p Paulianische Brääzzel","pic_url":"Breezel_pic"}]}
+//        2019-02-09 14:39:17.926 27582-27582/com.service.hci.hci_service_app I/items customer:: {"items":[{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"},{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"},{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"},{"id":4,"name":"Wasser","description":"Wasser","pic_url":"Wasser_pic"},{"id":5,"name":"Sprite","description":"Sprite","pic_url":"Sprite_pic"},{"id":6,"name":"Breezel","description":"Eine leckere st.p Paulianische Brääzzel","pic_url":"Breezel_pic"}]}
+//        2019-02-09 14:39:17.928 27582-27582/com.service.hci.hci_service_app I/orderList seat:: [{"amount":5,"item_id":2,"seat_id":39},{"amount":5,"item_id":1,"seat_id":39},{"amount":5,"item_id":3,"seat_id":39},{"amount":5,"item_id":3,"seat_id":39},{"amount":5,"item_id":3,"seat_id":39},{"amount":5,"item_id":3,"seat_id":39},{"amount":5,"item_id":3,"seat_id":39}]
+//        2019-02-09 14:39:17.932 27582-27604/com.service.hci.hci_service_app I/instance of array: true
+//        2019-02-09 14:39:17.932 27582-27604/com.service.hci.hci_service_app I/instance of object: false
+//        2019-02-09 14:39:17.932 27582-27604/com.service.hci.hci_service_app I/Methode: POST
+//        2019-02-09 14:39:18.189 27582-27582/com.service.hci.hci_service_app I/placed Orders seat:: true
+//        2019-02-09 14:39:18.190 27582-27604/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:18.190 27582-27604/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:18.190 27582-27604/com.service.hci.hci_service_app I/Methode: GET
+//        2019-02-09 14:39:18.285 27582-27604/com.service.hci.hci_service_app I/Data received:: {"bookings":[{"id":59,"eta":0,"position":1,"activeAt":"2019-02-09T14:39:18.634052","createdOn":"2019-02-09T14:39:18.634052","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.634052","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"}},{"id":60,"eta":0,"position":2,"activeAt":"2019-02-09T14:39:18.673945","createdOn":"2019-02-09T14:39:18.673945","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.673945","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"}},{"id":61,"eta":0,"position":3,"activeAt":"2019-02-09T14:39:18.681923","createdOn":"2019-02-09T14:39:18.681923","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.681923","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":62,"eta":0,"position":4,"activeAt":"2019-02-09T14:39:18.692894","createdOn":"2019-02-09T14:39:18.692894","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.692894","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":63,"eta":0,"position":5,"activeAt":"2019-02-09T14:39:18.700872","createdOn":"2019-02-09T14:39:18.700872","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.701869","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":64,"eta":5,"position":6,"activeAt":"2019-02-09T14:40:18.715832","createdOn":"2019-02-09T14:39:18.715832","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.715832","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":65,"eta":5,"position":7,"activeAt":"2019-02-09T14:40:18.730791","createdOn":"2019-02-09T14:39:18.730791","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.730791","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}}]}
+//        2019-02-09 14:39:18.304 27582-27582/com.service.hci.hci_service_app I/myOrders seat:: {"bookings":[{"id":59,"eta":0,"position":1,"activeAt":"2019-02-09T14:39:18.634052","createdOn":"2019-02-09T14:39:18.634052","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.634052","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"}},{"id":60,"eta":0,"position":2,"activeAt":"2019-02-09T14:39:18.673945","createdOn":"2019-02-09T14:39:18.673945","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.673945","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"}},{"id":61,"eta":0,"position":3,"activeAt":"2019-02-09T14:39:18.681923","createdOn":"2019-02-09T14:39:18.681923","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.681923","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":62,"eta":0,"position":4,"activeAt":"2019-02-09T14:39:18.692894","createdOn":"2019-02-09T14:39:18.692894","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.692894","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":63,"eta":0,"position":5,"activeAt":"2019-02-09T14:39:18.700872","createdOn":"2019-02-09T14:39:18.700872","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.701869","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":64,"eta":5,"position":6,"activeAt":"2019-02-09T14:40:18.715832","createdOn":"2019-02-09T14:39:18.715832","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.715832","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":65,"eta":5,"position":7,"activeAt":"2019-02-09T14:40:18.730791","createdOn":"2019-02-09T14:39:18.730791","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.730791","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}}]}
+//        2019-02-09 14:39:18.306 27582-27600/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:18.306 27582-27600/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:18.306 27582-27600/com.service.hci.hci_service_app I/Methode: PUT
+//        2019-02-09 14:39:18.392 27582-27582/com.service.hci.hci_service_app I/isCanceld seat:: true
+//        2019-02-09 14:39:18.394 27582-27600/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:18.394 27582-27600/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:18.394 27582-27600/com.service.hci.hci_service_app I/Methode: GET
+//        2019-02-09 14:39:18.417 27582-27600/com.service.hci.hci_service_app I/Data received:: {"seat":null,"employee":{"id":13,"name":"Employee1","validTimeStamp":"2019-02-09T13:38:57.077+0000","qrtoken":{"id":7,"token":"empl:7d3248f91c93cfa"}}}
+//        2019-02-09 14:39:18.425 27582-27582/com.service.hci.hci_service_app I/Authenticate1- flag:: true
+//        2019-02-09 14:39:18.425 27582-27582/com.service.hci.hci_service_app I/isSeat:: false
+//        2019-02-09 14:39:18.425 27582-27582/com.service.hci.hci_service_app I/isEmployee:: true
+//        2019-02-09 14:39:18.425 27582-27604/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:18.425 27582-27604/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:18.425 27582-27604/com.service.hci.hci_service_app I/Methode: GET
+//        2019-02-09 14:39:18.448 27582-27604/com.service.hci.hci_service_app I/Data received:: {"bookings":[{"id":59,"eta":0,"position":1,"activeAt":"2019-02-09T14:39:18.634052","createdOn":"2019-02-09T14:39:18.634052","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.634052","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"}},{"id":60,"eta":0,"position":2,"activeAt":"2019-02-09T14:39:18.673945","createdOn":"2019-02-09T14:39:18.673945","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.673945","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"}},{"id":61,"eta":0,"position":3,"activeAt":"2019-02-09T14:39:18.681923","createdOn":"2019-02-09T14:39:18.681923","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.681923","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":62,"eta":0,"position":4,"activeAt":"2019-02-09T14:39:18.692894","createdOn":"2019-02-09T14:39:18.692894","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.692894","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}}]}
+//        2019-02-09 14:39:18.454 27582-27582/com.service.hci.hci_service_app I/orders empl:: {"bookings":[{"id":59,"eta":0,"position":1,"activeAt":"2019-02-09T14:39:18.634052","createdOn":"2019-02-09T14:39:18.634052","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.634052","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"}},{"id":60,"eta":0,"position":2,"activeAt":"2019-02-09T14:39:18.673945","createdOn":"2019-02-09T14:39:18.673945","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.673945","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"}},{"id":61,"eta":0,"position":3,"activeAt":"2019-02-09T14:39:18.681923","createdOn":"2019-02-09T14:39:18.681923","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.681923","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":62,"eta":0,"position":4,"activeAt":"2019-02-09T14:39:18.692894","createdOn":"2019-02-09T14:39:18.692894","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.692894","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}}]}
+//        2019-02-09 14:39:18.455 27582-27600/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:18.455 27582-27600/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:18.455 27582-27600/com.service.hci.hci_service_app I/Methode: GET
+//        2019-02-09 14:39:18.486 27582-27600/com.service.hci.hci_service_app I/Data received:: {"bookings":[]}
+//        2019-02-09 14:39:18.490 27582-27582/com.service.hci.hci_service_app I/myOrders empl:: {"bookings":[]}
+//        2019-02-09 14:39:18.492 27582-27600/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:18.492 27582-27600/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:18.492 27582-27600/com.service.hci.hci_service_app I/Methode: GET
+//        2019-02-09 14:39:18.509 27582-27600/com.service.hci.hci_service_app I/Data received:: {"items":[{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"},{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"},{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"},{"id":4,"name":"Wasser","description":"Wasser","pic_url":"Wasser_pic"},{"id":5,"name":"Sprite","description":"Sprite","pic_url":"Sprite_pic"},{"id":6,"name":"Breezel","description":"Eine leckere st.p Paulianische Brääzzel","pic_url":"Breezel_pic"}]}
+//        2019-02-09 14:39:18.513 27582-27582/com.service.hci.hci_service_app I/items empl:: {"items":[{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"},{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"},{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"},{"id":4,"name":"Wasser","description":"Wasser","pic_url":"Wasser_pic"},{"id":5,"name":"Sprite","description":"Sprite","pic_url":"Sprite_pic"},{"id":6,"name":"Breezel","description":"Eine leckere st.p Paulianische Brääzzel","pic_url":"Breezel_pic"}]}
+//        2019-02-09 14:39:18.513 27582-27582/com.service.hci.hci_service_app I/takeOrders empl:: [{"booking_id":65},{"booking_id":64}]
+//        2019-02-09 14:39:18.514 27582-27604/com.service.hci.hci_service_app I/instance of array: true
+//        2019-02-09 14:39:18.514 27582-27604/com.service.hci.hci_service_app I/instance of object: false
+//        2019-02-09 14:39:18.514 27582-27604/com.service.hci.hci_service_app I/Methode: PUT
+//        2019-02-09 14:39:18.590 27582-27604/com.service.hci.hci_service_app I/Data received:: {"bookings":[{"id":59,"eta":0,"position":-1,"activeAt":"2019-02-09T14:39:18.634052","createdOn":"2019-02-09T14:39:18.634052","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.634052","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"}},{"id":60,"eta":0,"position":0,"activeAt":"2019-02-09T14:39:18.673945","createdOn":"2019-02-09T14:39:18.673945","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.673945","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"}},{"id":61,"eta":0,"position":1,"activeAt":"2019-02-09T14:39:18.681923","createdOn":"2019-02-09T14:39:18.681923","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.681923","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":62,"eta":0,"position":2,"activeAt":"2019-02-09T14:39:18.692894","createdOn":"2019-02-09T14:39:18.692894","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.692894","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}}]}
+//        2019-02-09 14:39:18.596 27582-27582/com.service.hci.hci_service_app I/takeOrders empl:: {"bookings":[{"id":59,"eta":0,"position":-1,"activeAt":"2019-02-09T14:39:18.634052","createdOn":"2019-02-09T14:39:18.634052","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.634052","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":2,"name":"Cola","description":"Coca Cola","pic_url":"Cola_pic"}},{"id":60,"eta":0,"position":0,"activeAt":"2019-02-09T14:39:18.673945","createdOn":"2019-02-09T14:39:18.673945","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.673945","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":1,"name":"Bier","description":"Ein cooles Blondes Pils","pic_url":"Bier_pic"}},{"id":61,"eta":0,"position":1,"activeAt":"2019-02-09T14:39:18.681923","createdOn":"2019-02-09T14:39:18.681923","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.681923","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}},{"id":62,"eta":0,"position":2,"activeAt":"2019-02-09T14:39:18.692894","createdOn":"2019-02-09T14:39:18.692894","status":"PREORDERED","amount":5,"version":0,"lastUpdatedOn":"2019-02-09T14:39:18.692894","employee":null,"seat":{"id":39,"seatNr":0,"qrtoken":{"id":19,"token":"seat:4842f5964017ee57"}},"item":{"id":3,"name":"Fanta","description":"Fanta","pic_url":"Fanta_pic"}}]}
+//        2019-02-09 14:39:18.597 27582-27600/com.service.hci.hci_service_app I/instance of array: false
+//        2019-02-09 14:39:18.598 27582-27600/com.service.hci.hci_service_app I/instance of object: true
+//        2019-02-09 14:39:18.598 27582-27600/com.service.hci.hci_service_app I/Methode: PUT
+//        2019-02-09 14:39:18.657 27582-27582/com.service.hci.hci_service_app I/isConfirmed empl:: true
+//        2019-02-09 14:39:18.657 27582-27582/com.service.hci.hci_service_app I/test complete:: true
 
