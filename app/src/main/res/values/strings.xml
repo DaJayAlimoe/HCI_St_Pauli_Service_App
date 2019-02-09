@@ -6,6 +6,7 @@
     <string name="qr_code">QR-Code</string>
     <string name="zur_service_uebersicht">Zur Service Übersicht</string>
     <string name="zur_kunden_uebersicht">Zur Kunden Übersicht</string>
+    <string name="zum_qr_scan">Zum QR-Code Scannner</string>
     <string name="tab_qr_code">Qr-Code</string>
     <string name="tab_karte">Karte</string>
     <string name="tab_bestellung">Bestellung</string>

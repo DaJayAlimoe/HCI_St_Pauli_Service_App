@@ -31,6 +31,15 @@
         android:layout_marginBottom="118dp"
         android:text="@string/zur_service_uebersicht" />
 
+    <Button
+        android:id="@+id/btn_to_qr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="195dp"
+        android:text="@string/zum_qr_scan" />
+
 </RelativeLayout>
 
 
