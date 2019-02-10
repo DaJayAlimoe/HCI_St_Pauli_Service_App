@@ -49,6 +49,6 @@ public class ShoppingCart extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
+ShowPopup(view);
     }
 }
