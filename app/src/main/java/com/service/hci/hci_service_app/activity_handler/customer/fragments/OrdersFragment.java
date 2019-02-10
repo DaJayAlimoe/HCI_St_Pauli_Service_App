@@ -22,9 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class OrdersFragment extends Fragment {
-
-    ImageButton imageButton;
+public class OrdersFragment extends Fragment{
 
     public OrdersFragment() {
     }
@@ -43,14 +41,6 @@ public class OrdersFragment extends Fragment {
         View view = inflater.inflate(R.layout.customer_orders, container, false);
 
         ListView listView = (ListView) view.findViewById(R.id.customer_AllOrdersView); // get the child text view
-        this.imageButton = view.findViewById(R.id.btn_status);
-
-//        imageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//               // create dialog to confirm cancel order
-//            }
-//        });
 
         // to test shopping cart
         int userID = Session.getUserId();
@@ -67,8 +57,6 @@ public class OrdersFragment extends Fragment {
 
         Order.addOrder(jsonObject);
         Order.sendOrders();
-
-
 
 
         // synchronize order data
@@ -101,4 +89,6 @@ public class OrdersFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
+
 }
