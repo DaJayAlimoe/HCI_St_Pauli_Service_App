@@ -2,6 +2,7 @@ package com.service.hci.hci_service_app.activity_handler.customer.adapters;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.graphics.drawable.Icon;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,12 +51,16 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String orderNR = getItem(position).getOrderNR();
-        Item description = getItem(position).getItem();
-        Integer orderStatus = getItem(position).getAmount();
+        // variables to show
+        int orderNR = getItem(position).getOrderNR();
+        Item item = getItem(position).getItem();
+        int amount = getItem(position).getAmount();
+        int eta = getItem(position).getEta();
+        Order.OrderStatus status = getItem(position).getStatus();
 
         // create item object with information
-        Order order = new Order(orderNR,description,orderStatus);
+//        Order(Item item, int amount, int orderNR, int eta, OrderStatus status) {
+        Order order = new Order(item, amount, orderNR, eta, status);
 
         // create the view result for showing the aniomation
         final View result;
@@ -72,6 +78,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
             holder.description = (TextView) convertView.findViewById(R.id.textView_Item_Description);
             holder.amount = (TextView) convertView.findViewById(R.id.textView_Amount);
             holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture);
+            holder.imageButton = convertView.findViewById(R.id.btn_status);
 
             result = convertView;
             convertView.setTag(holder);
@@ -88,8 +95,21 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
         lastPosition = position;
 
         holder.amount.setText(order.getItem().getDescription().toString());
-        holder.description.setText("Best.Nr: "+ order.getOrderNR().toString()+" Menge: "+order.getAmount().toString());
+        holder.description.setText("Best.Nr: "+ order.getOrderNR()+" Menge: "+order.getAmount());
         holder.picture.setImageResource(order.getItem().getPicture());
+
+        if(order.getStatus().getStatus() == 0){
+            holder.imageButton.setImageResource(android.R.drawable.btn_dialog);
+        }
+        else if(order.getStatus().getStatus() == 1){
+            holder.imageButton.setImageResource(android.R.drawable.ic_menu_set_as);
+        }
+        else if (order.getStatus().getStatus() == 2){
+            holder.imageButton.setImageResource(android.R.drawable.btn_dialog);
+        }else{
+            holder.imageButton.setImageResource(android.R.drawable.checkbox_on_background);
+        }
+
 
         return convertView;
     }
@@ -98,6 +118,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
         TextView amount;
         TextView description;
         ImageView picture;
+        ImageButton imageButton;
     }
 
 }

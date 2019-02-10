@@ -34,14 +34,12 @@ public class CustomerMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customer_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.customer_toolbar);
+        Toolbar toolbar = findViewById(R.id.customer_toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        //ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.customer_viewpager);
+        ViewPager viewPager = findViewById(R.id.customer_viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add Fragments to adapter one by one
@@ -50,7 +48,7 @@ public class CustomerMain extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         //TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.customer_tabs);
+        TabLayout tabLayout = findViewById(R.id.customer_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
     }

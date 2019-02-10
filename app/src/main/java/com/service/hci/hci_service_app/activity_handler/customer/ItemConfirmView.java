@@ -18,7 +18,7 @@ public class ItemConfirmView extends AppCompatActivity {
 ////        imageView = findViewById(R.id.imageView);
         Intent intent = getIntent();
         String name =  intent.getStringExtra("name");
-        String picture = intent.getStringExtra("picture");
+        int picture = intent.getIntExtra("picture",0);
         String description = intent.getStringExtra("description");
 
         Toast.makeText(ItemConfirmView.this,"Daten erhalten: " + name +" "+ picture+" " + description+" ",Toast.LENGTH_SHORT).show();

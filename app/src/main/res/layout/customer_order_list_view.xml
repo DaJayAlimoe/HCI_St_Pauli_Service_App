@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/customer_item_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,29 +12,38 @@
         android:id="@+id/imgView_picture"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_weight="66.6"
-        android:textAlignment="center"
-        android:contentDescription="@string/image" />
+        android:layout_weight="40"
+        android:contentDescription="@string/image"
+        android:textAlignment="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="33.3"
+        android:layout_weight="20"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView_Item_Description"
-            android:layout_width="match_parent"
+            android:layout_width="187dp"
             android:layout_height="30dp"
             android:gravity="center"
             android:text="@string/textview2" />
 
         <TextView
             android:id="@+id/textView_Amount"
-            android:layout_width="match_parent"
+            android:layout_width="186dp"
             android:layout_height="30dp"
             android:gravity="center"
             android:text="@string/textview3" />
+
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="40"
+        android:visibility="visible"
+        app:srcCompat="@android:drawable/btn_dialog" />
 
 </LinearLayout>
