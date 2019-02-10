@@ -5,6 +5,9 @@ import android.widget.ImageView;
 
 import com.service.hci.hci_service_app.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Item {
     private Long id;
     private String description;
@@ -36,7 +39,6 @@ public class Item {
     }
 
     public Item(String description, String name, int picture) {
-
         this.description = description;
         this.name = name;
         this.picture = picture;
@@ -47,6 +49,18 @@ public class Item {
         this.description = description;
         this.name = name;
         this.picture = this.getPictureID(picture);
+    }
+
+    public Item(JSONObject jsonObject) {
+        try {
+            this.id = jsonObject.getLong("id");
+            this.description = jsonObject.getString("description");
+            this.name = jsonObject.getString("name");
+            this.picture = this.getPictureID(jsonObject.getString("pic_url"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private int getPictureID(String pictureName) {
