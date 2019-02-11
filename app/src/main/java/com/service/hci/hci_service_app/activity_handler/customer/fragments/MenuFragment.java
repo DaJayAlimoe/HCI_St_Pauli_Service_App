@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MenuFragment extends Fragment{
+public class MenuFragment extends Fragment {
 
     public MenuFragment() {
     }
@@ -37,8 +37,8 @@ public class MenuFragment extends Fragment{
         ListView listView = (ListView) view.findViewById(R.id.listView); // get the chil d text view
 
         FloatingActionButton fab = view.findViewById(R.id.floatingActionButton_Cart);
-      ShoppingCart x =   new ShoppingCart();
-        fab.setOnClickListener(x);
+        ShoppingCart shoppingCart = new ShoppingCart();
+        fab.setOnClickListener(shoppingCart);
         Api stApi = new Api();
         JSONObject response = stApi.getItems();
         Session.setItems(response.toString());
@@ -47,26 +47,25 @@ public class MenuFragment extends Fragment{
             JSONArray items = response.getJSONArray("items");
             for (int index = 0; index < items.length(); index++) {
                 JSONObject item = items.getJSONObject(index);
-                itemArrayList.add(new Item(item.getLong("id"), item.getString("description"), item.getString("name"), item.getString("pic_url")));
+                itemArrayList.add(new Item(item.getLong("id"), item.getString("description"), item.getString("name"), item.getString("name")));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        ItemListAdapter itemListAdapter = new ItemListAdapter(view.getContext() ,R.layout.customer_item_view, itemArrayList);
+        ItemListAdapter itemListAdapter = new ItemListAdapter(view.getContext(), R.layout.customer_item_view, itemArrayList);
         listView.setAdapter(itemListAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(view.getContext(),ItemConfirmView.class);
+                Intent intent = new Intent(view.getContext(), ItemConfirmView.class);
                 intent.putExtra("name", itemListAdapter.getItem(i).getName());
                 intent.putExtra("description", itemListAdapter.getItem(i).getDescription());
                 intent.putExtra("picture", itemListAdapter.getItem(i).getPicture());
                 startActivity(intent);
             }
         });
-
 
 
         // Inflate the layout for this fragment

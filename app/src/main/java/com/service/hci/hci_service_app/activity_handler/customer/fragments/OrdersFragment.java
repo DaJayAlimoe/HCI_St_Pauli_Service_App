@@ -20,7 +20,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OrdersFragment extends Fragment{
 
@@ -31,8 +35,6 @@ public class OrdersFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +67,21 @@ public class OrdersFragment extends Fragment{
 
         JSONObject myOrders = stApi.getMyOrders();
 
+//        Timer timer = new Timer();
+//        //Then you extend the timer task
+//
+//        class SyncData extends TimerTask {
+//
+//
+//            public void run() {
+//                //call after every 30min
+//            }
+//        }
+////        And then add the new task to the Timer with some update interval
+//
+//        TimerTask syncData = new SyncData();
+//        timer.scheduleAtFixedRate(syncData,1000*10);//this will run after every 10 sec
+
         try {
 
             JSONArray keys = myOrders.getJSONArray("bookings");
@@ -73,7 +90,13 @@ public class OrdersFragment extends Fragment{
                 JSONObject value = keys.getJSONObject(i); // get single entry from array
                 JSONObject itemObj = value.getJSONObject("item"); // items in response
                 Item myItem = new Item(itemObj);
-                Order order = new Order(myItem, value.getInt("amount"),value.getInt("id"),value.getInt("eta"), Order.OrderStatus.valueOf(value.getString("status")));
+
+
+                LocalDateTime actTime = LocalDateTime.parse(value.getString("activeAt"));
+                LocalDateTime createTime = LocalDateTime.parse(value.getString("createdOn"));
+                LocalDateTime updateTime = LocalDateTime.parse(value.getString("lastUpdatedOn"));
+
+                Order order = new Order(myItem, value.getInt("amount"),value.getInt("id"),value.getInt("eta"),actTime,createTime,updateTime, Order.OrderStatus.valueOf(value.getString("status")));
                 itemArrayList.add(order);
             }
         } catch (JSONException e) {
@@ -89,6 +112,5 @@ public class OrdersFragment extends Fragment{
         // Inflate the layout for this fragment
         return view;
     }
-
 
 }
