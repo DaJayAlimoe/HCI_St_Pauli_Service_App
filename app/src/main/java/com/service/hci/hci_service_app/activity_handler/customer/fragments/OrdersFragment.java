@@ -1,5 +1,6 @@
 package com.service.hci.hci_service_app.activity_handler.customer.fragments;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,21 +67,39 @@ public class OrdersFragment extends Fragment{
         Api stApi = new Api();
 
         JSONObject myOrders = stApi.getMyOrders();
-
-//        Timer timer = new Timer();
-//        //Then you extend the timer task
 //
-//        class SyncData extends TimerTask {
+//        Timer timer;
+//        TimerTask timerTask;
+//        final Handler handler = new Handler();
 //
 //
-//            public void run() {
-//                //call after every 30min
+//        public void startTimer(int delay, int interval) {
+//            timer = new Timer();
+//            //initialize the TimerTask's job
+//            initializeTimerTask();
+//            //schedule the timer, after the first delay ms the TimerTask will run every interval ms
+//            timer.schedule(timerTask, delay, interval); //
+//        }
+//
+//        public void stoptimertask() {
+//            if (timer != null) {
+//                timer.cancel();
+//                timer = null;
 //            }
 //        }
-////        And then add the new task to the Timer with some update interval
 //
-//        TimerTask syncData = new SyncData();
-//        timer.scheduleAtFixedRate(syncData,1000*10);//this will run after every 10 sec
+//        public void initializeTimerTask() {
+//
+//            timerTask = new TimerTask() {
+//                public void run() {
+//                    handler.post(new Runnable() {
+//                        public void run() {
+//
+//                        }
+//                    });
+//                }
+//            };
+//        }
 
         try {
 
