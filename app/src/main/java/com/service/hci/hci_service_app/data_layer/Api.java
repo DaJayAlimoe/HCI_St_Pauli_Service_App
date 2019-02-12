@@ -279,6 +279,9 @@ public class Api {
         public Connection(String url, String method, String token) throws IOException {
             URL obj = new URL(url);
             conn = (HttpURLConnection) obj.openConnection();
+            conn.setConnectTimeout(1000);
+
+            conn.setReadTimeout(1000);
 
             conn.setDoInput(true);
             conn.setRequestMethod(method);
