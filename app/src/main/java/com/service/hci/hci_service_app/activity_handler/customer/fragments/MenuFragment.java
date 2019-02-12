@@ -16,6 +16,7 @@ import com.service.hci.hci_service_app.activity_handler.customer.ItemConfirmView
 import com.service.hci.hci_service_app.activity_handler.customer.ShoppingCart;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
+import com.service.hci.hci_service_app.data_types.Cart;
 import com.service.hci.hci_service_app.data_types.Item;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.ItemListAdapter;
 
@@ -35,9 +36,9 @@ public class MenuFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.customer_menu, container, false);
         ListView listView = (ListView) view.findViewById(R.id.listView); // get the chil d text view
-
         FloatingActionButton fab = view.findViewById(R.id.floatingActionButton_Cart);
-      ShoppingCart x =   new ShoppingCart();
+        Cart.initInstance();
+      ShoppingCart x = new ShoppingCart();
         fab.setOnClickListener(x);
         Api stApi = new Api();
         JSONObject response = stApi.getItems();

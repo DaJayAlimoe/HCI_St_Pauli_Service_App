@@ -10,14 +10,14 @@
     <ImageView
         android:id="@+id/imgView_picture"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="96dp"
         android:layout_weight="66.6"
-        android:textAlignment="center"
-        android:contentDescription="@string/image" />
+        android:contentDescription="@string/image"
+        android:textAlignment="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="98dp"
         android:layout_weight="33.3"
         android:orientation="vertical">
 
@@ -35,14 +35,33 @@
             android:gravity="center"
             android:text="@string/textview3" />
 
-        <Button
-            android:id="@+id/Delete_Button"
-            style="@android:style/Widget.Material.Button"
-            android:layout_width="112dp"
-            android:layout_height="29dp"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimary"
-            android:text="Aus dem Warenkob entfernen" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_plus_Cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="+" />
+
+            <Button
+                android:id="@+id/btn_minus_Cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Entfernen" />
+
+            <Button
+                android:id="@+id/btn_Delete_fromCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
