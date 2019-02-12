@@ -31,9 +31,15 @@ public class ShoppingCart extends AppCompatActivity implements View.OnClickListe
 //        listView.setAdapter(itemListAdapter);
         txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
         txtclose.setText("M");
-        btnOrder = (Button) myDialog.findViewById(R.id.btnAddCart);
-        btnOrder.setOnClickListener(this);
-        //TODO Logic was dan passieren soll
+        btnOrder = (Button) myDialog.findViewById(R.id.btnOrder);
+        btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            } //TODO Logic was dann passieren soll
+
+        });
+
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

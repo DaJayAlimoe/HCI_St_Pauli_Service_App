@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
-import com.service.hci.hci_service_app.data_types.Cart;
 
 public class ItemConfirmView extends AppCompatActivity {
 
@@ -23,11 +22,11 @@ public class ItemConfirmView extends AppCompatActivity {
         String name =  intent.getStringExtra("name");
         int picture = intent.getIntExtra("picture",0);
         String description = intent.getStringExtra("description");
-        Button fab = findViewById(R.id.btnAddCart);
+        Button fab = findViewById(R.id.btnOrder);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Cart.getInstance()
+                //TODO Cart.getInstance() item ins Kart hinzufügen
             }
         });
         Toast.makeText(ItemConfirmView.this,"Daten erhalten: " + name +" "+ picture+" " + description+" ",Toast.LENGTH_SHORT).show();

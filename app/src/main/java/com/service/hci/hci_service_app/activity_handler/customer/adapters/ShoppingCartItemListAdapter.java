@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.data_types.Cart;
 import com.service.hci.hci_service_app.data_types.Item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ShoppingCartItemListAdapter extends ArrayAdapter<Item> {
@@ -53,16 +56,19 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item> {
         String description = getItem(position).getDescription();
         int picture = getItem(position).getPicture();
 
-        // create item object with information
-        Item item = new Item(description, name, picture);
-
+        Item item = new Item(description,name,picture);
         // create the view result for showing the aniomation
         final View result;
 
         // viewHolder object
         ViewHolder holder;
 
+        HashMap<Item,Integer> cart =  Cart.getInstance().getCart();
+        for(Map.Entry<Item,Integer> entry : cart.entrySet()) {
+            Item key = entry.getKey();
+            int value = entry.getValue();
 
+        }
         if (convertView == null) {
 
             // to show animation
@@ -85,6 +91,7 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item> {
 
         result.startAnimation(animation);
         lastPosition = position;
+
 
         holder.name.setText(item.getName());
         holder.description.setText(item.getDescription());
