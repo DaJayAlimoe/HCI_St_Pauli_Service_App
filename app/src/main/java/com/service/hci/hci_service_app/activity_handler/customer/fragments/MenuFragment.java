@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class MenuFragment extends Fragment {
         ShoppingCart shoppingCart = new ShoppingCart();
         fab.setOnClickListener(shoppingCart);
         Cart.initInstance();
-      ShoppingCart x = new ShoppingCart();
+        ShoppingCart x = new ShoppingCart();
         fab.setOnClickListener(x);
         Api stApi = new Api();
         JSONObject response = stApi.getItems();
@@ -50,7 +51,10 @@ public class MenuFragment extends Fragment {
             JSONArray items = response.getJSONArray("items");
             for (int index = 0; index < items.length(); index++) {
                 JSONObject item = items.getJSONObject(index);
-                itemArrayList.add(new Item(item.getLong("id"), item.getString("description"), item.getString("name"), item.getString("name")));
+                Item itemObj = new Item(item.getLong("id"), item.getString("description"), item.getString("name"), item.getString("name"));
+                itemArrayList.add(itemObj);
+                Log.i("Menu Item "+index, itemObj.toString());
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -14,14 +14,31 @@ public class Order {
         PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
 
         private final int status;
+        private final int button_icon;
 
         OrderStatus(int status) {
             this.status = status;
+            switch (this.status) {
+                case 0:
+                    this.button_icon = android.R.drawable.btn_dialog;
+                    break;
+                case 1:
+                    this.button_icon = android.R.drawable.ic_menu_set_as;
+                    break;
+                case 2:
+                    this.button_icon = android.R.drawable.checkbox_on_background;
+                    break;
+                case 3:
+                    this.button_icon = android.R.drawable.btn_dialog;
+                    break;
+                default:
+                    this.button_icon = 0;
+                    break;
+            }
         }
 
-        public int getStatus() {
-            return status;
-        }
+        public int getStatus() {return status;}
+        public int getStatusButtonIcon() {return button_icon;}
     }
 
     public OrderStatus getStatus() {
@@ -66,6 +83,10 @@ public class Order {
         this.orderNR = orderNR;
         this.eta = eta;
         this.status = status;
+    }
+
+    public int getStatusButtonIcon() {
+        return this.status.getStatusButtonIcon();
     }
 
     public Timestamp getActiveAt() {
@@ -145,5 +166,19 @@ public class Order {
 
     public static boolean orderListIsEmpty(){
         return orderList.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "item=" + item +
+                ", amount=" + amount +
+                ", orderNR=" + orderNR +
+                ", eta=" + eta +
+                ", activeAt=" + activeAt +
+                ", createdOn=" + createdOn +
+                ", lastUpdatedOn=" + lastUpdatedOn +
+                ", status=" + status +
+                '}';
     }
 }

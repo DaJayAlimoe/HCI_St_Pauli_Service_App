@@ -65,22 +65,32 @@ public class Item {
 
     private int getPictureID(String pictureName) {
         switch (pictureName) {
-            case "cola":
+            case "Cola":
                 return R.drawable.cola;
-            case "beer":
+            case "Bier":
                 return R.drawable.beer;
-            case "bratwurst":
+            case "Bratwurst":
                 return R.drawable.bratwurst;
-            case "brezel":
+            case "Breezel":
                 return R.drawable.brezel;
-            case "fanta":
+            case "Fanta":
                 return R.drawable.fanta;
-            case "hotdog":
-                return R.drawable.hotdog;
-            case "sprite":
+//            case "Sprite":
+//                return R.drawable.hotdog;
+            case "Sprite":
                 return R.drawable.sprite;
             default:
                 return R.drawable.water;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", picture=" + picture +
+                '}';
     }
 }

@@ -1,6 +1,8 @@
 package com.service.hci.hci_service_app.activity_handler.customer.fragments;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +33,8 @@ import java.util.TimerTask;
 
 public class OrdersFragment extends Fragment{
 
+    private Timer autoUpdate;
+
     public OrdersFragment() {
     }
 
@@ -44,64 +48,56 @@ public class OrdersFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.customer_orders, container, false);
+        updateOrder(view);
 
+
+//        // to test shopping cart
+//        int userID = Session.getUserId();
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put("amount",2);
+//            jsonObject.put("item_id",2);
+//            jsonObject.put("seat_id",userID);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Log.i("orderInCart",jsonObject.toString());
+//
+//        Order.addOrder(jsonObject);
+//        Order.sendOrders();
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        autoUpdate = new Timer();
+        autoUpdate.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        updateOrder(view);
+                    }
+                });
+            }
+        }, 30000, 30000); // updates each 40 secs
+    }
+
+    @Override
+    public void onPause() {
+        if(autoUpdate != null)
+            autoUpdate.cancel();
+        super.onPause();
+    }
+
+    public void updateOrder(View view) {
         ListView listView = (ListView) view.findViewById(R.id.customer_AllOrdersView); // get the child text view
-
-        // to test shopping cart
-        int userID = Session.getUserId();
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("amount",2);
-            jsonObject.put("item_id",2);
-            jsonObject.put("seat_id",userID);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Log.i("orderInCart",jsonObject.toString());
-
-        Order.addOrder(jsonObject);
-        Order.sendOrders();
-
-
-        // synchronize order data
         ArrayList<Order> itemArrayList = new ArrayList<>();
         Api stApi = new Api();
 
         JSONObject myOrders = stApi.getMyOrders();
-//
-//        Timer timer;
-//        TimerTask timerTask;
-//        final Handler handler = new Handler();
-//
-//
-//        public void startTimer(int delay, int interval) {
-//            timer = new Timer();
-//            //initialize the TimerTask's job
-//            initializeTimerTask();
-//            //schedule the timer, after the first delay ms the TimerTask will run every interval ms
-//            timer.schedule(timerTask, delay, interval); //
-//        }
-//
-//        public void stoptimertask() {
-//            if (timer != null) {
-//                timer.cancel();
-//                timer = null;
-//            }
-//        }
-//
-//        public void initializeTimerTask() {
-//
-//            timerTask = new TimerTask() {
-//                public void run() {
-//                    handler.post(new Runnable() {
-//                        public void run() {
-//
-//                        }
-//                    });
-//                }
-//            };
-//        }
 
         try {
 
@@ -111,19 +107,13 @@ public class OrdersFragment extends Fragment{
                 JSONObject value = keys.getJSONObject(i); // get single entry from array
                 JSONObject itemObj = value.getJSONObject("item"); // items in response
                 Item myItem = new Item(itemObj);
-                Timestamp actTime = null;
-                Timestamp createTime = null;
-                Timestamp updateTime = null;
-                try {
-                    actTime = Util.parseTimestamp(value.getString("activeAt"));
-                    createTime = Util.parseTimestamp(value.getString("createdOn"));
-                    updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
-                } catch (ParseException e) {
-                    Log.i("parsing DateTime in OrdersFragment", e.getStackTrace().toString());
-                }
+                Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
+                Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
+                Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
 
                 Order order = new Order(myItem, value.getInt("amount"),value.getInt("id"),value.getInt("eta"),actTime,createTime,updateTime, Order.OrderStatus.valueOf(value.getString("status")));
                 itemArrayList.add(order);
+                Log.i("Order "+i, order.toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -134,9 +124,5 @@ public class OrdersFragment extends Fragment{
 
         OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
         listView.setAdapter(itemListAdapter);
-
-        // Inflate the layout for this fragment
-        return view;
     }
-
 }
