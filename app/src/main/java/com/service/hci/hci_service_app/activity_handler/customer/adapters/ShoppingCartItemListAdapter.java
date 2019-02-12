@@ -15,19 +15,20 @@ import android.widget.TextView;
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.data_types.Cart;
 import com.service.hci.hci_service_app.data_types.Item;
+import com.service.hci.hci_service_app.data_types.Item_amount;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class ShoppingCartItemListAdapter extends ArrayAdapter<Item> {
+public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
 
     private Context context;
     private int ressource;
     private int lastPosition = -1;
 
-    public ShoppingCartItemListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item> objects) {
+    public ShoppingCartItemListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item_amount> objects) {
         super(context, resource, objects);
         this.context = context;
         this.ressource = resource;
@@ -40,42 +41,41 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item> {
 
     @Nullable
     @Override
-    public Item getItem(int position) {
+    public Item_amount getItem(int position) {
         return super.getItem(position);
     }
 
     @Override
-    public int getPosition(@Nullable Item item) {
+    public int getPosition(@Nullable Item_amount item) {
         return super.getPosition(item);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String name = getItem(position).getName();
-        String description = getItem(position).getDescription();
-        int picture = getItem(position).getPicture();
+        String name = getItem(position).getItem().getName();
+        String description = getItem(position).getItem().getDescription();
+        int picture = getItem(position).getItem().getPicture();
+        int amount = getItem(position).getAmount();
 
-        Item item = new Item(description,name,picture);
+        Item item = new Item(description, name, picture);
         // create the view result for showing the aniomation
         final View result;
 
         // viewHolder object
         ViewHolder holder;
 
-        HashMap<Item,Integer> cart =  Cart.getInstance().getCart();
-        for(Map.Entry<Item,Integer> entry : cart.entrySet()) {
-            Item key = entry.getKey();
-            int value = entry.getValue();
 
-        }
         if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(this.context);
+            convertView = inflater.inflate(ressource, parent, false);
 
             // to show animation
             holder = new ViewHolder();
-            holder.name = (TextView) convertView.findViewById(R.id.textView_name2);
-            holder.description = (TextView) convertView.findViewById(R.id.textView_description2);
-            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture);
+            holder.name = (TextView) convertView.findViewById(R.id.textView_name_cart);
+            holder.description = (TextView) convertView.findViewById(R.id.textView_description_cart);
+            holder.amount = (TextView) convertView.findViewById(R.id.textView_amount_cart);
+            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture_cart);
 
             result = convertView;
             convertView.setTag(holder);
@@ -94,6 +94,7 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item> {
 
 
         holder.name.setText(item.getName());
+        holder.amount.setText(amount);
         holder.description.setText(item.getDescription());
         holder.picture.setImageResource(item.getPicture());
 
@@ -102,6 +103,7 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item> {
 
     static class ViewHolder {
         TextView name;
+        TextView amount;
         TextView description;
         ImageView picture;
     }

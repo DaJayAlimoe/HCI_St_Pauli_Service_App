@@ -61,6 +61,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
             Intent intent = new Intent(getApplicationContext(), Main.class);
+
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
