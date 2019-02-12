@@ -25,7 +25,7 @@
         android:id="@+id/shoppingCartList"/>
 
     <Button
-        android:id="@+id/btnAddCart"
+        android:id="@+id/btnOrder"
         style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

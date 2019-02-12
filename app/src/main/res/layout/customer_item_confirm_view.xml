@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/btnAddCart"
+            android:id="@+id/btnOrder"
             style="@android:style/Widget.Button"
             android:layout_width="143dp"
             android:layout_height="66dp"
@@ -41,7 +41,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/anzahl"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddCart"
+            app:layout_constraintBottom_toTopOf="@+id/btnOrder"
             app:layout_constraintEnd_toStartOf="@+id/btn_minus"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +82,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:contentDescription="@string/picture_itemView"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddCart"
+            app:layout_constraintBottom_toTopOf="@+id/btnOrder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@android:drawable/star_big_on" />

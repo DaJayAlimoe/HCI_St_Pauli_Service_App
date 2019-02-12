@@ -23,7 +23,12 @@ public class Cart {
         // Return the instance
         return instance;
     }
-    public void add(Item item,int amount)
+
+    public HashMap<Item, Integer> getCart() {
+        return cart;
+    }
+
+    public void add(Item item, int amount)
     {
         cart.put(item,amount);
     }
