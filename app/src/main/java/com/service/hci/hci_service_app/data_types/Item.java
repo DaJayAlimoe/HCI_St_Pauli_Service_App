@@ -56,7 +56,7 @@ public class Item {
             this.id = jsonObject.getLong("id");
             this.description = jsonObject.getString("description");
             this.name = jsonObject.getString("name");
-            this.picture = this.getPictureID(jsonObject.getString("pic_url"));
+            this.picture = this.getPictureID(jsonObject.getString("name"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

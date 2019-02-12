@@ -1,5 +1,6 @@
 package com.service.hci.hci_service_app.activity_handler.customer.fragments;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +21,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OrdersFragment extends Fragment{
 
@@ -31,8 +36,6 @@ public class OrdersFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +67,39 @@ public class OrdersFragment extends Fragment{
         Api stApi = new Api();
 
         JSONObject myOrders = stApi.getMyOrders();
+//
+//        Timer timer;
+//        TimerTask timerTask;
+//        final Handler handler = new Handler();
+//
+//
+//        public void startTimer(int delay, int interval) {
+//            timer = new Timer();
+//            //initialize the TimerTask's job
+//            initializeTimerTask();
+//            //schedule the timer, after the first delay ms the TimerTask will run every interval ms
+//            timer.schedule(timerTask, delay, interval); //
+//        }
+//
+//        public void stoptimertask() {
+//            if (timer != null) {
+//                timer.cancel();
+//                timer = null;
+//            }
+//        }
+//
+//        public void initializeTimerTask() {
+//
+//            timerTask = new TimerTask() {
+//                public void run() {
+//                    handler.post(new Runnable() {
+//                        public void run() {
+//
+//                        }
+//                    });
+//                }
+//            };
+//        }
 
         try {
 
@@ -73,7 +109,13 @@ public class OrdersFragment extends Fragment{
                 JSONObject value = keys.getJSONObject(i); // get single entry from array
                 JSONObject itemObj = value.getJSONObject("item"); // items in response
                 Item myItem = new Item(itemObj);
-                Order order = new Order(myItem, value.getInt("amount"),value.getInt("id"),value.getInt("eta"), Order.OrderStatus.valueOf(value.getString("status")));
+
+
+                LocalDateTime actTime = LocalDateTime.parse(value.getString("activeAt"));
+                LocalDateTime createTime = LocalDateTime.parse(value.getString("createdOn"));
+                LocalDateTime updateTime = LocalDateTime.parse(value.getString("lastUpdatedOn"));
+
+                Order order = new Order(myItem, value.getInt("amount"),value.getInt("id"),value.getInt("eta"),actTime,createTime,updateTime, Order.OrderStatus.valueOf(value.getString("status")));
                 itemArrayList.add(order);
             }
         } catch (JSONException e) {
@@ -89,6 +131,5 @@ public class OrdersFragment extends Fragment{
         // Inflate the layout for this fragment
         return view;
     }
-
 
 }

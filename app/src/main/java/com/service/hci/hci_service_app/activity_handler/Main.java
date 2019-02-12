@@ -46,18 +46,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         Session.remove();
     }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        appCurrentlyRun();
-//    }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        appCurrentlyRun();
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) { // test comment
         super.onCreate(savedInstanceState);
@@ -71,33 +59,27 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         this.btn_qr = findViewById(R.id.btn_to_qr);
         btn_qr.setOnClickListener(this);
 
-//        TextView tv = findViewById(R.id.tv_qrcode);
-//        tv.setText(this.test());
-
         if (getIntent().getBooleanExtra("EXIT", false)) {
             Intent intent = new Intent(getApplicationContext(), Main.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-//
-//        new Session(this);
-//        appCurrentlyRun();
 
     }
 
-    private void appCurrentlyRun() {
-        // check, if session already available
-        Intent intent;
-        if (Session.isSeat()) {
-            intent = new Intent(Main.this, CustomerMain.class);
-            startActivity(intent);
-            finish();
-        } else if (Session.isEmployee()) {
-            intent = new Intent(Main.this, ServiceMain.class);
-            startActivity(intent);
-            finish();
-        }
-    }
+//    private void appCurrentlyRun() {
+//        // check, if session already available
+//        Intent intent;
+//        if (Session.isSeat()) {
+//            intent = new Intent(Main.this, CustomerMain.class);
+//            startActivity(intent);
+//            finish();
+//        } else if (Session.isEmployee()) {
+//            intent = new Intent(Main.this, ServiceMain.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//    }
 
     @Override
     public void onClick(View v) {
@@ -190,10 +172,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             String result = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
             Log.i(LOGTAG, "QR Code scanned; result is: " + result);
 
-            auth = stApi.authenticate(this, result);
-//            Log.i("Authenticate- flag: ", Boolean.toString(auth));
-//            Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
-//            Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
+            stApi.authenticate(this, result);
 
             // check token
             Intent intent;
@@ -207,21 +186,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
             startActivity(intent);
             finish();
-//            if(data==null)
-//                return;
-//            //Getting the passed result
-//            String result = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
-//            Log.d(LOGTAG,"QR Code scanned; result is: "+ result);
-//            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-//            alertDialog.setTitle("Scan result");
-//            alertDialog.setMessage(result);
-//            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-//                    new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//            alertDialog.show();
         }
     }
 

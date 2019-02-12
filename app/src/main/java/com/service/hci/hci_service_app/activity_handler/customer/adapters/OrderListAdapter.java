@@ -19,15 +19,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.Main;
+import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderListAdapter extends ArrayAdapter<Order> implements View.OnClickListener {
+public class OrderListAdapter extends ArrayAdapter<Order>  {
     private Context context;
     private int ressource;
     private int lastPosition = -1;
@@ -62,18 +67,19 @@ public class OrderListAdapter extends ArrayAdapter<Order> implements View.OnClic
         Item item = getItem(position).getItem();
         int amount = getItem(position).getAmount();
         int eta = getItem(position).getEta();
+        LocalDateTime actTime = getItem(position).getActiveAt();
+        LocalDateTime createTime = getItem(position).getCreatedOn();
+        LocalDateTime updateTime = getItem(position).getLastUpdatedOn();
         Order.OrderStatus status = getItem(position).getStatus();
 
         // create item object with information
-//        Order(Item item, int amount, int orderNR, int eta, OrderStatus status) {
-        Order order = new Order(item, amount, orderNR, eta, status);
+        Order order = new Order(item, amount, orderNR, eta, actTime,createTime,updateTime,status);
 
         // create the view result for showing the aniomation
         final View result;
 
         // viewHolder object
         ViewHolder holder;
-
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(this.context);
@@ -101,14 +107,47 @@ public class OrderListAdapter extends ArrayAdapter<Order> implements View.OnClic
         lastPosition = position;
 
         holder.amount.setText(order.getItem().getDescription().toString());
-        holder.description.setText("Best.Nr: "+ order.getOrderNR()+" Menge: "+order.getAmount());
+        holder.description.setText(order.getAmount()+"x " + order.getItem().getName());
         holder.picture.setImageResource(order.getItem().getPicture());
 
-        if(order.getStatus().getStatus() == 0 && (order.getEta() > 0)){
+
+
+        boolean canceable = calcToCancel(order.getActiveAt(), order.getCreatedOn(), order.getEta());
+        if(order.getStatus().getStatus() == 0 && canceable){
             // to cancel the order
             holder.imageButton.setImageResource(android.R.drawable.btn_dialog);
             holder.imageButton.setBackgroundColor(Color.GREEN);
-            holder.imageButton.setOnClickListener(this);
+            holder.imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
+                    alertDialog.setTitle("Bestellung wirklich stornieren?");
+                    alertDialog.setMessage(holder.amount.toString());
+
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "stornieren",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Api stApi = new Api();
+                                    boolean cancleStatus = stApi.cancelOrder(orderNR);
+                                    if(cancleStatus){
+                                        Toast.makeText(getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG);
+                                        Log.i("cancelStatus", Boolean.toString(cancleStatus));
+                                    }else{
+                                        Toast.makeText(getContext(),"Bestellung bereits in arbeit",Toast.LENGTH_LONG);
+                                        Log.i("cancelStatus", Boolean.toString(cancleStatus));
+                                    }
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "doch nicht stornieren",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+            });
         }
         else if(order.getStatus().getStatus() == 1){
             holder.imageButton.setImageResource(android.R.drawable.ic_menu_set_as);
@@ -125,30 +164,14 @@ public class OrderListAdapter extends ArrayAdapter<Order> implements View.OnClic
         return convertView;
     }
 
-    @Override
-    public void onClick(View v) {
-        int actView = v.getId();
-
-        if (actView == R.id.btn_status) {
-            AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
-            alertDialog.setTitle("Bestellung wirklich abbrechen?");
-            alertDialog.setMessage("blabla");
-
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "bestätigen",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Abbrechen",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-        }
+    private boolean calcToCancel(LocalDateTime activeAt, LocalDateTime createdOn, int eta){
+        Duration d = Duration.between(createdOn , activeAt) ;
+        if((d.getSeconds() <= 0) && eta <=0)
+            return false;
+        else
+            return true;
     }
+
 
     static class ViewHolder {
         TextView amount;
