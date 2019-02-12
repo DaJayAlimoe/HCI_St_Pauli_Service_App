@@ -5,7 +5,7 @@ import com.service.hci.hci_service_app.data_layer.Api;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Order {
@@ -36,9 +36,9 @@ public class Order {
     private int amount;
     private int orderNR;
     private int eta;
-    private LocalDateTime activeAt;
-    private LocalDateTime createdOn;
-    private LocalDateTime lastUpdatedOn;
+    private Timestamp activeAt;
+    private Timestamp createdOn;
+    private Timestamp lastUpdatedOn;
     private OrderStatus status;
     private static ArrayList<JSONObject> orderList = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class Order {
         this.orderNR = orderNR;
     }
 
-    public Order(Item item, int amount, int orderNR, int eta, LocalDateTime activeAt, LocalDateTime createdOn, LocalDateTime lastUpdatedOn, OrderStatus status) {
+    public Order(Item item, int amount, int orderNR, int eta, Timestamp activeAt, Timestamp createdOn, Timestamp lastUpdatedOn, OrderStatus status) {
         this.item = item;
         this.amount = amount;
         this.orderNR = orderNR;
@@ -68,15 +68,15 @@ public class Order {
         this.status = status;
     }
 
-    public LocalDateTime getActiveAt() {
+    public Timestamp getActiveAt() {
         return activeAt;
     }
 
-    public LocalDateTime getCreatedOn() {
+    public Timestamp getCreatedOn() {
         return createdOn;
     }
 
-    public LocalDateTime getLastUpdatedOn() {
+    public Timestamp getLastUpdatedOn() {
         return lastUpdatedOn;
     }
 

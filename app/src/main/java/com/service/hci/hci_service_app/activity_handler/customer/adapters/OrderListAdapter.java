@@ -26,8 +26,8 @@ import com.service.hci.hci_service_app.activity_handler.Main;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.*;
 
+import java.sql.Timestamp;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +67,9 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         Item item = getItem(position).getItem();
         int amount = getItem(position).getAmount();
         int eta = getItem(position).getEta();
-        LocalDateTime actTime = getItem(position).getActiveAt();
-        LocalDateTime createTime = getItem(position).getCreatedOn();
-        LocalDateTime updateTime = getItem(position).getLastUpdatedOn();
+        Timestamp actTime = getItem(position).getActiveAt();
+        Timestamp createTime = getItem(position).getCreatedOn();
+        Timestamp updateTime = getItem(position).getLastUpdatedOn();
         Order.OrderStatus status = getItem(position).getStatus();
 
         // create item object with information
@@ -164,11 +164,11 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         return convertView;
     }
 
-    private boolean calcToCancel(LocalDateTime activeAt, LocalDateTime createdOn, int eta){
-        Duration d = Duration.between(createdOn , activeAt) ;
-        if((d.getSeconds() <= 0) && eta <=0)
-            return false;
-        else
+    private boolean calcToCancel(Timestamp activeAt, Timestamp createdOn, int eta){
+//        Duration d = Duration.between(createdOn , activeAt) ;
+//        if((d.getSeconds() <= 0) && eta <=0)
+//            return false;
+//        else
             return true;
     }
 

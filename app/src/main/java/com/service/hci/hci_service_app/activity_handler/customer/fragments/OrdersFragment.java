@@ -16,13 +16,15 @@ import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
 import com.service.hci.hci_service_app.data_types.Item;
 import com.service.hci.hci_service_app.data_types.Order;
+import com.service.hci.hci_service_app.data_types.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -109,11 +111,16 @@ public class OrdersFragment extends Fragment{
                 JSONObject value = keys.getJSONObject(i); // get single entry from array
                 JSONObject itemObj = value.getJSONObject("item"); // items in response
                 Item myItem = new Item(itemObj);
-
-
-                LocalDateTime actTime = LocalDateTime.parse(value.getString("activeAt"));
-                LocalDateTime createTime = LocalDateTime.parse(value.getString("createdOn"));
-                LocalDateTime updateTime = LocalDateTime.parse(value.getString("lastUpdatedOn"));
+                Timestamp actTime = null;
+                Timestamp createTime = null;
+                Timestamp updateTime = null;
+                try {
+                    actTime = Util.parseTimestamp(value.getString("activeAt"));
+                    createTime = Util.parseTimestamp(value.getString("createdOn"));
+                    updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
+                } catch (ParseException e) {
+                    Log.i("parsing DateTime in OrdersFragment", e.getStackTrace().toString());
+                }
 
                 Order order = new Order(myItem, value.getInt("amount"),value.getInt("id"),value.getInt("eta"),actTime,createTime,updateTime, Order.OrderStatus.valueOf(value.getString("status")));
                 itemArrayList.add(order);
