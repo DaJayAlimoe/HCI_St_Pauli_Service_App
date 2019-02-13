@@ -1,6 +1,8 @@
 package com.service.hci.hci_service_app.activity_handler.customer.fragments;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
 
+import com.service.hci.hci_service_app.activity_handler.Main;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
@@ -49,55 +52,17 @@ public class MenuFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(view.getContext());
+                final Dialog dialog = new Dialog(v.getContext());
+
+                dialog.setContentView(R.layout.customer_shoppingcart);
+
+                ListView listViewCart = (ListView) dialog.findViewById(R.id.listView_customer_shoppingCartList);
                 Button btnOrder;
                 Button btnCancel;
-                Button btnMinus;
-                Button btnDelete;
-                Button btnPlus;
 
 
-                ShoppingCartItemListAdapter itemListAdapter = new ShoppingCartItemListAdapter(dialog.getContext(), R.layout.customer_shopping_list_view, Cart.getInstance().getCart());
-                listViewItems.setAdapter(itemListAdapter);
-
-                //dialog.setContentView(R.layout.customer_shoppingcart);
-//                ListView listViewCart = (ListView) dialog.findViewById(R.id.shoppingCartList);
-//
-//                listViewCart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                    }
-//                });
-
-
-
-//                btnPlus = dialog.findViewById(R.id.btn_plus_Cart);
-//                btnPlus.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        ArrayList<Item_amount> list = Cart.getInstance().getCart();
-//                    }
-//                });
-//
-//                btnMinus = dialog.findViewById(R.id.btn_plus_Cart);
-//                btnMinus.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                    }
-//                });
-//
-//                btnDelete = dialog.findViewById(R.id.btn_plus_Cart);
-//                btnDelete.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        itemListAdapter.remove();
-//                    }
-//                });
-
-
-
+                ShoppingCartItemListAdapter shoppingCartItemListAdapter = new ShoppingCartItemListAdapter(dialog.getContext(), R.layout.customer_shopping_list_view, Cart.getInstance().getCart());
+                listViewCart.setAdapter(shoppingCartItemListAdapter);
 
                 btnCancel = dialog.findViewById(R.id.btn_customer_cart_back);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -107,17 +72,28 @@ public class MenuFragment extends Fragment {
                     }
                 });
 
+                // TODO die Session returned immer -1(default)??????
                 btnOrder = (Button) dialog.findViewById(R.id.btn_customer_order);
                 btnOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        Cart.getInstance().sendOrders();
+                    public void onClick(View v) {
+                        int userID = view.getContext().getApplicationContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE).getInt("id",-1);
+//                        Session session = new Session(view.getContext());
+//                        int userID = session.getUserId();
+                        boolean isSend = Cart.getInstance().sendOrders(userID);
+                        if (isSend) {
+                            Toast.makeText(view.getContext(), "Erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(view.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
                     }
                 });
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
-        }});
+            }
+        });
 
 
         Api stApi = new Api();
@@ -131,7 +107,7 @@ public class MenuFragment extends Fragment {
                 JSONObject item = items.getJSONObject(index);
                 Item itemObj = new Item(item.getLong("id"), item.getString("description"), item.getString("name"), item.getString("name"));
                 itemArrayList.add(itemObj);
-                Log.i("Menu Item "+index, itemObj.toString());
+                Log.i("Menu Item " + index, itemObj.toString());
 
             }
         } catch (JSONException e) {
@@ -153,7 +129,7 @@ public class MenuFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Cart.getInstance().add(itemListAdapter.getItem(i), 1);
-                                Toast.makeText(view.getContext(),itemListAdapter.getItem(i) + " den Warenkorb hinzugefügt", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(view.getContext(), itemListAdapter.getItem(i).getName() + " den Warenkorb hinzugefügt", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }
                         });

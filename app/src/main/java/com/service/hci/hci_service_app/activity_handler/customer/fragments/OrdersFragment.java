@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OrdersFragment extends Fragment{
+public class OrdersFragment extends Fragment {
 
     private Timer autoUpdateTimer;
     private final Handler autoUpdateHandler = new Handler();
@@ -67,7 +67,7 @@ public class OrdersFragment extends Fragment{
 
     @Override
     public void onPause() {
-        if(autoUpdateTimer != null)
+        if (autoUpdateTimer != null)
             autoUpdateTimer.cancel();
         super.onPause();
     }
@@ -79,28 +79,30 @@ public class OrdersFragment extends Fragment{
 
         JSONObject myOrders = stApi.getMyOrders();
 
-        try {
 
-            JSONArray keys = myOrders.getJSONArray("bookings");
+        if (!myOrders.isNull("bookings")) {
+            try {
+                JSONArray keys = myOrders.getJSONArray("bookings");
 
-            for (int i = 0; i < keys.length (); ++i) {
-                JSONObject value = keys.getJSONObject(i); // get single entry from array
-                JSONObject itemObj = value.getJSONObject("item"); // items in response
-                Item myItem = new Item(itemObj);
-                Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
-                Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
-                Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
+                for (int i = 0; i < keys.length(); ++i) {
+                    JSONObject value = keys.getJSONObject(i); // get single entry from array
+                    JSONObject itemObj = value.getJSONObject("item"); // items in response
+                    Item myItem = new Item(itemObj);
+                    Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
+                    Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
+                    Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
 
-                Order order = new Order(myItem, value.getInt("amount"),value.getInt("id"),value.getInt("eta"),actTime,createTime,updateTime, Order.OrderStatus.valueOf(value.getString("status")));
-                itemArrayList.add(order);
-                Log.i("Order "+i, order.toString());
+                    Order order = new Order(myItem, value.getInt("amount"), value.getInt("id"), value.getInt("eta"), actTime, createTime, updateTime, Order.OrderStatus.valueOf(value.getString("status")));
+                    itemArrayList.add(order);
+                    Log.i("Order " + i, order.toString());
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
-        Log.i("itemArrayList",itemArrayList.toString());
-        Log.i("MyOrders",myOrders.toString());
+        Log.i("itemArrayList", itemArrayList.toString());
+        Log.i("MyOrders", myOrders.toString());
 
         OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
         listView.setAdapter(itemListAdapter);

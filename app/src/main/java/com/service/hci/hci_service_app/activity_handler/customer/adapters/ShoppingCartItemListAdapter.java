@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.data_types.Cart;
@@ -61,12 +63,11 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
         String name = getItem(position).getItem().getName();
         String description = getItem(position).getItem().getDescription();
         int picture = getItem(position).getItem().getPicture();
-        int amount = getItem(position).getAmount();
 
-        Item item = new Item(description, name, picture);
         // create the view result for showing the aniomation
         final View result;
 
@@ -84,6 +85,48 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
             holder.description = (TextView) convertView.findViewById(R.id.textView_customer_description_cart);
             holder.amount = (EditText) convertView.findViewById(R.id.numberView_customer_amount_cart);
             holder.picture = (ImageView) convertView.findViewById(R.id.imgView_customer_picture_cart);
+            holder.btnPlus = (Button) convertView.findViewById(R.id.btn_customer_plus_cart);
+            holder.btnDelete = (Button) convertView.findViewById(R.id.btn_customer_delete_cartItem);
+            holder.btnMinus = (Button) convertView.findViewById(R.id.btn_customer_minus_cart);
+
+            holder.btnPlus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(getItem(position).getAmount() < 5) {
+                        getItem(position).setAmount(getItem(position).getAmount() + 1);
+                        holder.amount.setText(String.valueOf(getItem(position).getAmount()));
+                        notifyDataSetChanged();
+                    }
+                    else {
+                        holder.amount.setText(String.valueOf(getItem(position).getAmount()));
+                        Toast.makeText(getContext(), "Nur maximal 5 pro Sorte möglich!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            holder.btnMinus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(getItem(position).getAmount() > 0) {
+                        getItem(position).setAmount(getItem(position).getAmount() - 1);
+                        holder.amount.setText(String.valueOf(getItem(position).getAmount()));
+                        notifyDataSetChanged();
+                    }
+                    else
+                        holder.amount.setText(String.valueOf(getItem(position).getAmount()));
+                }
+            });
+
+            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    remove(getItem(position));
+                    Toast.makeText(getContext(),name + " aus dem Warenkorb entfernt " ,Toast.LENGTH_SHORT).show();
+                    notifyDataSetChanged();
+                }
+            });
+
+            convertView.setTag(holder);
 
             result = convertView;
             convertView.setTag(holder);
@@ -93,18 +136,18 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
             result = convertView;
         }
 
+        // sieht unschön aus bei notifyDataSetChanged()
+//        Animation animation = AnimationUtils.loadAnimation(
+//                context, (position > lastPosition) ? R.anim.anim_down_loader : R.anim.anim_up_loader);
+//
+//        result.startAnimation(animation);
+//        lastPosition = position;
 
-        Animation animation = AnimationUtils.loadAnimation(
-                context, (position > lastPosition) ? R.anim.anim_down_loader : R.anim.anim_up_loader);
 
-        result.startAnimation(animation);
-        lastPosition = position;
-
-
-        holder.name.setText(item.getName());
-        holder.amount.setText(String.valueOf(amount));
-        holder.description.setText(item.getDescription());
-        holder.picture.setImageResource(item.getPicture());
+        holder.name.setText(name);
+        holder.amount.setText(String.valueOf(getItem(position).getAmount()));
+        holder.description.setText(description);
+        holder.picture.setImageResource(picture);
 
         return convertView;
     }
@@ -114,5 +157,8 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
         EditText amount;
         TextView description;
         ImageView picture;
+        Button btnMinus;
+        Button btnDelete;
+        Button btnPlus;
     }
 }

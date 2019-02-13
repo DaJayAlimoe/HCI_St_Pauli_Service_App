@@ -44,6 +44,7 @@ public class Api {
         try {
             Object result = request.execute("/v1/User", "GET", new JSONObject(), qrToken).get();
             JSONObject data = this.getResponseData(result);
+
             if(data != null) {
                 if(!data.isNull("employee")) {
                     Session.setUserData(true,data.getJSONObject("employee").getInt("id"),qrToken);

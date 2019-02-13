@@ -6,14 +6,15 @@
     android:layout_width="300dp"
     android:layout_height="350dp"
     android:layout_gravity="center"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:visibility="visible">
 
     <ListView
         android:id="@+id/listView_customer_shoppingCartList"
         android:layout_width="300dp"
-        android:layout_height="230dp"
+        android:layout_height="234dp"
         android:layout_gravity="center" />
 
     <android.support.constraint.ConstraintLayout
