@@ -62,7 +62,8 @@ public class OrdersFragment extends Fragment {
             public void run() {
                 autoUpdateHandler.post(new Runnable() {
                     public void run() {
-                        reloadAllData();
+                        ArrayList<Order> data = getData();
+                        orderListAdapter.refreshData(data);
                     }
                 });
             }
@@ -74,13 +75,6 @@ public class OrdersFragment extends Fragment {
         if (autoUpdateTimer != null)
             autoUpdateTimer.cancel();
         super.onPause();
-    }
-
-    private void reloadAllData(){
-        ArrayList<Order> itemArrayList = this.getData();
-        orderListAdapter.getData().clear();
-        orderListAdapter.getData().addAll(itemArrayList);
-        orderListAdapter.notifyDataSetChanged();
     }
 
     private ArrayList<Order> getData() {

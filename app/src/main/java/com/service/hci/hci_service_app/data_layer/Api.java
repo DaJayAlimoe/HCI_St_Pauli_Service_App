@@ -20,7 +20,9 @@ public class Api {
 
 
     public static Api getInstance() {
-        return (api == null)? (api = new Api()) : api;
+        if(api == null)
+            api = new Api();
+        return api;
     }
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip

@@ -30,13 +30,12 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
     private Context context;
     private int ressource;
     private int lastPosition = -1;
-    private ArrayList<Order> data;
+    private ArrayList<Order> orderArrayList;
 
     public OrderListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Order> objects) {
         super(context, resource, objects);
         this.context = context;
         this.ressource = resource;
-        this.data = objects;
     }
 
     @Override
@@ -150,8 +149,10 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         return convertView;
     }
 
-    public ArrayList<Order> getData() {
-        return this.getData();
+    public void refreshData(ArrayList<Order> itemArrayList){
+        this.orderArrayList.clear();
+        this.orderArrayList.addAll(itemArrayList);
+        this.notifyDataSetChanged();
     }
 
 
