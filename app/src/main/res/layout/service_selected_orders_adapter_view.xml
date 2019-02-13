@@ -14,14 +14,14 @@
         android:gravity="center" />
 
     <TextView
-        android:id="@+id/textView_service_selected_count"
+        android:id="@+id/textView_service_selected_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="25.0"
         android:gravity="center" />
 
     <TextView
-        android:id="@+id/textView_service_selected_item"
+        android:id="@+id/textView_service_selected_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="25.0"
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="25.0"
-        android:gravity="end"
+        android:gravity="center"
         android:text="@string/service_selected_orders_button" />
 
 

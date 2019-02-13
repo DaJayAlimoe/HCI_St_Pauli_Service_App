@@ -17,7 +17,8 @@
 
     <string name="service_all_orders_name">Alle Bestellungen</string>
     <string name="service_selected_orders_name">Meine Aufträge</string>
-    <string name="service_selected_orders_button">Done</string>
+    <string name="service_selected_orders_button">X</string>
+    <string name="service_all_orders_button">X</string>
     <string name="btn_exit">X</string>
     <string name="bestellen">Bestellen</string>
     <string name="dem_warenkorb_hinzuf_gen">Dem Warenkorb hinzufügen</string>

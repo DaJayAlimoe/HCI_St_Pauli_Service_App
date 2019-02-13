@@ -33,10 +33,10 @@ public class SelectedOrdersFragment extends Fragment {
         TextView header3 = view.findViewById(R.id.textView_service_selected_orders_header3);
         TextView header4 = view.findViewById(R.id.textView_service_selected_orders_header4);
 
-        header1.setText("Sitz-Nr:");
-        header2.setText("Menge:");
-        header3.setText("Typ:");
-        header4.setText("Erledigt:");
+        header1.setText("Sitz-Nr");
+        header2.setText("Typ");
+        header3.setText("Menge");
+        header4.setText("Erledigt");
 
         //Dummy Liste
         PartialOrder p1 = new PartialOrder(5060, 2, "Bier");
