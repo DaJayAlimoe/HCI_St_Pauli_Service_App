@@ -164,7 +164,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         }
         if (requestCode == REQUEST_CODE_QR_SCAN) {
-            Session session = new Session(this);
+            new Session(this);
 
             Api stApi = Api.getInstance();
 
@@ -174,12 +174,15 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             Log.i(LOGTAG, "QR Code scanned; result is: " + result);
 
             stApi.authenticate(result);
+            Log.i("Main - userid:", String.valueOf(Session.getUserId()));
+            Log.i("Main - token:", Session.getToken());
+
 
             // check token
             Intent intent;
-            if (session.isSeat()) {
+            if (Session.isSeat()) {
                 intent = new Intent(Main.this, CustomerMain.class);
-            } else if (session.isEmployee()) {
+            } else if (Session.isEmployee()) {
                 intent = new Intent(Main.this, ServiceMain.class);
             } else {
                 intent = new Intent(Main.this, Main.class);

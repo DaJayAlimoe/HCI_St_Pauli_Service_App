@@ -64,7 +64,7 @@ public class Api {
                 }
             }
         } catch (InterruptedException | ExecutionException | JSONException e) {
-            System.out.println("Exception while authenticating user: " + e);
+            Log.e("Exception while authenticating user: ", e.toString());
         }
         return identified;
     }
@@ -80,7 +80,7 @@ public class Api {
             Object result = request.execute("/v1/Item", "GET", new JSONObject(), Session.getToken()).get();
             data = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
-            System.out.println("Exception while getting Items: " + e);
+            Log.e("Exception while getting Items: ", e.toString());
         }
         return data;
     }
@@ -96,7 +96,7 @@ public class Api {
             Object result = request.execute("/v1/Booking/List", "GET", new JSONObject(), Session.getToken()).get();
             data = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
-            System.out.println("Exception while getting Items: " + e);
+            Log.e("Exception while getting Orders: ", e.toString());
         }
         return data;
     }
@@ -112,7 +112,7 @@ public class Api {
             Object result =  request.execute("/v1/Booking", "GET", new JSONObject(), Session.getToken()).get();
             responseData = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
-            System.out.println("Exception while getting Orders: " + e);
+            Log.e("Exception while getting MyOrders: ", e.toString());
         }
         return responseData;
     }
@@ -130,7 +130,7 @@ public class Api {
                 request.execute("/v1/Booking", "POST", orderList, Session.getToken()).get();
                 response = true;
             } catch (InterruptedException | ExecutionException e) {
-                System.out.println("Error while placing Order: " + e);
+                Log.e("Error while placing order: ", e.toString());
                 response = false;
                 e.printStackTrace();
             }
@@ -151,7 +151,7 @@ public class Api {
                 JSONObject result = (JSONObject) request.execute("/v1/Booking", "PUT", orderList, Session.getToken()).get();
                 responseData = this.getResponseData(result);
             } catch (InterruptedException | ExecutionException e) {
-                System.out.println("Error while placing order: " + e);
+                Log.e("Error while taking order: ", e.toString());
                 e.printStackTrace();
             }
         }
@@ -171,7 +171,7 @@ public class Api {
             JSONObject result = (JSONObject) request.execute("/v1/Booking/Cancel", "PUT", requestBody, Session.getToken()).get();
             this.getResponseData(result);
         } catch (JSONException | InterruptedException | ExecutionException e) {
-            System.out.println("Error while removing order: " + e);
+            Log.e("Error while removing order: ", e.toString());
             e.printStackTrace();
             return false;
         }
@@ -191,7 +191,7 @@ public class Api {
             JSONObject result = (JSONObject) request.execute("/v1/Booking/Confirm", "PUT", requestBody, Session.getToken()).get();
             this.getResponseData(result);
         } catch (JSONException | InterruptedException | ExecutionException e) {
-            System.out.println("Error while removing order: " + e);
+            Log.e("Error while confirm order: ", e.toString());
             e.printStackTrace();
             return false;
         }
@@ -213,7 +213,6 @@ public class Api {
             JSONObject responseData = null;
             Log.i("instance of array ", String.valueOf(param[2] instanceof JSONArray));
             Log.i("instance of object ", String.valueOf(param[2] instanceof JSONObject));
-
             try {
 
                 // Open new Connection to server and send data
@@ -221,16 +220,6 @@ public class Api {
                 Connection connection = new Connection(baseUrl+endpoint, method, param[3].toString());
                 if(method.equalsIgnoreCase("POST")|| method.equalsIgnoreCase("PUT")) {
                     connection.send(param[2].toString());
-//                    if(param[2] instanceof JSONArray){
-//                        JSONArray data = (JSONArray) param[2];
-//                        connection.send(data.toString());
-//                        Log.i("DatenArray gesendet: ",data.toString());
-//                    }
-//                    else {
-//                        JSONObject data = (JSONObject) param[2];
-//                        connection.send(data.toString());
-//                        Log.i("DatenObject gesendet: ",data.toString());
-//                    }
                     Log.i("Connection gesendet ","");
                 }
 
@@ -240,15 +229,12 @@ public class Api {
                 if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
                     String received = connection.receive();
                     Log.i("Data received: ",received);
-//                    JSONObject response = new JSONObject(received);
-//                    Object jwt = response.get("token");
-//                    responseData = new JSONObject(response.get("data").toString());
                     if(!received.isEmpty()){
                         responseData = new JSONObject(received);
                     }
                 } else {
                     // Server returned HTTP error code.
-                    Log.i("HTTP RESPONSE CODE: ", String.valueOf(responseCode));
+                    Log.e("HTTP RESPONSE CODE: ", String.valueOf(responseCode));
                 }
 
 
