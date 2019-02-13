@@ -43,31 +43,28 @@ public class Cart {
         }
         cart.add(item_amount);
     }
-    public Boolean sendOrders(){
-        int userID = Session.getUserId();
+    public Boolean sendOrders(int userID){
+        Log.i("in sendOrder ID: ", String.valueOf(userID));
 
-        ArrayList<JSONObject> orderList = new ArrayList<>();
-        for(Item_amount entry : cart) {
-            JSONObject jsonObject = new JSONObject();
-            Item item = entry.item;
-            int amount = entry.amount;
-            try {
-                jsonObject.put("amount",amount);
-                jsonObject.put("item_id",item.getId());
-                jsonObject.put("seat_id",userID);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if(orderList.isEmpty() || orderList == null){
+        if(cart.isEmpty() || cart == null){
             return false;
         }else{
             JSONArray orderArray = new JSONArray();
             // convert to JSON and send, return true
-            for(JSONObject orderInList : orderList){
-
+            for(Item_amount entry : cart){
+                JSONObject orderInList = new JSONObject();
+                Item item = entry.item;
+                int amount = entry.amount;
+                try {
+                    orderInList.put("amount",amount);
+                    orderInList.put("item_id",item.getId());
+                    orderInList.put("seat_id",userID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 orderArray.put(orderInList);
             }
+            Log.i("in sendOrders, orderArray", orderArray.toString());
             Api stApi = new Api();
             boolean send = stApi.placeOrder(orderArray);
 
