@@ -40,9 +40,9 @@ public class SelectedPartialOrdersAdapter extends ArrayAdapter<PartialOrder> {
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);
 
-        TextView textViewSeat = convertView.findViewById(R.id.selected_seat_textView);
-        TextView textViewCount = convertView.findViewById(R.id.selected_count_textView);
-        TextView textViewItemName = convertView.findViewById(R.id.selected_item_textView);
+        TextView textViewSeat = convertView.findViewById(R.id.textView_service_selected_seat);
+        TextView textViewCount = convertView.findViewById(R.id.textView_service_selected_count);
+        TextView textViewItemName = convertView.findViewById(R.id.textView_service_selected_item);
 
         textViewSeat.setText(String.valueOf(seat));
         textViewCount.setText(String.valueOf(count));

@@ -99,7 +99,7 @@ public class MenuFragment extends Fragment {
 
 
 
-                btnCancel =  dialog.findViewById(R.id.btn_customer_cart_back);
+                btnCancel = dialog.findViewById(R.id.btn_customer_cart_back);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
