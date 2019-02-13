@@ -65,7 +65,7 @@ public class Cart {
                 orderArray.put(orderInList);
             }
             Log.i("in sendOrders, orderArray", orderArray.toString());
-            Api stApi = new Api();
+            Api stApi = Api.getInstance();
             boolean send = stApi.placeOrder(orderArray);
 
             if(!send){

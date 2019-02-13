@@ -152,7 +152,7 @@ public class Order {
 
                 orderArray.put(orderInList);
             }
-            Api stApi = new Api();
+            Api stApi = Api.getInstance();
             boolean send = stApi.placeOrder(orderArray);
 
             if(!send){

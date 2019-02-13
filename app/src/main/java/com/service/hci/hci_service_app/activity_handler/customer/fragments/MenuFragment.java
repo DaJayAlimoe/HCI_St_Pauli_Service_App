@@ -96,7 +96,7 @@ public class MenuFragment extends Fragment {
         });
 
 
-        Api stApi = new Api();
+        Api stApi = Api.getInstance();
         JSONObject response = stApi.getItems();
         Session.setItems(response.toString());
         ArrayList<Item> itemArrayList = new ArrayList<>();

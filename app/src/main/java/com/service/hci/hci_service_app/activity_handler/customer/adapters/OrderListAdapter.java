@@ -30,11 +30,13 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
     private Context context;
     private int ressource;
     private int lastPosition = -1;
+    private ArrayList<Order> data;
 
     public OrderListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Order> objects) {
         super(context, resource, objects);
         this.context = context;
         this.ressource = resource;
+        this.data = objects;
     }
 
     @Override
@@ -118,7 +120,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "stornieren",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Api stApi = new Api();
+                                    Api stApi = Api.getInstance();
                                     boolean cancleStatus = stApi.cancelOrder(orderNR);
                                     if(cancleStatus){
                                         Toast.makeText(getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG);
@@ -146,6 +148,10 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         }
 
         return convertView;
+    }
+
+    public ArrayList<Order> getData() {
+        return this.getData();
     }
 
 

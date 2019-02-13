@@ -30,6 +30,7 @@ import java.util.TimerTask;
 public class OrdersFragment extends Fragment {
 
     private Timer autoUpdateTimer;
+    private OrderListAdapter orderListAdapter;
     private final Handler autoUpdateHandler = new Handler();
 
     public OrdersFragment() {
@@ -44,7 +45,10 @@ public class OrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.customer_orders, container, false);
-        updateOrder(view);
+        ListView listView = (ListView) view.findViewById(R.id.listView_customer_AllOrdersView); // get the child text view
+        ArrayList<Order> itemArrayList = this.getData();
+        OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
+        listView.setAdapter(itemListAdapter);
 
         return view;
     }
@@ -58,11 +62,11 @@ public class OrdersFragment extends Fragment {
             public void run() {
                 autoUpdateHandler.post(new Runnable() {
                     public void run() {
-                        updateOrder(view);
+                        reloadAllData();
                     }
                 });
             }
-        }, 30000, 30000); // updates each 40 secs
+        }, 30000, 30000); // updates each 30 secs
     }
 
     @Override
@@ -72,10 +76,16 @@ public class OrdersFragment extends Fragment {
         super.onPause();
     }
 
-    public void updateOrder(View view) {
-        ListView listView = (ListView) view.findViewById(R.id.listView_customer_AllOrdersView); // get the child text view
+    private void reloadAllData(){
+        ArrayList<Order> itemArrayList = this.getData();
+        orderListAdapter.getData().clear();
+        orderListAdapter.getData().addAll(itemArrayList);
+        orderListAdapter.notifyDataSetChanged();
+    }
+
+    private ArrayList<Order> getData() {
         ArrayList<Order> itemArrayList = new ArrayList<>();
-        Api stApi = new Api();
+        Api stApi = Api.getInstance();
 
         JSONObject myOrders = stApi.getMyOrders();
 
@@ -104,7 +114,6 @@ public class OrdersFragment extends Fragment {
         Log.i("itemArrayList", itemArrayList.toString());
         Log.i("MyOrders", myOrders.toString());
 
-        OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
-        listView.setAdapter(itemListAdapter);
+        return itemArrayList;
     }
 }

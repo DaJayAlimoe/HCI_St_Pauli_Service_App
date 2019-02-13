@@ -166,7 +166,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         if (requestCode == REQUEST_CODE_QR_SCAN) {
             Session session = new Session(this);
 
-            Api stApi = new Api();
+            Api stApi = Api.getInstance();
 
             boolean auth = false;
 
@@ -191,7 +191,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     }
 
 //    public String test() {
-//        Api stApi = new Api();
+//        Api stApi = Api.getInstance();
 //
 //        //employee test
 //        boolean auth = stApi.authenticate(this,"seat:4842f5964017ee57");

@@ -16,10 +16,15 @@ import org.json.*;
 
 public class Api {
     private String baseUrl;
+    private static Api api = null;
 
+
+    public static Api getInstance() {
+        return (api == null)? (api = new Api()) : api;
+    }
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
-    public Api(){
+    private Api(){
 //        baseUrl = "http://141.22.246.109:443";
         baseUrl = "http://192.168.178.11:443";
     }
