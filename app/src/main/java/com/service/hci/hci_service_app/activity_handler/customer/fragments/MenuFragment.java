@@ -64,38 +64,6 @@ public class MenuFragment extends Fragment {
                 ShoppingCartItemListAdapter shoppingCartItemListAdapter = new ShoppingCartItemListAdapter(dialog.getContext(), R.layout.customer_shopping_list_view, Cart.getInstance().getCart());
                 listViewCart.setAdapter(shoppingCartItemListAdapter);
 
-//
-//                listViewCart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                    }
-//                });
-
-//                btnPlus = dialog.findViewById(R.id.btn_plus_Cart);
-//                btnPlus.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        ArrayList<Item_amount> list = Cart.getInstance().getCart();
-//                    }
-//                });
-//
-//                btnMinus = dialog.findViewById(R.id.btn_plus_Cart);
-//                btnMinus.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                    }
-//                });
-//
-//                btnDelete = dialog.findViewById(R.id.btn_plus_Cart);
-//                btnDelete.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        itemListAdapter.remove();
-//                    }
-//                });
-
                 btnCancel = dialog.findViewById(R.id.btn_customer_cart_back);
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
