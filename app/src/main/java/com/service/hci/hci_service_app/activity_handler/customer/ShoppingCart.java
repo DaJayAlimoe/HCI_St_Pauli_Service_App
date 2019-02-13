@@ -11,48 +11,49 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
+import com.service.hci.hci_service_app.data_types.Cart;
 
 public class ShoppingCart extends AppCompatActivity implements View.OnClickListener {
-    Dialog myDialog;
+    //Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onClick(View view) {
 
-    public void ShowPopup(View v) {
+        final Dialog dialog = new Dialog(view.getContext());
         TextView txtclose;
         Button btnOrder;
 //        OrderInCart shoppingCart = new OrderInCart();
-        myDialog.setContentView(R.layout.customer_shoppingcart);
-        ListView listView = (ListView) myDialog.findViewById(R.id.customer_AllOrdersView);
-//        ShoppingCartItemListAdapter itemListAdapter = new ShoppingCartItemListAdapter(v.getContext() ,R.layout.customer_order_list_view,OrderInCart.getItemArrayList());
-//        listView.setAdapter(itemListAdapter);
-        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
+        dialog.setContentView(R.layout.customer_shoppingcart);
+        ListView listView = (ListView) dialog.findViewById(R.id.shoppingCartList);
+        ShoppingCartItemListAdapter itemListAdapter = new ShoppingCartItemListAdapter(dialog.getContext(), R.layout.customer_shopping_list_view, Cart.getInstance().getCart());
+        listView.setAdapter(itemListAdapter);
+        txtclose = (TextView) dialog.findViewById(R.id.txtclose);
         txtclose.setText("M");
-        btnOrder = (Button) myDialog.findViewById(R.id.btnOrder);
+        btnOrder = (Button) dialog.findViewById(R.id.btnOrder);
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Cart.getInstance().sendOrders();
             } //TODO Logic was dann passieren soll
+
 
         });
 
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDialog.dismiss();
+                dialog.dismiss();
             }
         });
 
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
-    @Override
-    public void onClick(View view) {
-ShowPopup(view);
-    }
 }

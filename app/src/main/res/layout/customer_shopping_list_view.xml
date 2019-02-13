@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/customer_item_view"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customer_item_view_cart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -8,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/imgView_picture"
+        android:id="@+id/imgView_picture_cart"
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:layout_weight="66.6"
@@ -21,15 +22,28 @@
         android:layout_weight="33.3"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView_name2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:text="@string/textview2" />
+            android:layout_height="29dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView_name_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView_amount_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:text="TextView" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/textView_description2"
+            android:id="@+id/textView_description_cart"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center"
@@ -44,21 +58,24 @@
                 android:id="@+id/btn_plus_Cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="+" />
+                android:layout_weight="33"
+                android:onClick="onClick"
+                android:text="+"
+                android:visibility="visible" />
 
             <Button
-                android:id="@+id/btn_minus_Cart"
+                android:id="@+id/btn_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Entfernen" />
+                android:layout_weight="33"
+                android:text="Entfernen"
+                android:visibility="visible" />
 
             <Button
-                android:id="@+id/btn_Delete_fromCart"
+                android:id="@+id/betn_minus_fromCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="33"
                 android:text="-" />
         </LinearLayout>
 

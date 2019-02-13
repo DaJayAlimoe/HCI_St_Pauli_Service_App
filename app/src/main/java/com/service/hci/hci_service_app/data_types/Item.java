@@ -9,6 +9,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Item {
+    public Long getId() {
+        return id;
+    }
+
     private Long id;
     private String description;
     private String name;
