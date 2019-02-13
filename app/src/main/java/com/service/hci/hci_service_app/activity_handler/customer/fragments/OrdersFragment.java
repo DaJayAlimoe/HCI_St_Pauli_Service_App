@@ -9,13 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
-import com.service.hci.hci_service_app.data_layer.Session;
 import com.service.hci.hci_service_app.data_types.Item;
 import com.service.hci.hci_service_app.data_types.Order;
 import com.service.hci.hci_service_app.data_types.Util;
@@ -25,15 +23,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class OrdersFragment extends Fragment{
 
-    private Timer autoUpdate;
+    private Timer autoUpdateTimer;
+    private final Handler autoUpdateHandler = new Handler();
 
     public OrdersFragment() {
     }
@@ -46,37 +43,19 @@ public class OrdersFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.customer_orders, container, false);
         updateOrder(view);
-
-
-//        // to test shopping cart
-//        int userID = Session.getUserId();
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("amount",2);
-//            jsonObject.put("item_id",2);
-//            jsonObject.put("seat_id",userID);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Log.i("orderInCart",jsonObject.toString());
-//
-//        Order.addOrder(jsonObject);
-//        Order.sendOrders();
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        autoUpdate = new Timer();
-        autoUpdate.schedule(new TimerTask() {
+        autoUpdateTimer = new Timer();
+        autoUpdateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
+                autoUpdateHandler.post(new Runnable() {
                     public void run() {
                         updateOrder(view);
                     }
@@ -87,8 +66,8 @@ public class OrdersFragment extends Fragment{
 
     @Override
     public void onPause() {
-        if(autoUpdate != null)
-            autoUpdate.cancel();
+        if(autoUpdateTimer != null)
+            autoUpdateTimer.cancel();
         super.onPause();
     }
 
