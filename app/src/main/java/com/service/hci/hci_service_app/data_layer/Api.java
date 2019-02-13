@@ -43,7 +43,7 @@ public class Api {
      * authenticate qr code
      * @param qrToken
      */
-    public boolean authenticate(Context context, String qrToken) {
+    public boolean authenticate(String qrToken) {
         boolean identified = false;
         Request request = new Request();
         try {

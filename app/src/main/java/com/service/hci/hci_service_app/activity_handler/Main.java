@@ -173,7 +173,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             String result = data.getStringExtra("com.blikoon.qrcodescanner.got_qr_scan_relult");
             Log.i(LOGTAG, "QR Code scanned; result is: " + result);
 
-            stApi.authenticate(this, result);
+            stApi.authenticate(result);
 
             // check token
             Intent intent;

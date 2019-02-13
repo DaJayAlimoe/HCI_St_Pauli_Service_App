@@ -141,29 +141,6 @@ public class Order {
         this.amount = amount;
     }
 
-    public static boolean sendOrders(){
-        // send orderList to server and clear the List
-        if(orderListIsEmpty() || orderList == null){
-            return false;
-        }else{
-            JSONArray orderArray = new JSONArray();
-            // convert to JSON and send, return true
-            for(JSONObject orderInList : orderList){
-
-                orderArray.put(orderInList);
-            }
-            Api stApi = Api.getInstance();
-            boolean send = stApi.placeOrder(orderArray);
-
-            if(!send){
-                return false;
-            }
-
-            orderList.clear();
-            return true;
-        }
-    }
-
     public static boolean orderListIsEmpty(){
         return orderList.isEmpty();
     }
