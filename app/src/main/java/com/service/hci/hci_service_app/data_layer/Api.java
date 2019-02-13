@@ -20,8 +20,8 @@ public class Api {
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
     public Api(){
-        baseUrl = "http://141.22.246.109:443";
-//        baseUrl = "http://192.168.178.11:443";
+//        baseUrl = "http://141.22.246.109:443";
+        baseUrl = "http://192.168.178.11:443";
     }
 
     /**

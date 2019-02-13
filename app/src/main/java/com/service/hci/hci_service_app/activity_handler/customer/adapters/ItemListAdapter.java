@@ -75,9 +75,9 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
 
             // to show animation
             holder = new ViewHolder();
-            holder.name = (TextView) convertView.findViewById(R.id.textView_name);
-            holder.description = (TextView) convertView.findViewById(R.id.textView_description);
-            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture);
+            holder.name = (TextView) convertView.findViewById(R.id.textView_customer_name_item);
+            holder.description = (TextView) convertView.findViewById(R.id.textView_customer_description_item);
+            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_customer_picture_item);
 
             result = convertView;
             convertView.setTag(holder);

@@ -2,7 +2,6 @@ package com.service.hci.hci_service_app.activity_handler.customer.fragments;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,12 +15,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.service.hci.hci_service_app.R;
 
-import com.service.hci.hci_service_app.activity_handler.customer.ShoppingCart;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
@@ -44,51 +42,89 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.customer_menu, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.listView); // get the chil d text view
-        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton_Cart);
-        ShoppingCart shoppingCart = new ShoppingCart();
+        ListView listViewItems = (ListView) view.findViewById(R.id.listView_customer_menu); // get the chil d text view
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton__customer_cart_menu);
+        Cart.initInstance();
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(view.getContext());
-                TextView txtclose;
                 Button btnOrder;
-//        OrderInCart shoppingCart = new OrderInCart();
-                dialog.setContentView(R.layout.customer_shoppingcart);
-                ListView listView = (ListView) dialog.findViewById(R.id.shoppingCartList);
+                Button btnCancel;
+                Button btnMinus;
+                Button btnDelete;
+                Button btnPlus;
+
+
                 ShoppingCartItemListAdapter itemListAdapter = new ShoppingCartItemListAdapter(dialog.getContext(), R.layout.customer_shopping_list_view, Cart.getInstance().getCart());
-                listView.setAdapter(itemListAdapter);
-                txtclose = (TextView) dialog.findViewById(R.id.txtclose);
-                txtclose.setText("M");
-                btnOrder = (Button) dialog.findViewById(R.id.btnOrder);
-                btnOrder.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Cart.getInstance().sendOrders();
-                    } //TODO Logic was dann passieren soll
+                listViewItems.setAdapter(itemListAdapter);
+
+                //dialog.setContentView(R.layout.customer_shoppingcart);
+//                ListView listViewCart = (ListView) dialog.findViewById(R.id.shoppingCartList);
+//
+//                listViewCart.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                    }
+//                });
 
 
-                });
 
-                txtclose.setOnClickListener(new View.OnClickListener() {
+//                btnPlus = dialog.findViewById(R.id.btn_plus_Cart);
+//                btnPlus.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        ArrayList<Item_amount> list = Cart.getInstance().getCart();
+//                    }
+//                });
+//
+//                btnMinus = dialog.findViewById(R.id.btn_plus_Cart);
+//                btnMinus.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                    }
+//                });
+//
+//                btnDelete = dialog.findViewById(R.id.btn_plus_Cart);
+//                btnDelete.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+////                        itemListAdapter.remove();
+//                    }
+//                });
+
+
+
+
+                btnCancel =  dialog.findViewById(R.id.btn_customer_cart_back);
+                btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });
 
+                btnOrder = (Button) dialog.findViewById(R.id.btn_customer_order);
+                btnOrder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Cart.getInstance().sendOrders();
+                    }
+                });
+
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
-            }
-        });
-        Cart.initInstance();
-        ShoppingCart x = new ShoppingCart();
-        fab.setOnClickListener(x);
+        }});
+
 
         Api stApi = new Api();
         JSONObject response = stApi.getItems();
         Session.setItems(response.toString());
         ArrayList<Item> itemArrayList = new ArrayList<>();
+
         try {
             JSONArray items = response.getJSONArray("items");
             for (int index = 0; index < items.length(); index++) {
@@ -103,39 +139,33 @@ public class MenuFragment extends Fragment {
         }
 
         ItemListAdapter itemListAdapter = new ItemListAdapter(view.getContext(), R.layout.customer_item_view, itemArrayList);
-        listView.setAdapter(itemListAdapter);
+        listViewItems.setAdapter(itemListAdapter);
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 AlertDialog alertDialog = new AlertDialog.Builder(view.getContext()).create();
                 alertDialog.setTitle("In den Warenkorb");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "hinzufügen",
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Hinzufügen",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Cart.getInstance().add(itemListAdapter.getItem(i), 1);
-
+                                Toast.makeText(view.getContext(),itemListAdapter.getItem(i) + " den Warenkorb hinzugefügt", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }
                         });
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "AbbrechenL",
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Abbrechen",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         });
                 alertDialog.show();
-//                Intent intent = new Intent(view.getContext(), ItemConfirmView.class);
-//                intent.putExtra("name", itemListAdapter.getItem(i).getName());
-//                intent.putExtra("description", itemListAdapter.getItem(i).getDescription());
-//                intent.putExtra("picture", itemListAdapter.getItem(i).getPicture());
-//                startActivity(intent);
             }
         });
-
 
         // Inflate the layout for this fragment
         return view;

@@ -81,10 +81,10 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
 
             // to show animation
             holder = new ViewHolder();
-            holder.description = (TextView) convertView.findViewById(R.id.textView_Item_Description);
-            holder.amount = (TextView) convertView.findViewById(R.id.textView_Amount);
-            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture);
-            holder.statusImageButton = convertView.findViewById(R.id.btn_status);
+            holder.description = (TextView) convertView.findViewById(R.id.textView_customer_item_description_order);
+            holder.amount = (TextView) convertView.findViewById(R.id.textView_customer_amount_order);
+            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_customer_picture_order);
+            holder.statusImageButton = convertView.findViewById(R.id.btn_customer_status_order);
 
             result = convertView;
             convertView.setTag(holder);

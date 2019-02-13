@@ -28,19 +28,19 @@ public class ServiceMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.service_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.service_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_service);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ViewPager viewPager = findViewById(R.id.service_orders_viewpager);
+        ViewPager viewPager = findViewById(R.id.viewPager_service_orders);
 
         ServiceOrdersFragmentAdapter adapter =
                 new ServiceOrdersFragmentAdapter(this, getSupportFragmentManager());
 
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = findViewById(R.id.service_orders_tabLayout);
+        TabLayout tabLayout = findViewById(R.id.tabLayout_service_orders);
         tabLayout.setupWithViewPager(viewPager);
     }
 }

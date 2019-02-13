@@ -52,11 +52,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.main);
         // the button are invisible now, but still there. to reactivate go to main.xml and click on the button -> visibility -> none
         // findViewById for booth buttons and add a onClickListener object to it
-//        this.btn_customer = findViewById(R.id.btn_to_customer);
+//        this.btn_customer = findViewById(R.id.btn_main_to_customer);
 //        btn_customer.setOnClickListener(this);
-//        this.btn_service = findViewById(R.id.btn_to_service);
+//        this.btn_service = findViewById(R.id.btn_main_to_service);
 //        btn_service.setOnClickListener(this);
-        this.btn_qr = findViewById(R.id.btn_to_qr);
+        this.btn_qr = findViewById(R.id.btn_main_to_qr);
         btn_qr.setOnClickListener(this);
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
@@ -86,15 +86,15 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         int actView = v.getId();
 
-        if (actView == R.id.btn_to_customer) {
+        if (actView == R.id.btn_main_to_customer) {
             Intent intent = new Intent(Main.this, CustomerMain.class);
             startActivity(intent);
             finish();
-        } else if (actView == R.id.btn_to_service) {
+        } else if (actView == R.id.btn_main_to_service) {
             Intent intent = new Intent(Main.this, ServiceMain.class);
             startActivity(intent);
             finish();
-        } else if (actView == R.id.btn_to_qr) {
+        } else if (actView == R.id.btn_main_to_qr) {
             // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED ||

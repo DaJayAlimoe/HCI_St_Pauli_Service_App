@@ -1,5 +1,7 @@
 package com.service.hci.hci_service_app.data_types;
 
+import android.util.Log;
+
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
 
@@ -8,10 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Cart {
+
     private static final ArrayList<Item_amount> cart = new ArrayList<>();
     private static Cart instance;
     private  Cart() { }
@@ -22,6 +23,7 @@ public class Cart {
             instance = new Cart();
         }
     }
+
     public static Cart getInstance()
     {
         return instance;
@@ -33,6 +35,7 @@ public class Cart {
 
     public void add(Item item, int amount)
     {
+        Log.i("Log in cart add", item.toString() + String.valueOf(amount));
         Item_amount item_amount= new Item_amount(item,amount);
         for (Item_amount ia:cart) {
             if (ia.getItem().getName().equals(item.getName()))
@@ -76,10 +79,7 @@ public class Cart {
             return true;
         }
     }
-    public void clear()
-    {
-        cart.clear();
-    }
+
     public void delete(Item item)
     {
         cart.remove(item);

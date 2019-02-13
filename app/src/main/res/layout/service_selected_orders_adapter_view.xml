@@ -7,33 +7,33 @@
     android:weightSum="100">
 
     <TextView
-        android:gravity="center"
+        android:id="@+id/textView_service_selected_seat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="25.0"
-        android:id="@+id/selected_seat_textView"/>
+        android:gravity="center" />
 
     <TextView
-        android:gravity="center"
+        android:id="@+id/textView_service_selected_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="25.0"
-        android:id="@+id/selected_count_textView"/>
+        android:gravity="center" />
 
     <TextView
-        android:gravity="center"
+        android:id="@+id/textView_service_selected_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="25.0"
-        android:id="@+id/selected_item_textView"/>
+        android:gravity="center" />
 
     <Button
+        android:id="@+id/btn_service_selected_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="25.0"
-        android:text="@string/service_selected_orders_button"
         android:gravity="end"
-        android:id="@+id/selected_item_button"/>
+        android:text="@string/service_selected_orders_button" />
 
 
 </LinearLayout>

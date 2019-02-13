@@ -5,7 +5,7 @@
     tools:context=".activity_handler.Main">
 
     <TextView
-        android:id="@+id/tv_qrcode"
+        android:id="@+id/textView_main_qrcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -14,7 +14,7 @@
         tools:text="QR Code Scanner in Bearbeitung" />
 
     <Button
-        android:id="@+id/btn_to_customer"
+        android:id="@+id/btn_main_to_customer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -24,7 +24,7 @@
         android:visibility="invisible" />
 
     <Button
-        android:id="@+id/btn_to_service"
+        android:id="@+id/btn_main_to_service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -34,7 +34,7 @@
         android:visibility="invisible" />
 
     <Button
-        android:id="@+id/btn_to_qr"
+        android:id="@+id/btn_main_to_qr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

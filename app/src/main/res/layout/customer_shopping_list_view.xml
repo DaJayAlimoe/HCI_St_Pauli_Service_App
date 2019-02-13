@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/customer_item_view_cart"
+    android:id="@+id/linearLayout_customer_item_view_cart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -9,73 +9,78 @@
 
 
     <ImageView
-        android:id="@+id/imgView_picture_cart"
+        android:id="@+id/imgView_customer_picture_cart"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="100dp"
         android:layout_weight="66.6"
+        android:adjustViewBounds="true"
         android:contentDescription="@string/image"
+        android:cropToPadding="true"
         android:textAlignment="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="98dp"
+        android:layout_height="100dp"
         android:layout_weight="33.3"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView_customer_name_cart"
             android:layout_width="match_parent"
-            android:layout_height="29dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_name_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="25"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textView_amount_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="25"
-                android:text="TextView" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="25"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="TextView" />
 
         <TextView
-            android:id="@+id/textView_description_cart"
+            android:id="@+id/textView_customer_description_cart"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
             android:gravity="center"
             android:text="@string/textview3" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="51dp"
+            android:layout_height="50dp"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_plus_Cart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="33"
+                android:id="@+id/btn_customer_plus_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
                 android:onClick="onClick"
                 android:text="+"
                 android:visibility="visible" />
 
-            <Button
-                android:id="@+id/btn_delete"
+            <EditText
+                android:id="@+id/numberView_customer_amount_cart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="33"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:ems="10"
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:text="Anz"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <Button
+                android:id="@+id/btn_customer_delete_cartItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
                 android:text="Entfernen"
                 android:visibility="visible" />
 
             <Button
-                android:id="@+id/betn_minus_fromCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="33"
+                android:id="@+id/btn_customer_minus_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
                 android:text="-" />
         </LinearLayout>
 

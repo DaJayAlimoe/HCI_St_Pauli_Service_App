@@ -45,6 +45,7 @@ public class OrdersFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.customer_orders, container, false);
         updateOrder(view);
+
         return view;
     }
 
@@ -72,7 +73,7 @@ public class OrdersFragment extends Fragment{
     }
 
     public void updateOrder(View view) {
-        ListView listView = (ListView) view.findViewById(R.id.customer_AllOrdersView); // get the child text view
+        ListView listView = (ListView) view.findViewById(R.id.listView_customer_AllOrdersView); // get the child text view
         ArrayList<Order> itemArrayList = new ArrayList<>();
         Api stApi = new Api();
 

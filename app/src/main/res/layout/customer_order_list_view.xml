@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/customer_item_view"
+    android:id="@+id/linaerLayout_customer_itemView_order"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/imgView_picture"
+        android:id="@+id/imgView_customer_picture_order"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_weight="40"
@@ -23,14 +23,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView_Item_Description"
+            android:id="@+id/textView_customer_item_description_order"
             android:layout_width="187dp"
             android:layout_height="30dp"
             android:gravity="center"
             android:text="@string/textview2" />
 
         <TextView
-            android:id="@+id/textView_Amount"
+            android:id="@+id/textView_customer_amount_order"
             android:layout_width="186dp"
             android:layout_height="30dp"
             android:gravity="center"
@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/btn_status"
+        android:id="@+id/btn_customer_status_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="40"

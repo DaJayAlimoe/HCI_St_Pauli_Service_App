@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,11 +28,18 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
     private Context context;
     private int ressource;
     private int lastPosition = -1;
+    private ArrayList<Item_amount> cartList;
 
     public ShoppingCartItemListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item_amount> objects) {
         super(context, resource, objects);
         this.context = context;
         this.ressource = resource;
+    }
+
+    public void refreshCart(ArrayList<Item_amount> objects) {
+        this.cartList.clear();
+        this.cartList.addAll(objects);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -72,10 +80,10 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
 
             // to show animation
             holder = new ViewHolder();
-            holder.name = (TextView) convertView.findViewById(R.id.textView_name_cart);
-            holder.description = (TextView) convertView.findViewById(R.id.textView_description_cart);
-            holder.amount = (TextView) convertView.findViewById(R.id.textView_amount_cart);
-            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_picture_cart);
+            holder.name = (TextView) convertView.findViewById(R.id.textView_customer_name_cart);
+            holder.description = (TextView) convertView.findViewById(R.id.textView_customer_description_cart);
+            holder.amount = (EditText) convertView.findViewById(R.id.numberView_customer_amount_cart);
+            holder.picture = (ImageView) convertView.findViewById(R.id.imgView_customer_picture_cart);
 
             result = convertView;
             convertView.setTag(holder);
@@ -94,7 +102,7 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
 
 
         holder.name.setText(item.getName());
-        holder.amount.setText(amount);
+        holder.amount.setText(String.valueOf(amount));
         holder.description.setText(item.getDescription());
         holder.picture.setImageResource(item.getPicture());
 
@@ -103,7 +111,7 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
 
     static class ViewHolder {
         TextView name;
-        TextView amount;
+        EditText amount;
         TextView description;
         ImageView picture;
     }
