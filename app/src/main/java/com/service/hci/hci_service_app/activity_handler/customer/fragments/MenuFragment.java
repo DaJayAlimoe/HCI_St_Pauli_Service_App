@@ -72,17 +72,16 @@ public class MenuFragment extends Fragment {
                     }
                 });
 
-                // TODO die Session returned immer -1(default)??????
                 btnOrder = (Button) dialog.findViewById(R.id.btn_customer_order);
                 btnOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int userID = view.getContext().getApplicationContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE).getInt("id",-1);
+//                        int userID = view.getContext().getApplicationContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE).getInt("id",-1);
 //                        Session session = new Session(view.getContext());
-//                        int userID = session.getUserId();
+                        int userID = Session.getUserId();
                         boolean isSend = Cart.getInstance().sendOrders(userID);
                         if (isSend) {
-                            Toast.makeText(view.getContext(), "Erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(view.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
                         }
