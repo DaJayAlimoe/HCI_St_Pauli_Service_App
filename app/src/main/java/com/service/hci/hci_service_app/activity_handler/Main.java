@@ -35,20 +35,26 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Session session = Session.getInstance(this);
-        session.remove();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        activateUserBtn();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // test comment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        // the button are invisible now, but still there. to reactivate go to main.xml and click on the button -> visibility -> none
-        // findViewById for booth buttons and add a onClickListener object to it
+         // findViewById for booth buttons and add a onClickListener object to it
         this.btn_customer = findViewById(R.id.btn_main_to_customer);
         btn_customer.setOnClickListener(this);
         this.btn_service = findViewById(R.id.btn_main_to_service);
         btn_service.setOnClickListener(this);
+
+        this.btn_customer.setVisibility(View.GONE);
+        this.btn_service.setVisibility(View.GONE);
 
         this.btn_qr = findViewById(R.id.btn_main_to_qr);
         btn_qr.setOnClickListener(this);
@@ -59,10 +65,24 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+        activateUserBtn();
+    }
 
-//        if(Session.getInstance(.isEmployee())){
-//
-//        }
+    private void activateUserBtn(){
+        Session session = Api.getSession();
+
+        if(session != null) {
+            if(session.isEmployee()){
+                this.btn_service.setClickable(true);
+                this.btn_service.setVisibility(View.VISIBLE);
+                this.btn_customer.setVisibility(View.GONE);
+            }
+            else if(session.isSeat()){
+                this.btn_customer.setClickable(true);
+                this.btn_customer.setVisibility(View.VISIBLE);
+                this.btn_service.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -72,11 +92,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         if (actView == R.id.btn_main_to_customer) {
             Intent intent = new Intent(Main.this, CustomerMain.class);
             startActivity(intent);
-            finish();
+//            finish();
         } else if (actView == R.id.btn_main_to_service) {
             Intent intent = new Intent(Main.this, ServiceMain.class);
             startActivity(intent);
-            finish();
+//            finish();
         } else if (actView == R.id.btn_main_to_qr) {
             // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
