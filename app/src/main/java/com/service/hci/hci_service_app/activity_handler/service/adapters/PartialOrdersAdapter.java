@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
+import com.service.hci.hci_service_app.data_types.Order;
 
 import java.util.ArrayList;
 
-public class PartialOrdersAdapter extends ArrayAdapter<PartialOrder> {
+public class PartialOrdersAdapter extends ArrayAdapter<Order> {
 
     private static final String TAG = "PartialOrdersAdapter";
 
@@ -22,7 +23,7 @@ public class PartialOrdersAdapter extends ArrayAdapter<PartialOrder> {
 
     int resource;
 
-    public PartialOrdersAdapter(@NonNull Context context, int resource, @NonNull ArrayList<PartialOrder> objects) {
+    public PartialOrdersAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Order> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
@@ -31,9 +32,9 @@ public class PartialOrdersAdapter extends ArrayAdapter<PartialOrder> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        int seat = getItem(position).getSeat();
-        int count = getItem(position).getCount();
-        String itemName = getItem(position).getItemName();
+        int seat = getItem(position).getSeatNR();
+        int count = getItem(position).getAmount();
+        String itemName = getItem(position).getItem().getName();
 
         PartialOrder partialOrder = new PartialOrder(seat, count, itemName);
 

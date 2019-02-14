@@ -32,7 +32,7 @@ public class SelectedPartialOrdersAdapter extends ArrayAdapter<PartialOrder> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         int seat = getItem(position).getSeat();
-        int count = getItem(position).getCount();
+        int count = getItem(position).getAmount();
         String itemName = getItem(position).getItemName();
 
         PartialOrder partialOrder = new PartialOrder(seat, count, itemName);

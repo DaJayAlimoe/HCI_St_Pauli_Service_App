@@ -1,8 +1,5 @@
 package com.service.hci.hci_service_app.data_types;
 
-import com.service.hci.hci_service_app.data_layer.Api;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -50,6 +47,11 @@ public class Order {
 //    }
 
     private Item item ;
+
+    public int getSeatNR() {
+        return seatNR;
+    }
+
     private int amount;
     private int orderNR;
     private int eta;
@@ -57,13 +59,15 @@ public class Order {
     private Timestamp createdOn;
     private Timestamp lastUpdatedOn;
     private OrderStatus status;
+    private int seatNR;
     private static ArrayList<JSONObject> orderList = new ArrayList<>();
 
 
-    public Order(int orderNR ,Item item, int amount) {
+
+    public Order(int seatNR ,Item item, int amount) {
         this.item = item;
         this.amount = amount;
-        this.orderNR = orderNR;
+        this.seatNR = seatNR;
     }
 
     public Order(Item item, int amount, int orderNR, int eta, Timestamp activeAt, Timestamp createdOn, Timestamp lastUpdatedOn, OrderStatus status) {

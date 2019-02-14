@@ -3,12 +3,12 @@ package com.service.hci.hci_service_app.activity_handler.service;
 public class PartialOrder {
 
     private int seat;
-    private int count;
+    private int amount;
     private String itemName;
 
-    public PartialOrder(int seat, int count, String itemName) {
+    public PartialOrder(int seat, int amount, String itemName) {
         this.seat = seat;
-        this.count = count;
+        this.amount = amount;
         this.itemName = itemName;
     }
 
@@ -20,12 +20,12 @@ public class PartialOrder {
         this.seat = seat;
     }
 
-    public int getCount() {
-        return count;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getItemName() {

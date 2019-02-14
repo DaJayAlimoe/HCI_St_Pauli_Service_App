@@ -1,18 +1,19 @@
 package com.service.hci.hci_service_app.data_layer;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.OutputStreamWriter;
 import java.util.concurrent.ExecutionException;
-import org.json.*;
 
 public class Api {
     private String baseUrl;
@@ -27,8 +28,8 @@ public class Api {
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
     private Api(){
-//        baseUrl = "http://141.22.246.109:443";
-        baseUrl = "http://192.168.178.11:443";
+        baseUrl = "http://141.22.246.109:443";
+        //baseUrl = "http://141.22.89.90:443";
     }
 
     /**
