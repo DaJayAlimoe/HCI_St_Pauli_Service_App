@@ -11,31 +11,31 @@ public class Order {
         PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
 
         private final int status;
-        private final int button_icon;
+        private final String button_text;
 
         OrderStatus(int status) {
             this.status = status;
             switch (this.status) {
                 case 0:
-                    this.button_icon = android.R.drawable.btn_dialog;
+                    this.button_text = "Bestellt";
                     break;
                 case 1:
-                    this.button_icon = android.R.drawable.ic_menu_set_as;
+                    this.button_text = "Aufm Weg";
                     break;
                 case 2:
-                    this.button_icon = android.R.drawable.checkbox_on_background;
+                    this.button_text = "Storniert";
                     break;
                 case 3:
-                    this.button_icon = android.R.drawable.btn_dialog;
+                    this.button_text = "Zugestellt";
                     break;
                 default:
-                    this.button_icon = 0;
+                    this.button_text = "NONE";
                     break;
             }
         }
 
         public int getStatus() {return status;}
-        public int getStatusButtonIcon() {return button_icon;}
+        public String getButtonText() {return button_text;}
     }
 
     public OrderStatus getStatus() {
@@ -89,8 +89,8 @@ public class Order {
         this.status = status;
     }
 
-    public int getStatusButtonIcon() {
-        return this.status.getStatusButtonIcon();
+    public String getButtonText() {
+        return this.status.getButtonText();
     }
 
     public Timestamp getActiveAt() {

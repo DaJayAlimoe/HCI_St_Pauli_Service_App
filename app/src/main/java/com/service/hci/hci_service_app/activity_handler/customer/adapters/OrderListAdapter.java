@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,7 +83,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
             holder.description = (TextView) convertView.findViewById(R.id.textView_customer_item_description_order);
             holder.amount = (TextView) convertView.findViewById(R.id.textView_customer_amount_order);
             holder.picture = (ImageView) convertView.findViewById(R.id.imgView_customer_picture_order);
-            holder.statusImageButton = convertView.findViewById(R.id.btn_customer_status_order);
+            holder.statusButton = convertView.findViewById(R.id.btn_customer_status_order);
 
             result = convertView;
             convertView.setTag(holder);
@@ -105,9 +105,9 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
 
         if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis()))){
             // to cancel the order
-            holder.statusImageButton.setImageResource(order.getStatusButtonIcon());
-            holder.statusImageButton.setBackgroundColor(Color.GREEN);
-            holder.statusImageButton.setOnClickListener(new View.OnClickListener() {
+            holder.statusButton.setText(order.getButtonText());
+            holder.statusButton.setBackgroundColor(Color.GREEN);
+            holder.statusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
@@ -140,8 +140,8 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
             });
         }
         else {
-            holder.statusImageButton.setImageResource(order.getStatusButtonIcon());
-            holder.statusImageButton.setClickable(false);
+            holder.statusButton.setText(order.getButtonText());
+            holder.statusButton.setClickable(false);
         }
 
         return convertView;
@@ -152,7 +152,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         TextView amount;
         TextView description;
         ImageView picture;
-        ImageButton statusImageButton;
+        Button statusButton;
     }
 
 }

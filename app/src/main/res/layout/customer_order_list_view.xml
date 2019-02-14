@@ -38,12 +38,12 @@
 
     </LinearLayout>
 
-    <ImageButton
+    <Button
         android:id="@+id/btn_customer_status_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="40"
-        android:visibility="visible"
-        app:srcCompat="@android:drawable/btn_dialog" />
+        android:layout_weight="25.0"
+        android:gravity="center"
+        android:text="" />
 
 </LinearLayout>
