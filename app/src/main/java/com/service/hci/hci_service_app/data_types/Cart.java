@@ -44,14 +44,11 @@ public class Cart {
         }
         cart.add(item_amount);
     }
-    public Boolean sendOrders(Context context){
-        Session session = Api.getSession();
-        int userID = session.getUserId();
+
+    public JSONArray getOrders(int userID){
+        JSONArray orderArray = new JSONArray();
         Log.i("in sendOrder ID: ", String.valueOf(userID));
-        if(cart.isEmpty() || cart == null){
-            return false;
-        }else{
-            JSONArray orderArray = new JSONArray();
+        if(!cart.isEmpty() || cart != null){
             // convert to JSON and send, return true
             for(Item_amount entry : cart){
                 JSONObject orderInList = new JSONObject();
@@ -66,17 +63,10 @@ public class Cart {
                 }
                 orderArray.put(orderInList);
             }
-            Log.i("in sendOrders, orderArray", orderArray.toString());
-            Api stApi = Api.getInstance(context);
-            boolean send = stApi.placeOrder(orderArray);
-
-            if(!send){
-                return false;
-            }
 
             cart.clear();
-            return true;
         }
+        return orderArray;
     }
 
     public void delete(Item item)

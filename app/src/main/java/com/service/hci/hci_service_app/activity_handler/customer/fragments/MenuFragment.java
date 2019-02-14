@@ -79,8 +79,9 @@ public class MenuFragment extends Fragment {
 //                        int userID = sharedPreferences.getInt("id",-1);
 //                        Session session = new Session(view.getContext());
 //                        int userID = session.getUserId();
-                        boolean isSend = Cart.getInstance().sendOrders(getContext());
-                        if (isSend) {
+                        Api api = Api.getInstance(v.getContext());
+                        JSONArray orders = Cart.getInstance().getOrders(api.getSession().getUserId());
+                        if (api.placeOrder(orders)) {
                             Toast.makeText(view.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(view.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
