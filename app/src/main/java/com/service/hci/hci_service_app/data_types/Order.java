@@ -17,7 +17,7 @@ public class Order {
             this.status = status;
             switch (this.status) {
                 case 0:
-                    this.button_text = "Bestellt";
+                    this.button_text = "Stornieren";
                     break;
                 case 1:
                     this.button_text = "Aufm Weg";
