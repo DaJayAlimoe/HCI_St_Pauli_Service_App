@@ -29,7 +29,6 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
     private Context context;
     private int ressource;
     private int lastPosition = -1;
-    private ArrayList<Order> orderArrayList;
 
     public OrderListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Order> objects) {
         super(context, resource, objects);
@@ -149,8 +148,8 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
     }
 
     public void refreshData(ArrayList<Order> itemArrayList){
-        this.orderArrayList.clear();
-        this.orderArrayList.addAll(itemArrayList);
+        this.clear();
+        this.addAll(itemArrayList);
         this.notifyDataSetChanged();
     }
 
