@@ -79,7 +79,7 @@ public class OrdersFragment extends Fragment {
 
     private ArrayList<Order> getData() {
         ArrayList<Order> itemArrayList = new ArrayList<>();
-        Api stApi = Api.getInstance();
+        Api stApi = Api.getInstance(getContext());
 
         JSONObject myOrders = stApi.getMyOrders();
 

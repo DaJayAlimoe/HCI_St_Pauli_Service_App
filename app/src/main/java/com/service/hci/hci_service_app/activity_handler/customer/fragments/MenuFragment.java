@@ -1,6 +1,5 @@
 package com.service.hci.hci_service_app.activity_handler.customer.fragments;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
 
-import com.service.hci.hci_service_app.activity_handler.Main;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
@@ -77,11 +75,11 @@ public class MenuFragment extends Fragment {
                 btnOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE);
-                        int userID = sharedPreferences.getInt("id",-1);
+//                        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE);
+//                        int userID = sharedPreferences.getInt("id",-1);
 //                        Session session = new Session(view.getContext());
-//                        int userID = Session.getUserId();
-                        boolean isSend = Cart.getInstance().sendOrders(userID);
+//                        int userID = session.getUserId();
+                        boolean isSend = Cart.getInstance().sendOrders(getContext());
                         if (isSend) {
                             Toast.makeText(view.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
                         } else {
@@ -97,9 +95,10 @@ public class MenuFragment extends Fragment {
         });
 
 
-        Api stApi = Api.getInstance();
+        Api stApi = Api.getInstance(getContext());
         JSONObject response = stApi.getItems();
-        Session.setItems(response.toString());
+        Session session = Session.getInstance(getContext());
+        session.setItems(response.toString());
         ArrayList<Item> itemArrayList = new ArrayList<>();
 
         try {

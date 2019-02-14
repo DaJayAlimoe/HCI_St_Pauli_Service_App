@@ -1,5 +1,6 @@
 package com.service.hci.hci_service_app.data_types;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.service.hci.hci_service_app.data_layer.Api;
@@ -43,9 +44,10 @@ public class Cart {
         }
         cart.add(item_amount);
     }
-    public Boolean sendOrders(int userID){
+    public Boolean sendOrders(Context context){
+        Session session = Session.getInstance(context);
+        int userID = session.getUserId();
         Log.i("in sendOrder ID: ", String.valueOf(userID));
-
         if(cart.isEmpty() || cart == null){
             return false;
         }else{
@@ -65,7 +67,7 @@ public class Cart {
                 orderArray.put(orderInList);
             }
             Log.i("in sendOrders, orderArray", orderArray.toString());
-            Api stApi = Api.getInstance();
+            Api stApi = Api.getInstance(context);
             boolean send = stApi.placeOrder(orderArray);
 
             if(!send){

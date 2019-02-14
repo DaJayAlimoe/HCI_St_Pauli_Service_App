@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.blikoon.qrcodescanner.QrCodeActivity;
 import com.service.hci.hci_service_app.R;
@@ -21,12 +20,6 @@ import com.service.hci.hci_service_app.activity_handler.customer.CustomerMain;
 import com.service.hci.hci_service_app.activity_handler.service.ServiceMain;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,7 +36,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
 //        new Session(this);
-        Session.remove();
+        Session session = Session.getInstance(this);
+        session.remove();
     }
 
     @Override
@@ -71,11 +65,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 //    private void appCurrentlyRun() {
 //        // check, if session already available
 //        Intent intent;
-//        if (Session.isSeat()) {
+//        if (session.isSeat()) {
 //            intent = new Intent(Main.this, CustomerMain.class);
 //            startActivity(intent);
 //            finish();
-//        } else if (Session.isEmployee()) {
+//        } else if (session.isEmployee()) {
 //            intent = new Intent(Main.this, ServiceMain.class);
 //            startActivity(intent);
 //            finish();
@@ -164,9 +158,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         }
         if (requestCode == REQUEST_CODE_QR_SCAN) {
-            new Session(this);
+            Session session = Session.getInstance(this);
 
-            Api stApi = Api.getInstance();
+            Api stApi = Api.getInstance(this);
 
             boolean auth = false;
 
@@ -174,15 +168,15 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             Log.i(LOGTAG, "QR Code scanned; result is: " + result);
 
             stApi.authenticate(result);
-            Log.i("Main - userid:", String.valueOf(Session.getUserId()));
-            Log.i("Main - token:", Session.getToken());
+            Log.i("Main - userid:", String.valueOf(session.getUserId()));
+            Log.i("Main - token:", session.getToken());
 
 
             // check token
             Intent intent;
-            if (Session.isSeat()) {
+            if (session.isSeat()) {
                 intent = new Intent(Main.this, CustomerMain.class);
-            } else if (Session.isEmployee()) {
+            } else if (session.isEmployee()) {
                 intent = new Intent(Main.this, ServiceMain.class);
             } else {
                 intent = new Intent(Main.this, Main.class);
@@ -200,8 +194,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 //        boolean auth = stApi.authenticate(this,"seat:4842f5964017ee57");
 //
 //        Log.i("Authenticate- flag: ", Boolean.toString(auth));
-//        Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
-//        Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
+//        Log.i("isSeat: ", Boolean.toString(session.isSeat()));
+//        Log.i("isEmployee: ", Boolean.toString(session.isEmployee()));
 //
 //
 //        JSONObject items = stApi.getItems();
@@ -210,7 +204,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 //
 //        JSONArray orderList = new JSONArray();
 //        try {
-//            int userID = Session.getUserId();
+//            int userID = session.getUserId();
 //            JSONObject j1 = new JSONObject();
 //            j1.put("amount",5);
 //            j1.put("item_id",2);
@@ -273,8 +267,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 //        // service test
 //        boolean auth1 = stApi.authenticate(this,"empl:7d3248f91c93cfa");
 //        Log.i("Authenticate1- flag: ", Boolean.toString(auth1));
-//        Log.i("isSeat: ", Boolean.toString(Session.isSeat()));
-//        Log.i("isEmployee: ", Boolean.toString(Session.isEmployee()));
+//        Log.i("isSeat: ", Boolean.toString(session.isSeat()));
+//        Log.i("isEmployee: ", Boolean.toString(session.isEmployee()));
 //
 //        JSONObject orders = stApi.getOrders();
 //        Log.i("orders empl: ", orders.toString());
