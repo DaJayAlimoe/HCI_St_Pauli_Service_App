@@ -1,35 +1,44 @@
 package com.service.hci.hci_service_app.data_layer;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.io.OutputStreamWriter;
 import java.util.concurrent.ExecutionException;
+import org.json.*;
 
 public class Api {
     private String baseUrl;
+    private static Session session;
     private static Api api = null;
 
 
-    public static Api getInstance() {
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public static Api getInstance(Context context) {
         if(api == null)
-            api = new Api();
+            api = new Api(context);
         return api;
     }
+
+    public static Session getSession() {
+        return session;
+    }
+
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
-    private Api(){
+    private Api(Context context){
         baseUrl = "http://141.22.246.109:443";
-        //baseUrl = "http://141.22.89.90:443";
+//        baseUrl = "http://192.168.178.11:443";
+        session = Session.getInstance(context);
     }
 
     /**
@@ -55,10 +64,10 @@ public class Api {
 
             if(data != null) {
                 if(!data.isNull("employee")) {
-                    Session.setUserData(true,data.getJSONObject("employee").getInt("id"),qrToken);
+                    session.setUserData(true,data.getJSONObject("employee").getInt("id"),qrToken);
                     identified = true;
                 }else if(!data.isNull("seat")) {
-                    Session.setUserData(false,data.getJSONObject("seat").getInt("id"),qrToken);
+                    session.setUserData(false,data.getJSONObject("seat").getInt("id"),qrToken);
                     identified = true;
                 } else {
                     identified = false;
@@ -78,7 +87,7 @@ public class Api {
         JSONObject data = null;
         try {
             Request request = new Request();
-            Object result = request.execute("/v1/Item", "GET", new JSONObject(), Session.getToken()).get();
+            Object result = request.execute("/v1/Item", "GET", new JSONObject(), session.getToken()).get();
             data = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
             Log.e("Exception while getting Items: ", e.toString());
@@ -94,7 +103,7 @@ public class Api {
         JSONObject data = null;
         try {
             Request request = new Request();
-            Object result = request.execute("/v1/Booking/List", "GET", new JSONObject(), Session.getToken()).get();
+            Object result = request.execute("/v1/Booking/List", "GET", new JSONObject(), session.getToken()).get();
             data = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
             Log.e("Exception while getting Orders: ", e.toString());
@@ -110,7 +119,7 @@ public class Api {
         JSONObject responseData = null;
         try {
             Request request = new Request();
-            Object result =  request.execute("/v1/Booking", "GET", new JSONObject(), Session.getToken()).get();
+            Object result =  request.execute("/v1/Booking", "GET", new JSONObject(), session.getToken()).get();
             responseData = this.getResponseData(result);
         } catch (InterruptedException | ExecutionException e) {
             Log.e("Exception while getting MyOrders: ", e.toString());
@@ -125,10 +134,10 @@ public class Api {
      */
     public Boolean placeOrder(JSONArray orderList) {
         boolean response = false;
-        if (Session.isSeat()) {
+        if (session.isSeat()) {
             try {
                 Request request = new Request();
-                request.execute("/v1/Booking", "POST", orderList, Session.getToken()).get();
+                request.execute("/v1/Booking", "POST", orderList, session.getToken()).get();
                 response = true;
             } catch (InterruptedException | ExecutionException e) {
                 Log.e("Error while placing order: ", e.toString());
@@ -146,10 +155,10 @@ public class Api {
      */
     public JSONObject takeOrder(JSONArray orderList) {
         JSONObject responseData = null;
-        if(Session.isEmployee()) {
+        if(session.isEmployee()) {
             try {
                 Request request = new Request();
-                JSONObject result = (JSONObject) request.execute("/v1/Booking", "PUT", orderList, Session.getToken()).get();
+                JSONObject result = (JSONObject) request.execute("/v1/Booking", "PUT", orderList, session.getToken()).get();
                 responseData = this.getResponseData(result);
             } catch (InterruptedException | ExecutionException e) {
                 Log.e("Error while taking order: ", e.toString());
@@ -169,7 +178,7 @@ public class Api {
             JSONObject requestBody = new JSONObject();
             requestBody.put("id", orderID);
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/Booking/Cancel", "PUT", requestBody, Session.getToken()).get();
+            JSONObject result = (JSONObject) request.execute("/v1/Booking/Cancel", "PUT", requestBody, session.getToken()).get();
             this.getResponseData(result);
         } catch (JSONException | InterruptedException | ExecutionException e) {
             Log.e("Error while removing order: ", e.toString());
@@ -189,7 +198,7 @@ public class Api {
             JSONObject requestBody = new JSONObject();
             requestBody.put("id", orderID);
             Request request = new Request();
-            JSONObject result = (JSONObject) request.execute("/v1/Booking/Confirm", "PUT", requestBody, Session.getToken()).get();
+            JSONObject result = (JSONObject) request.execute("/v1/Booking/Confirm", "PUT", requestBody, session.getToken()).get();
             this.getResponseData(result);
         } catch (JSONException | InterruptedException | ExecutionException e) {
             Log.e("Error while confirm order: ", e.toString());
