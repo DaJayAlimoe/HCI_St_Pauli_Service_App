@@ -2,6 +2,7 @@ package com.service.hci.hci_service_app.data_layer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.util.HashMap;
 
@@ -33,7 +34,7 @@ public class Session {
     }
 
     private Session(Context context) {
-        this.preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE); // 0 - for private mode
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.editor = preferences.edit();
 //        this.context = context;
     }

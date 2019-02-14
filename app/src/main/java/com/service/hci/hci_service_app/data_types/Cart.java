@@ -45,7 +45,7 @@ public class Cart {
         cart.add(item_amount);
     }
     public Boolean sendOrders(Context context){
-        Session session = Session.getInstance(context);
+        Session session = Api.getSession();
         int userID = session.getUserId();
         Log.i("in sendOrder ID: ", String.valueOf(userID));
         if(cart.isEmpty() || cart == null){

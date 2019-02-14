@@ -15,7 +15,7 @@ import org.json.*;
 
 public class Api {
     private String baseUrl;
-    private Session session;
+    private static Session session;
     private static Api api = null;
 
 
@@ -24,6 +24,11 @@ public class Api {
             api = new Api(context);
         return api;
     }
+
+    public static Session getSession() {
+        return session;
+    }
+
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
     private Api(Context context){
