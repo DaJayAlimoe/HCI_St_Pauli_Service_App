@@ -147,12 +147,6 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         return convertView;
     }
 
-    public void refreshData(ArrayList<Order> itemArrayList){
-        this.clear();
-        this.addAll(itemArrayList);
-        this.notifyDataSetChanged();
-    }
-
 
     static class ViewHolder {
         TextView amount;
