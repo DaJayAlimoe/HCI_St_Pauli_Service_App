@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.MenuFragment;
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.OrdersFragment;
+import com.service.hci.hci_service_app.data_layer.Session;
 
 import java.util.ArrayList;
 import java.util.List;

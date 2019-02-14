@@ -22,11 +22,11 @@ public class Session {
     private static final String ID = "id";
 
     // Shared pref mode
-    private int PRIVATE_MODE = 0;
+    //private int PRIVATE_MODE = 0;
 
 
 
-    private static Context context;
+//    private static Context context;
 
     // initialize helpful variable
     private static SharedPreferences.Editor editor;
@@ -35,9 +35,9 @@ public class Session {
 
 
     public Session(Context context) {
-        this.preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE); // 0 - for private mode
+        this.preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE); // 0 - for private mode
         this.editor = preferences.edit();
-        this.context = context;
+//        this.context = context;
     }
 
     /**

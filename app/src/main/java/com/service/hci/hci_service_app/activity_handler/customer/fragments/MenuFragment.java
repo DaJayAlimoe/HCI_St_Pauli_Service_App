@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
@@ -76,9 +77,10 @@ public class MenuFragment extends Fragment {
                 btnOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        int userID = view.getContext().getApplicationContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE).getInt("id",-1);
+                        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE);
+                        int userID = sharedPreferences.getInt("id",-1);
 //                        Session session = new Session(view.getContext());
-                        int userID = Session.getUserId();
+//                        int userID = Session.getUserId();
                         boolean isSend = Cart.getInstance().sendOrders(userID);
                         if (isSend) {
                             Toast.makeText(view.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();

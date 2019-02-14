@@ -42,7 +42,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        new Session(this);
+//        new Session(this);
         Session.remove();
     }
 
