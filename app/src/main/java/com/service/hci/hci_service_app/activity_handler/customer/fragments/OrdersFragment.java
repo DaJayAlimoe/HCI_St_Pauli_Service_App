@@ -98,7 +98,7 @@ public class OrdersFragment extends Fragment {
                     Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
                     Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
                     String status = value.getString("status");
-                    if(actTime.after(new Timestamp(System.currentTimeMillis())))
+                    if(!actTime.after(new Timestamp(System.currentTimeMillis())))
                         status = "ORDERED";
                     Order order = new Order(myItem, value.getInt("amount"), value.getInt("id"), value.getInt("eta"), actTime, createTime, updateTime, Order.OrderStatus.valueOf(status));
                     itemArrayList.add(order);
