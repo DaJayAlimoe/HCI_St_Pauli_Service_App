@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Order {
 
     public enum OrderStatus {
-        PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
+        ORDERED(-1), PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
 
         private final int status;
         private final String button_text;
@@ -16,6 +16,9 @@ public class Order {
         OrderStatus(int status) {
             this.status = status;
             switch (this.status) {
+                case -1:
+                    this.button_text = "Bestellt";
+                    break;
                 case 0:
                     this.button_text = "Stornieren";
                     break;

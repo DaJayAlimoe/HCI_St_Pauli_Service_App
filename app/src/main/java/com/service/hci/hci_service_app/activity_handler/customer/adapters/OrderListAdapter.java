@@ -103,7 +103,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         holder.description.setText(order.getAmount()+"x " + order.getItem().getName());
         holder.picture.setImageResource(order.getItem().getPicture());
 
-        if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() == Order.OrderStatus.valueOf("PREORDERED")){
+        if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis()))){
             // to cancel the order
             holder.statusButton.setText(order.getButtonText());
             holder.statusButton.setBackgroundColor(Color.GREEN);
