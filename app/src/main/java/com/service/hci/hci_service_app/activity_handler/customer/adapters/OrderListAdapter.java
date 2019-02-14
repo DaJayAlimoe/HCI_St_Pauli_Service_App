@@ -24,7 +24,6 @@ import com.service.hci.hci_service_app.data_types.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class OrderListAdapter extends ArrayAdapter<Order>  {
     private Context context;
@@ -119,7 +118,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "stornieren",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Api stApi = Api.getInstance();
+                                    Api stApi = Api.getInstance(v.getContext());
                                     boolean cancleStatus = stApi.cancelOrder(orderNR);
                                     if(cancleStatus){
                                         Toast.makeText(getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG);
