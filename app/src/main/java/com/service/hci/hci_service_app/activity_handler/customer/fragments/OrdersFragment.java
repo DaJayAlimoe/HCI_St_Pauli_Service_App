@@ -47,8 +47,8 @@ public class OrdersFragment extends Fragment {
         View view = inflater.inflate(R.layout.customer_orders, container, false);
         ListView listView = (ListView) view.findViewById(R.id.listView_customer_AllOrdersView); // get the child text view
         ArrayList<Order> itemArrayList = this.getData();
-        OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
-        listView.setAdapter(itemListAdapter);
+        orderListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
+        listView.setAdapter(orderListAdapter);
 
         return view;
     }
