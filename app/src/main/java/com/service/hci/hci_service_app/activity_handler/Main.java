@@ -171,6 +171,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             Log.i("Main - userid:", String.valueOf(session.getUserId()));
             Log.i("Main - token:", session.getToken());
 
+            Log.i("Main - isSeat:", String.valueOf(session.isSeat()));
+            Log.i("Main - isEmployend:", String.valueOf(session.isEmployee()));
+
 
             // check token
             Intent intent;
@@ -183,7 +186,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             }
 
             startActivity(intent);
-            finish();
+//            finish();
         }
     }
 

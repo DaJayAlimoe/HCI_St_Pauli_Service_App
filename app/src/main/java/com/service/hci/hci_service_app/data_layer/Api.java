@@ -19,6 +19,10 @@ public class Api {
     private static Api api = null;
 
 
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
     public static Api getInstance(Context context) {
         if(api == null)
             api = new Api(context);
