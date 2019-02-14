@@ -35,7 +35,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        new Session(this);
         Session session = Session.getInstance(this);
         session.remove();
     }
@@ -168,12 +167,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             Log.i(LOGTAG, "QR Code scanned; result is: " + result);
 
             stApi.authenticate(result);
-            Log.i("Main - userid:", String.valueOf(session.getUserId()));
-            Log.i("Main - token:", session.getToken());
-
-            Log.i("Main - isSeat:", String.valueOf(session.isSeat()));
-            Log.i("Main - isEmployend:", String.valueOf(session.isEmployee()));
-
 
             // check token
             Intent intent;

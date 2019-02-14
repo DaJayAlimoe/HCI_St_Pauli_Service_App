@@ -90,7 +90,7 @@ public class AllOrdersFragment extends Fragment {
         //partialOrders.add(p5);
         //partialOrders.add(p5);
         //partialOrders.add(p5);
-        Api stApi = Api.getInstance();
+        Api stApi = Api.getInstance(getContext());
 
 
 
@@ -132,7 +132,7 @@ public class AllOrdersFragment extends Fragment {
 
     private ArrayList<Order> getData() {
         ArrayList<Order> itemArrayList = new ArrayList<>();
-        Api stApi = Api.getInstance();
+        Api stApi = Api.getInstance(getContext());
 
         JSONObject myOrders = stApi.getOrders();
 
