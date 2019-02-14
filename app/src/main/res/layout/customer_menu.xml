@@ -8,21 +8,6 @@
     android:orientation="horizontal"
     android:weightSum="100">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton__customer_cart_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="28dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/listView_customer_menu"
-        app:layout_constraintHorizontal_bias="0.91"
-        app:layout_constraintStart_toStartOf="@+id/listView_customer_menu"
-        app:useCompatPadding="false"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
     <ListView
         android:id="@+id/listView_customer_menu"
         android:layout_width="0dp"

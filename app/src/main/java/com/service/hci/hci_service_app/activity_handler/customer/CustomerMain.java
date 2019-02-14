@@ -1,6 +1,10 @@
 package com.service.hci.hci_service_app.activity_handler.customer;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,11 +13,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.MenuFragment;
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.OrdersFragment;
+import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
+import com.service.hci.hci_service_app.data_types.Cart;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +64,55 @@ public class CustomerMain extends AppCompatActivity {
         //TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         TabLayout tabLayout = findViewById(R.id.tabLayout_customer);
         tabLayout.setupWithViewPager(viewPager);
+
+        FloatingActionButton floatingActionButton =findViewById(R.id.floatingActionButton__customer_cart_menu);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(v.getContext());
+
+                dialog.setContentView(R.layout.customer_shoppingcart);
+
+                ListView listViewCart = (ListView) dialog.findViewById(R.id.listView_customer_shoppingCartList);
+                Button btnOrder;
+                Button btnCancel;
+
+
+                ShoppingCartItemListAdapter shoppingCartItemListAdapter = new ShoppingCartItemListAdapter(dialog.getContext(), R.layout.customer_shopping_list_view, Cart.getInstance().getCart());
+                listViewCart.setAdapter(shoppingCartItemListAdapter);
+
+                btnCancel = dialog.findViewById(R.id.btn_customer_cart_back);
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                btnOrder = (Button) dialog.findViewById(R.id.btn_customer_order);
+                btnOrder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE);
+//                        int userID = sharedPreferences.getInt("id",-1);
+//                        Session session = new Session(view.getContext());
+//                        int userID = session.getUserId();
+                        Api api = Api.getInstance(v.getContext());
+                        JSONArray orders = Cart.getInstance().getOrders(api.getSession().getUserId());
+                        if (api.placeOrder(orders)) {
+                            Toast.makeText(v.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(v.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
 
     }
 
