@@ -45,10 +45,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.main);
         // the button are invisible now, but still there. to reactivate go to main.xml and click on the button -> visibility -> none
         // findViewById for booth buttons and add a onClickListener object to it
-//        this.btn_customer = findViewById(R.id.btn_main_to_customer);
-//        btn_customer.setOnClickListener(this);
-//        this.btn_service = findViewById(R.id.btn_main_to_service);
-//        btn_service.setOnClickListener(this);
+        this.btn_customer = findViewById(R.id.btn_main_to_customer);
+        btn_customer.setOnClickListener(this);
+        this.btn_service = findViewById(R.id.btn_main_to_service);
+        btn_service.setOnClickListener(this);
+
         this.btn_qr = findViewById(R.id.btn_main_to_qr);
         btn_qr.setOnClickListener(this);
 
@@ -59,21 +60,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             startActivity(intent);
         }
 
-    }
-
-//    private void appCurrentlyRun() {
-//        // check, if session already available
-//        Intent intent;
-//        if (session.isSeat()) {
-//            intent = new Intent(Main.this, CustomerMain.class);
-//            startActivity(intent);
-//            finish();
-//        } else if (session.isEmployee()) {
-//            intent = new Intent(Main.this, ServiceMain.class);
-//            startActivity(intent);
-//            finish();
+//        if(Session.getInstance(.isEmployee())){
+//
 //        }
-//    }
+    }
 
     @Override
     public void onClick(View v) {

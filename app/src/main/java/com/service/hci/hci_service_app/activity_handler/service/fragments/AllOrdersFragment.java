@@ -116,7 +116,9 @@ public class AllOrdersFragment extends Fragment {
                 autoUpdateHandler.post(new Runnable() {
                     public void run() {
                         ArrayList<Order> data = getData();
-                        orderListAdapter.refreshData(data);
+                        orderListAdapter.clear();
+                        orderListAdapter.addAll(data);
+                        orderListAdapter.notifyDataSetChanged();
                     }
                 });
             }
