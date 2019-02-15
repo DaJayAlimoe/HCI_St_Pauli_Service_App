@@ -62,15 +62,17 @@ public class Order {
     private Timestamp createdOn;
     private Timestamp lastUpdatedOn;
     private OrderStatus status;
+
     private int seatNR;
     private static ArrayList<JSONObject> orderList = new ArrayList<>();
 
 
 
-    public Order(int seatNR ,Item item, int amount) {
+    public Order(int seatNR ,Item item, int amount,int orderNr) {
         this.item = item;
         this.amount = amount;
         this.seatNR = seatNR;
+        this.orderNR = orderNr;
     }
 
     public Order(Item item, int amount, int orderNR, int eta, Timestamp activeAt, Timestamp createdOn, Timestamp lastUpdatedOn, OrderStatus status) {
