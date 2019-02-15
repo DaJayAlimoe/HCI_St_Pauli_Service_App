@@ -1,28 +1,21 @@
 package com.service.hci.hci_service_app.activity_handler.service.fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
-import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
-import com.service.hci.hci_service_app.activity_handler.service.adapters.AllOrdersAdapter;
 
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
+import com.service.hci.hci_service_app.activity_handler.service.adapters.AllOrdersAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
-import com.service.hci.hci_service_app.data_types.Cart;
 import com.service.hci.hci_service_app.data_types.Item;
 import com.service.hci.hci_service_app.data_types.Order;
 import com.service.hci.hci_service_app.data_types.Util;
@@ -43,7 +36,11 @@ public class AllOrdersFragment extends Fragment {
     private final Handler autoUpdateHandler = new Handler();
 
     public AllOrdersFragment() {
-        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -76,6 +73,7 @@ public class AllOrdersFragment extends Fragment {
         //PartialOrder p10 = new PartialOrder(35, 9, "Cola");
         //PartialOrder p11 = new PartialOrder(68, 1, "Fanta");
 
+        ArrayList<PartialOrder> partialOrders = new ArrayList<>();
         //  partialOrders.add(p1);
         //partialOrders.add(p2);
         //partialOrders.add(p3);
@@ -152,9 +150,9 @@ public class AllOrdersFragment extends Fragment {
                 autoUpdateHandler.post(new Runnable() {
                     public void run() {
                         ArrayList<Order> data = getData();
-                        orderListAdapter.clear();
-                        orderListAdapter.addAll(data);
-                        orderListAdapter.notifyDataSetChanged();
+                        allOrdersAdapter.clear();
+                        allOrdersAdapter.addAll(data);
+                        allOrdersAdapter.notifyDataSetChanged();
                     }
                 });
             }

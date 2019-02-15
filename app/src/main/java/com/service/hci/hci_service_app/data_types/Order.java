@@ -86,12 +86,8 @@ public class Order {
         this.status = status;
     }
 
-    public Order(Item item, int amount, int orderNR, int eta, OrderStatus status) {
-        this.item = item;
-        this.amount = amount;
-        this.orderNR = orderNR;
-        this.eta = eta;
-        this.status = status;
+    public void setStatus(OrderStatus ordStatus) {
+        this.status = ordStatus;
     }
 
     public String getButtonText() {
