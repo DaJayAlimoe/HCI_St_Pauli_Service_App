@@ -143,7 +143,6 @@ public class SelectedOrdersFragment extends Fragment {
                     JSONObject itemObj = value.getJSONObject("item"); // items in response
                     JSONObject seat = value.getJSONObject("seat");
                     int booking = (int) value.get("id");
-                    int orderNr = value.getInt("orderNr");
                     int amount = value.getInt("amount");
                     Item myItem = new Item(itemObj);
                     Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
@@ -152,7 +151,7 @@ public class SelectedOrdersFragment extends Fragment {
 
                     Order order = new Order(seat.getInt("seatNr"),myItem,amount,booking);
                     itemArrayList.add(order);
-                    Log.i("Order " + i, order.toString());
+                    Log.i("SELECTED Order " + i, order.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
