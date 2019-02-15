@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Order {
 
     public enum OrderStatus {
-        ORDERED(-1), PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
+        PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
 
         private final int status;
         private final String button_text;
@@ -16,14 +16,11 @@ public class Order {
         OrderStatus(int status) {
             this.status = status;
             switch (this.status) {
-                case -1:
+                case 0:
                     this.button_text = "Bestellt";
                     break;
-                case 0:
-                    this.button_text = "Stornieren";
-                    break;
                 case 1:
-                    this.button_text = "Aufm Weg";
+                    this.button_text = "Auf dem Weg";
                     break;
                 case 2:
                     this.button_text = "Storniert";
@@ -65,8 +62,6 @@ public class Order {
     private int seatNR;
     private static ArrayList<JSONObject> orderList = new ArrayList<>();
 
-
-
     public Order(int seatNR ,Item item, int amount) {
         this.item = item;
         this.amount = amount;
@@ -81,14 +76,6 @@ public class Order {
         this.activeAt = activeAt;
         this.createdOn = createdOn;
         this.lastUpdatedOn = lastUpdatedOn;
-        this.status = status;
-    }
-
-    public Order(Item item, int amount, int orderNR, int eta, OrderStatus status) {
-        this.item = item;
-        this.amount = amount;
-        this.orderNR = orderNR;
-        this.eta = eta;
         this.status = status;
     }
 

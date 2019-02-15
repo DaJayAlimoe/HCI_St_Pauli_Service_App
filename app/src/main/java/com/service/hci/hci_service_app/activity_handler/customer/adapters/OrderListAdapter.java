@@ -103,9 +103,9 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         holder.description.setText(order.getAmount()+"x " + order.getItem().getName());
         holder.picture.setImageResource(order.getItem().getPicture());
 
-        if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis()))){
+        if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() != Order.OrderStatus.CANCELED){
             // to cancel the order
-            holder.statusButton.setText(order.getButtonText());
+            holder.statusButton.setText("Stornieren");
             holder.statusButton.setBackgroundColor(Color.GREEN);
             holder.statusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,11 +117,12 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Stornieren",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Api stApi = Api.getInstance(v.getContext());
+                                    Api stApi = Api.getInstance(getContext());
                                     boolean cancleStatus = stApi.cancelOrder(getItem(position).getOrderNR());
                                     if(cancleStatus){
                                         Toast.makeText(getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG);
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
+                                        notifyDataSetChanged();
                                     }else{
                                         Toast.makeText(getContext(),"Bestellung bereits in arbeit",Toast.LENGTH_LONG);
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
@@ -141,6 +142,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         }
         else {
             holder.statusButton.setText(order.getButtonText());
+            holder.statusButton.setBackgroundColor(Color.TRANSPARENT);
             holder.statusButton.setClickable(false);
         }
 
