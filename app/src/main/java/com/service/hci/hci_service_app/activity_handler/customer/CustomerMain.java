@@ -109,6 +109,8 @@ public class CustomerMain extends AppCompatActivity {
                             } else {
                                 Toast.makeText(v.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
                             }
+                            OrdersFragment of = (OrdersFragment)adapter.getItem(1);
+                            of.startTimer(0, 30000);
                             dialog.dismiss();
                         } else {
                                 Toast.makeText(v.getContext(), "Fügen Sie dem Warenkorb erst etwas hinzu!", Toast.LENGTH_SHORT).show();
