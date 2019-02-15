@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
+import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
 import com.service.hci.hci_service_app.activity_handler.service.adapters.AllOrdersAdapter;
-
-import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.Item;
 import com.service.hci.hci_service_app.data_types.Order;
@@ -34,11 +32,15 @@ import java.util.TimerTask;
 public class AllOrdersFragment extends Fragment {
 
     private Timer autoUpdateTimer;
-    private OrderListAdapter orderListAdapter;
+    private AllOrdersAdapter allOrdersAdapter;
     private final Handler autoUpdateHandler = new Handler();
 
     public AllOrdersFragment() {
-        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -98,8 +100,8 @@ public class AllOrdersFragment extends Fragment {
         //OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
         //listView.setAdapter(itemListAdapter);
 
-        AllOrdersAdapter adapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
-        listView.setAdapter(adapter);
+        allOrdersAdapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
+        listView.setAdapter(allOrdersAdapter);
 
         // Inflate the layout for this fragment
         return view;
@@ -116,9 +118,9 @@ public class AllOrdersFragment extends Fragment {
                 autoUpdateHandler.post(new Runnable() {
                     public void run() {
                         ArrayList<Order> data = getData();
-                        orderListAdapter.clear();
-                        orderListAdapter.addAll(data);
-                        orderListAdapter.notifyDataSetChanged();
+                        allOrdersAdapter.clear();
+                        allOrdersAdapter.addAll(data);
+                        allOrdersAdapter.notifyDataSetChanged();
                     }
                 });
             }
