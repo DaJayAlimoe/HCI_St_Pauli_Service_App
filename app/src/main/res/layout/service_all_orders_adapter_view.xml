@@ -27,13 +27,4 @@
         android:layout_weight="25.0"
         android:gravity="center" />
 
-    <Button
-        android:id="@+id/btn_service_all_orders_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="25.0"
-        android:gravity="center"
-        android:text="@string/service_all_orders_button" />
-
-
 </LinearLayout>

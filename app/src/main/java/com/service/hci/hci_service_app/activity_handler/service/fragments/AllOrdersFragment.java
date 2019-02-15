@@ -1,14 +1,17 @@
 package com.service.hci.hci_service_app.activity_handler.service.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,7 +35,7 @@ import java.util.TimerTask;
 public class AllOrdersFragment extends Fragment {
 
     private Timer autoUpdateTimer;
-    private OrderListAdapter orderListAdapter;
+    private AllOrdersAdapter allOrdersAdapter;
     private final Handler autoUpdateHandler = new Handler();
 
     public AllOrdersFragment() {
@@ -100,8 +103,8 @@ public class AllOrdersFragment extends Fragment {
         //OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
         //listView.setAdapter(itemListAdapter);
 
-        AllOrdersAdapter adapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
-        listView.setAdapter(adapter);
+        allOrdersAdapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
+        listView.setAdapter(allOrdersAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -114,9 +117,10 @@ public class AllOrdersFragment extends Fragment {
 
                                 try {
                                     JSONObject booking = new JSONObject();
-                                    booking.put("BookingId",adapter.getItem(i).getOrderNR());
+                                    booking.put("BookingId",allOrdersAdapter.getItem(i).getOrderNR());
                                     JSONArray jsonArray = new JSONArray(booking);
                                     stApi.takeOrder(jsonArray);
+                                    allOrdersAdapter.notifyDataSetChanged();
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -143,6 +147,12 @@ public class AllOrdersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        startTimer(30000, 30000);
+    }
+
+    public void startTimer(int delay, int period) {
+        if (autoUpdateTimer != null)
+            autoUpdateTimer.cancel();
         autoUpdateTimer = new Timer();
         autoUpdateTimer.schedule(new TimerTask() {
             @Override
@@ -156,7 +166,7 @@ public class AllOrdersFragment extends Fragment {
                     }
                 });
             }
-        }, 30000, 30000); // updates each 30 secs
+        }, delay, period); // updates each 30 secs
     }
 
     @Override
@@ -164,6 +174,12 @@ public class AllOrdersFragment extends Fragment {
         if (autoUpdateTimer != null)
             autoUpdateTimer.cancel();
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startTimer(0, 30000);
     }
 
     private ArrayList<Order> getData() {
@@ -180,8 +196,9 @@ public class AllOrdersFragment extends Fragment {
                     JSONObject value = keys.getJSONObject(i); // get single entry from array
                     JSONObject itemObj = value.getJSONObject("item"); // items in response
                     JSONObject seat = value.getJSONObject("seat");
-                    int orderNr = value.getInt("orderNr");
-                    int amount = value.getInt("amount");                    Item myItem = new Item(itemObj);
+                    int orderNr = value.getInt("id");
+                    int amount = value.getInt("amount");
+                    Item myItem = new Item(itemObj);
                     Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
                     Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
                     Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
