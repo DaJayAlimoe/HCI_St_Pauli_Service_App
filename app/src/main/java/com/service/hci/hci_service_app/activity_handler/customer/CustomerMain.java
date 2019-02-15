@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
@@ -65,7 +66,8 @@ public class CustomerMain extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabLayout_customer);
         tabLayout.setupWithViewPager(viewPager);
 
-        FloatingActionButton floatingActionButton =findViewById(R.id.floatingActionButton__customer_cart_menu);
+        Cart.initInstance();
+        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton__customer_cart_menu);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +76,12 @@ public class CustomerMain extends AppCompatActivity {
 
                 dialog.setContentView(R.layout.customer_shoppingcart);
 
+                TextView cartHeader = (TextView) dialog.findViewById(R.id.textView_customer_cart_header);
+                cartHeader.setText("Warenkorb");
+
                 ListView listViewCart = (ListView) dialog.findViewById(R.id.listView_customer_shoppingCartList);
                 Button btnOrder;
                 Button btnCancel;
-
 
                 ShoppingCartItemListAdapter shoppingCartItemListAdapter = new ShoppingCartItemListAdapter(dialog.getContext(), R.layout.customer_shopping_list_view, Cart.getInstance().getCart());
                 listViewCart.setAdapter(shoppingCartItemListAdapter);
@@ -94,18 +98,22 @@ public class CustomerMain extends AppCompatActivity {
                 btnOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE);
-//                        int userID = sharedPreferences.getInt("id",-1);
-//                        Session session = new Session(view.getContext());
-//                        int userID = session.getUserId();
+
                         Api api = Api.getInstance(v.getContext());
-                        JSONArray orders = Cart.getInstance().getOrders(api.getSession().getUserId());
-                        if (api.placeOrder(orders)) {
-                            Toast.makeText(v.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
+                        Cart cart = Cart.getInstance();
+                        if (cart.getCart() != null && (!cart.getCart().isEmpty())) {
+                            JSONArray orders = cart.getOrders(api.getSession().getUserId());
+
+                            if (api.placeOrder(orders)) {
+                                Toast.makeText(v.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(v.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
+                            }
+                            dialog.dismiss();
                         } else {
-                            Toast.makeText(v.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(v.getContext(), "Fügen Sie dem Warenkorb erst etwas hinzu!", Toast.LENGTH_SHORT).show();
                         }
-                        dialog.dismiss();
+
                     }
                 });
 

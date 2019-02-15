@@ -45,56 +45,6 @@ public class MenuFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.customer_menu, container, false);
         ListView listViewItems = (ListView) view.findViewById(R.id.listView_customer_menu); // get the chil d text view
-//        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton__customer_cart_menu);
-        Cart.initInstance();
-
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final Dialog dialog = new Dialog(v.getContext());
-//
-//                dialog.setContentView(R.layout.customer_shoppingcart);
-//
-//                ListView listViewCart = (ListView) dialog.findViewById(R.id.listView_customer_shoppingCartList);
-//                Button btnOrder;
-//                Button btnCancel;
-//
-//
-//                ShoppingCartItemListAdapter shoppingCartItemListAdapter = new ShoppingCartItemListAdapter(dialog.getContext(), R.layout.customer_shopping_list_view, Cart.getInstance().getCart());
-//                listViewCart.setAdapter(shoppingCartItemListAdapter);
-//
-//                btnCancel = dialog.findViewById(R.id.btn_customer_cart_back);
-//                btnCancel.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                btnOrder = (Button) dialog.findViewById(R.id.btn_customer_order);
-//                btnOrder.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("sharedSession", Context.MODE_PRIVATE);
-////                        int userID = sharedPreferences.getInt("id",-1);
-////                        Session session = new Session(view.getContext());
-////                        int userID = session.getUserId();
-//                        Api api = Api.getInstance(v.getContext());
-//                        JSONArray orders = Cart.getInstance().getOrders(api.getSession().getUserId());
-//                        if (api.placeOrder(orders)) {
-//                            Toast.makeText(view.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Toast.makeText(view.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
-//                        }
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.show();
-//            }
-//        });
-
 
         Api stApi = Api.getInstance(getContext());
         JSONObject response = stApi.getItems();

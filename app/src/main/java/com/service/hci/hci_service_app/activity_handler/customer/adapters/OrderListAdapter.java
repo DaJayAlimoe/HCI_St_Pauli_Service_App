@@ -112,13 +112,13 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                 public void onClick(View v) {
                     AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
                     alertDialog.setTitle("Bestellung wirklich stornieren?");
-                    alertDialog.setMessage(holder.amount.toString());
+                    alertDialog.setMessage(String.valueOf(getItem(position).getAmount())+ "x "+ String.valueOf(getItem(position).getItem().getName()));
 
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "stornieren",
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Stornieren",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Api stApi = Api.getInstance(v.getContext());
-                                    boolean cancleStatus = stApi.cancelOrder(orderNR);
+                                    boolean cancleStatus = stApi.cancelOrder(getItem(position).getOrderNR());
                                     if(cancleStatus){
                                         Toast.makeText(getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG);
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
@@ -129,7 +129,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                                     dialog.dismiss();
                                 }
                             });
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "doch nicht stornieren",
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Doch nicht stornieren",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();

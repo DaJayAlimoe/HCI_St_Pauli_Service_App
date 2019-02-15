@@ -35,6 +35,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Session session = Session.getInstance(this);
+        session.remove();
     }
 
     @Override

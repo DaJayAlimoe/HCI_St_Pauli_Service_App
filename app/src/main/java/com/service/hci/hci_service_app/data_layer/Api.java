@@ -36,8 +36,8 @@ public class Api {
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
     private Api(Context context){
-        baseUrl = "http://141.22.246.109:443";
-//        baseUrl = "http://192.168.178.11:443";
+//        baseUrl = "http://141.22.246.109:443";
+        baseUrl = "http://192.168.178.11:443";
         session = Session.getInstance(context);
     }
 

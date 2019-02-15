@@ -6,6 +6,7 @@
 
     <TextView
         android:id="@+id/textView_main_qrcode"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -20,6 +21,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="41dp"
+        android:background="@drawable/btn_st_pauli"
+        android:textColor="@color/white"
         android:text="@string/zur_kunden_uebersicht"
         android:visibility="visible" />
 
@@ -30,6 +33,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="118dp"
+        android:background="@drawable/btn_st_pauli"
+        android:textColor="@color/white"
         android:text="@string/zur_service_uebersicht"
         android:visibility="visible" />
 
@@ -40,6 +45,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="195dp"
+        android:background="@drawable/btn_st_pauli"
+        android:textColor="@color/white"
         android:text="@string/zum_qr_scan" />
 
 </RelativeLayout>
