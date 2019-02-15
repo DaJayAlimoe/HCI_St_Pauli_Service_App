@@ -56,12 +56,10 @@ public class AllOrdersFragment extends Fragment {
         TextView header1 = view.findViewById(R.id.textView_service_orders_header1);
         TextView header2 = view.findViewById(R.id.textView_service_orders_header2);
         TextView header3 = view.findViewById(R.id.textView_service_orders_header3);
-        TextView header4 = view.findViewById(R.id.textView_service_orders_header4);
 
         header1.setText("Sitz-Nr");
         header2.setText("Typ");
         header3.setText("Menge");
-        header4.setText("Annehmen");
 
         //Dummy Liste
       //  PartialOrder p1 = new PartialOrder(5060, 2, "Bier");
