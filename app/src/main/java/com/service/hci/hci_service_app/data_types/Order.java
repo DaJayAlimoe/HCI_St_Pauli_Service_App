@@ -1,5 +1,7 @@
 package com.service.hci.hci_service_app.data_types;
 
+import android.graphics.Color;
+
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -11,6 +13,7 @@ public class Order {
         PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
 
         private final int status;
+        private final int button_color;
         private final String button_text;
 
         OrderStatus(int status) {
@@ -18,24 +21,30 @@ public class Order {
             switch (this.status) {
                 case 0:
                     this.button_text = "Bestellt";
+                    this.button_color = Color.GREEN;
                     break;
                 case 1:
                     this.button_text = "Auf dem Weg";
+                    this.button_color = Color.YELLOW;
                     break;
                 case 2:
                     this.button_text = "Storniert";
+                    this.button_color = Color.DKGRAY;
                     break;
                 case 3:
                     this.button_text = "Zugestellt";
+                    this.button_color = Color.LTGRAY;
                     break;
                 default:
                     this.button_text = "NONE";
+                    this.button_color = Color.TRANSPARENT;
                     break;
             }
         }
 
         public int getStatus() {return status;}
         public String getButtonText() {return button_text;}
+        public int getButtonColor() {return button_color;}
     }
 
     public OrderStatus getStatus() {
@@ -82,6 +91,7 @@ public class Order {
     public String getButtonText() {
         return this.status.getButtonText();
     }
+    public int getButtonColor() {return this.status.getButtonColor();}
 
     public Timestamp getActiveAt() {
         return activeAt;

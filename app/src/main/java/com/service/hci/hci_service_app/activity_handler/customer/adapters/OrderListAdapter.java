@@ -106,7 +106,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() != Order.OrderStatus.CANCELED){
             // to cancel the order
             holder.statusButton.setText("Stornieren");
-            holder.statusButton.setBackgroundColor(Color.GREEN);
+            holder.statusButton.setBackgroundColor(Color.RED);
             holder.statusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -142,7 +142,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         }
         else {
             holder.statusButton.setText(order.getButtonText());
-            holder.statusButton.setBackgroundColor(Color.TRANSPARENT);
+            holder.statusButton.setBackgroundColor(order.getButtonColor());
             holder.statusButton.setClickable(false);
         }
 
