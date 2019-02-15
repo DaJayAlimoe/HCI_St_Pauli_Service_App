@@ -77,7 +77,7 @@ public class Item {
 
     private int getPictureID(String pictureName) {
         switch (pictureName) {
-            case "Cola Cola":
+            case "Coca Cola":
                 return R.drawable.cola;
             case "Popcorn":
                 return R.drawable.popcorn;

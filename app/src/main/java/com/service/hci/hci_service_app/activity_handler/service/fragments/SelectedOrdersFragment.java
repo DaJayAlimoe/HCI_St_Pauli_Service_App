@@ -147,9 +147,9 @@ public class SelectedOrdersFragment extends Fragment {
                     Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
                     Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
 
-//                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,booking);
-//                    itemArrayList.add(order);
-//                    Log.i("SELECTED Order " + i, order.toString());
+                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,booking);
+                    itemArrayList.add(order);
+                    Log.i("SELECTED Order " + i, order.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

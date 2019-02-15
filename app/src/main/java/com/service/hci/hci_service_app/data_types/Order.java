@@ -48,6 +48,8 @@ public class Order {
 //        this.status = status;
 //    }
 
+
+
     private Item item ;
 
     public int getSeatNR() {
@@ -79,6 +81,13 @@ public class Order {
         this.createdOn = createdOn;
         this.lastUpdatedOn = lastUpdatedOn;
         this.status = status;
+    }
+
+    public Order(int seatNr, Item item, int amount, int orderNR) {
+        this.item = item;
+        this.seatNR = seatNr;
+        this.amount = amount;
+        this.orderNR = orderNR;
     }
 
     public void setStatus(OrderStatus ordStatus) {
