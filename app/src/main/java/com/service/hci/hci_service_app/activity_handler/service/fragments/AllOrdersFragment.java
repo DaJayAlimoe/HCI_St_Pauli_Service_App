@@ -117,9 +117,11 @@ public class AllOrdersFragment extends Fragment {
 
                                 try {
                                     JSONObject booking = new JSONObject();
-                                    booking.put("BookingId",allOrdersAdapter.getItem(i).getOrderNR());
-                                    JSONArray jsonArray = new JSONArray(booking);
+                                    booking.put("booking_id",allOrdersAdapter.getItem(i).getOrderNR());
+                                    JSONArray jsonArray = new JSONArray();
+                                    jsonArray.put(booking);
                                     stApi.takeOrder(jsonArray);
+                                    allOrdersAdapter.remove(allOrdersAdapter.getItem(i));
                                     allOrdersAdapter.notifyDataSetChanged();
 
                                 } catch (JSONException e) {
