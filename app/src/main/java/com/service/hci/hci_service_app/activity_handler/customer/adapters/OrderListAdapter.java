@@ -90,14 +90,14 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
             result = convertView;
         }
 
-        Animation animation = AnimationUtils.loadAnimation(
-                context, (position > lastPosition) ? R.anim.anim_down_loader : R.anim.anim_up_loader);
+//        Animation animation = AnimationUtils.loadAnimation(
+//                context, (position > lastPosition) ? R.anim.anim_down_loader : R.anim.anim_up_loader);
+//
+//        result.startAnimation(animation);
+//        lastPosition = position;
 
-        result.startAnimation(animation);
-        lastPosition = position;
-
-        holder.amount.setText(order.getItem().getDescription().toString());
-        holder.description.setText(order.getAmount()+"x " + order.getItem().getName());
+        holder.amount.setText(order.getAmount()+"x " + order.getItem().getName());
+        holder.description.setText(order.getItem().getDescription());
         holder.picture.setImageResource(order.getItem().getPicture());
 
         if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() != Order.OrderStatus.CANCELED){
