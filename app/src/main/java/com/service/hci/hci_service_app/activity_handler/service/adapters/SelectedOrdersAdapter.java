@@ -15,15 +15,15 @@ import com.service.hci.hci_service_app.data_types.Order;
 
 import java.util.ArrayList;
 
-public class PartialOrdersAdapter extends ArrayAdapter<Order> {
+public class SelectedOrdersAdapter extends ArrayAdapter<Order> {
 
-    private static final String TAG = "PartialOrdersAdapter";
+    private static final String TAG = "AllOrdersAdapter";
 
     private Context context;
 
     int resource;
 
-    public PartialOrdersAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Order> objects) {
+    public SelectedOrdersAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Order> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
@@ -41,9 +41,9 @@ public class PartialOrdersAdapter extends ArrayAdapter<Order> {
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);
 
-        TextView textViewSeat = convertView.findViewById(R.id.textView_service_seat);
-        TextView textViewCount = convertView.findViewById(R.id.textView_service_count);
-        TextView textViewItemName = convertView.findViewById(R.id.textView_service_item);
+        TextView textViewSeat = convertView.findViewById(R.id.textView_service_selected_seat);
+        TextView textViewCount = convertView.findViewById(R.id.textView_service_selected_count);
+        TextView textViewItemName = convertView.findViewById(R.id.textView_service_selected_item);
 
         textViewSeat.setText(String.valueOf(seat));
         textViewCount.setText(String.valueOf(count));

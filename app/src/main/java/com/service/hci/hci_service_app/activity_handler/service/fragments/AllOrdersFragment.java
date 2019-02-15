@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
 import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
-import com.service.hci.hci_service_app.activity_handler.service.adapters.PartialOrdersAdapter;
+import com.service.hci.hci_service_app.activity_handler.service.adapters.AllOrdersAdapter;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.data_layer.Api;
@@ -98,7 +98,7 @@ public class AllOrdersFragment extends Fragment {
         //OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
         //listView.setAdapter(itemListAdapter);
 
-        PartialOrdersAdapter adapter = new PartialOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
+        AllOrdersAdapter adapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
         listView.setAdapter(adapter);
 
         // Inflate the layout for this fragment
