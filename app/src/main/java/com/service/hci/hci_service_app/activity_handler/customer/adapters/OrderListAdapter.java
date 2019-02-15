@@ -100,7 +100,7 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
 //        lastPosition = position;
 
         holder.amount.setText(order.getAmount()+"x " + order.getItem().getName());
-        holder.description.setText("Wartezeit : " + order.getEta() / 60000 +" mins");
+        holder.description.setText("Wartezeit : " + order.getEta() / 60000 +" min");
 //        holder.description.setText(order.getItem().getDescription());
         holder.picture.setImageResource(order.getItem().getPicture());
 
