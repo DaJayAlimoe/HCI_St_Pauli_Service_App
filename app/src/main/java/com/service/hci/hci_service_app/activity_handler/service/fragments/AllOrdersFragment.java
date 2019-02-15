@@ -5,18 +5,18 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
 import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
 import com.service.hci.hci_service_app.activity_handler.service.adapters.AllOrdersAdapter;
-
-import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.Item;
 import com.service.hci.hci_service_app.data_types.Order;
@@ -36,6 +36,7 @@ public class AllOrdersFragment extends Fragment {
     private Timer autoUpdateTimer;
     private OrderListAdapter orderListAdapter;
     private final Handler autoUpdateHandler = new Handler();
+    ArrayList<Order> itemArrayList;
 
     public AllOrdersFragment() {
         // Required empty public constructor
@@ -44,9 +45,12 @@ public class AllOrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //AllOrdersAdapter adapter = new AllOrdersAdapter(this.getContext(), itemArrayList);
+
         View view = inflater.inflate(R.layout.service_orders, container, false);
 
-        ListView listView = view.findViewById(R.id.listView_service_all_orders);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_service_all_orders);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         TextView header1 = view.findViewById(R.id.textView_service_orders_header1);
         TextView header2 = view.findViewById(R.id.textView_service_orders_header2);
@@ -94,12 +98,12 @@ public class AllOrdersFragment extends Fragment {
 
 
 
-        ArrayList<Order> itemArrayList = this.getData();
+        itemArrayList = this.getData();
         //OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
         //listView.setAdapter(itemListAdapter);
 
-        AllOrdersAdapter adapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
-        listView.setAdapter(adapter);
+        AllOrdersAdapter adapter = new AllOrdersAdapter(this.getContext(), itemArrayList);
+        recyclerView.setAdapter(adapter);
 
         // Inflate the layout for this fragment
         return view;

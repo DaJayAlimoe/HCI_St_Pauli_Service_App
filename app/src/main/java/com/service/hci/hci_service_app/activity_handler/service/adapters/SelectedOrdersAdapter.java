@@ -1,57 +1,79 @@
 package com.service.hci.hci_service_app.activity_handler.service.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.service.hci.hci_service_app.R;
-import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
 import com.service.hci.hci_service_app.data_types.Order;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class SelectedOrdersAdapter extends ArrayAdapter<Order> {
+public class SelectedOrdersAdapter extends RecyclerView.Adapter<SelectedOrdersAdapter.MyViewHolder> {
 
-    private static final String TAG = "AllOrdersAdapter";
-
+    private LayoutInflater inflater;
     private Context context;
+    List<Order> orders;
 
-    int resource;
 
-    public SelectedOrdersAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Order> objects) {
-        super(context, resource, objects);
+    public SelectedOrdersAdapter(Context context,ArrayList<Order> orders) {
+        inflater = LayoutInflater.from(context);
         this.context = context;
-        this.resource = resource;
+        this.orders = orders;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        int seat = getItem(position).getSeatNR();
-        int count = getItem(position).getAmount();
-        String itemName = getItem(position).getItem().getName();
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        PartialOrder partialOrder = new PartialOrder(seat, count, itemName);
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        convertView = inflater.inflate(resource, parent, false);
+        View convertView = inflater.inflate(R.layout.service_selected_orders_adapter_view, parent, false);
 
-        TextView textViewSeat = convertView.findViewById(R.id.textView_service_selected_seat);
-        TextView textViewCount = convertView.findViewById(R.id.textView_service_selected_count);
-        TextView textViewItemName = convertView.findViewById(R.id.textView_service_selected_item);
+        MyViewHolder holder = new MyViewHolder(convertView);
 
-        textViewSeat.setText(String.valueOf(seat));
-        textViewCount.setText(String.valueOf(count));
-        textViewItemName.setText(itemName);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = holder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    System.out.println("CLICKED ON!!!!!!!!!!!!!!!!!!!!!: " + position);
+                }
+            }
+        });
 
-
-        return convertView;
-
+        return holder;
     }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        final Order order = orders.get(position);
+        holder.textViewSeat.setText(Integer.toString(order.getSeatNR()));
+        holder.textViewCount.setText(Integer.toString(order.getAmount()));
+        holder.textViewItemName.setText(order.getItem().getName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return orders.size();
+    }
+
+    class MyViewHolder extends RecyclerView.ViewHolder
+    {
+        TextView textViewSeat;
+        TextView textViewCount;
+        TextView textViewItemName;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            textViewSeat = (TextView)itemView.findViewById(R.id.textView_service_selected_seat);
+            textViewCount = (TextView)itemView.findViewById(R.id.textView_service_selected_count);
+            textViewItemName = (TextView)itemView.findViewById(R.id.textView_service_selected_item);
+        }
+    }
+
 }
 

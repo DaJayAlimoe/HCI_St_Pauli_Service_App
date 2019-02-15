@@ -5,17 +5,17 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
 import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
-
-import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.service.adapters.SelectedOrdersAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.Item;
@@ -47,7 +47,8 @@ public class SelectedOrdersFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.service_selected_orders, container, false);
 
-        ListView listView = view.findViewById(R.id.listView_service_selected_orders);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_service_selected_orders);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         TextView header1 = view.findViewById(R.id.textView_service_selected_orders_header1);
         TextView header2 = view.findViewById(R.id.textView_service_selected_orders_header2);
@@ -80,9 +81,8 @@ public class SelectedOrdersFragment extends Fragment {
 
         ArrayList<Order> itemArrayList = this.getData();
 
-        SelectedOrdersAdapter adapter = new SelectedOrdersAdapter(this.getContext(),
-                R.layout.service_selected_orders_adapter_view, itemArrayList);
-        listView.setAdapter(adapter);
+        SelectedOrdersAdapter adapter = new SelectedOrdersAdapter(this.getContext(), itemArrayList);
+        recyclerView.setAdapter(adapter);
 
         // Inflate the layout for this fragment
         return view;
