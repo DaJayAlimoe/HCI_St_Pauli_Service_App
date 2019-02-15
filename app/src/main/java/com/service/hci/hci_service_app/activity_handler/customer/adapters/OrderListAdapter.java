@@ -2,10 +2,15 @@ package com.service.hci.hci_service_app.activity_handler.customer.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.activity_handler.customer.fragments.OrdersFragment;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.*;
 
@@ -55,18 +61,9 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // variables to show
-        int orderNR = getItem(position).getOrderNR();
-        Item item = getItem(position).getItem();
-        int amount = getItem(position).getAmount();
-        int eta = getItem(position).getEta();
-        Timestamp actTime = getItem(position).getActiveAt();
-        Timestamp createTime = getItem(position).getCreatedOn();
-        Timestamp updateTime = getItem(position).getLastUpdatedOn();
-        Order.OrderStatus status = getItem(position).getStatus();
 
         // create item object with information
-        Order order = new Order(item, amount, orderNR, eta, actTime,createTime,updateTime,status);
+        Order order = getItem(position);
 
         // create the view result for showing the aniomation
         final View result;
@@ -103,10 +100,10 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
         holder.description.setText(order.getAmount()+"x " + order.getItem().getName());
         holder.picture.setImageResource(order.getItem().getPicture());
 
-        if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis()))){
+        if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() != Order.OrderStatus.CANCELED){
             // to cancel the order
-            holder.statusButton.setText(order.getButtonText());
-            holder.statusButton.setBackgroundColor(Color.GREEN);
+            holder.statusButton.setText("Stornieren");
+            holder.statusButton.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
             holder.statusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -117,11 +114,13 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Stornieren",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Api stApi = Api.getInstance(v.getContext());
+                                    Api stApi = Api.getInstance(getContext());
                                     boolean cancleStatus = stApi.cancelOrder(getItem(position).getOrderNR());
                                     if(cancleStatus){
                                         Toast.makeText(getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG);
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
+                                        getItem(position).setStatus(Order.OrderStatus.CANCELED);
+                                        notifyDataSetChanged();
                                     }else{
                                         Toast.makeText(getContext(),"Bestellung bereits in arbeit",Toast.LENGTH_LONG);
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
@@ -140,13 +139,15 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
             });
         }
         else {
-            holder.statusButton.setText(order.getButtonText());
+            SpannableString spanString = new SpannableString(order.getButtonText());
+            spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+            holder.statusButton.setText(spanString);
+            holder.statusButton.setBackgroundColor(Color.TRANSPARENT);
             holder.statusButton.setClickable(false);
         }
 
         return convertView;
     }
-
 
     static class ViewHolder {
         TextView amount;

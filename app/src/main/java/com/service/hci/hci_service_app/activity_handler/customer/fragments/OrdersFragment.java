@@ -56,6 +56,12 @@ public class OrdersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        startTimer(30000, 30000);
+    }
+
+    public void startTimer(int delay, int period) {
+        if (autoUpdateTimer != null)
+            autoUpdateTimer.cancel();
         autoUpdateTimer = new Timer();
         autoUpdateTimer.schedule(new TimerTask() {
             @Override
@@ -69,14 +75,21 @@ public class OrdersFragment extends Fragment {
                     }
                 });
             }
-        }, 30000, 30000); // updates each 30 secs
+        }, delay, period); // updates each 30 secs
     }
+
 
     @Override
     public void onPause() {
         if (autoUpdateTimer != null)
             autoUpdateTimer.cancel();
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startTimer(0, 30000);
     }
 
     private ArrayList<Order> getData() {
@@ -98,8 +111,8 @@ public class OrdersFragment extends Fragment {
                     Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
                     Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
                     String status = value.getString("status");
-                    if(!actTime.after(new Timestamp(System.currentTimeMillis())))
-                        status = "ORDERED";
+//                    if(!actTime.after(new Timestamp(System.currentTimeMillis())))
+//                        status = "ORDERED";
                     Order order = new Order(myItem, value.getInt("amount"), value.getInt("id"), value.getInt("eta"), actTime, createTime, updateTime, Order.OrderStatus.valueOf(status));
                     itemArrayList.add(order);
                     Log.i("Order " + i, order.toString());
