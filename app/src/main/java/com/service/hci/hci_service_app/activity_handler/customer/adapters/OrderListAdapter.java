@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -30,6 +31,8 @@ import com.service.hci.hci_service_app.data_types.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class OrderListAdapter extends ArrayAdapter<Order>  {
     private Context context;
@@ -97,7 +100,8 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
 //        lastPosition = position;
 
         holder.amount.setText(order.getAmount()+"x " + order.getItem().getName());
-        holder.description.setText(order.getItem().getDescription());
+        holder.description.setText("Wartezeit : " + order.getEta() / 60000 +" mins");
+//        holder.description.setText(order.getItem().getDescription());
         holder.picture.setImageResource(order.getItem().getPicture());
 
         if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() != Order.OrderStatus.CANCELED){

@@ -4,9 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,8 @@ import android.widget.TextView;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.data_types.Item;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,14 +93,16 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
         }
 
 
-        Animation animation = AnimationUtils.loadAnimation(
-                context, (position > lastPosition) ? R.anim.anim_down_loader : R.anim.anim_up_loader);
+//        Animation animation = AnimationUtils.loadAnimation(
+//                context, (position > lastPosition) ? R.anim.anim_down_loader : R.anim.anim_up_loader);
+//
+//        result.startAnimation(animation);
+//        lastPosition = position;
 
-        result.startAnimation(animation);
-        lastPosition = position;
-
+        SpannableString itemDescription = new SpannableString(item.getDescription());
+        itemDescription.setSpan(new StyleSpan(Typeface.ITALIC), 0, itemDescription.length(), 0);
         holder.name.setText(item.getName());
-        holder.description.setText(item.getDescription());
+        holder.description.setText(itemDescription);
         holder.picture.setImageResource(item.getPicture());
 
         return convertView;

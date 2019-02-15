@@ -24,6 +24,8 @@ import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -114,6 +116,11 @@ public class OrdersFragment extends Fragment {
 //                    if(!actTime.after(new Timestamp(System.currentTimeMillis())))
 //                        status = "ORDERED";
                     Order order = new Order(myItem, value.getInt("amount"), value.getInt("id"), value.getInt("eta"), actTime, createTime, updateTime, Order.OrderStatus.valueOf(status));
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(new Date(order.getCreatedOn().getTime()));
+                    cal.add(Calendar.MINUTE, order.getEta());
+                    int currentETA = (int)(cal.getTime().getTime() - (new Date()).getTime());
+                    order.setEta((currentETA >= 0)? currentETA : 0);
                     itemArrayList.add(order);
                     Log.i("Order " + i, order.toString());
                 }

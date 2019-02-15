@@ -14,7 +14,7 @@
     <ImageView
         android:id="@+id/imgView_customer_picture_order"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_weight="40"
         android:contentDescription="@string/image"
         android:textAlignment="center" />

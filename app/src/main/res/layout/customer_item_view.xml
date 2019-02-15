@@ -16,7 +16,7 @@
     <ImageView
         android:id="@+id/imgView_customer_picture_item"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_weight="66.6"
         android:contentDescription="@string/image"
         android:textAlignment="center" />
@@ -39,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:gravity="center"
+            android:textSize="@dimen/text_size_13sp"
             android:text="@string/textview3" />
     </LinearLayout>
 
