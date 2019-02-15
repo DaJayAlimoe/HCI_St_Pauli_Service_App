@@ -24,7 +24,6 @@ import com.service.hci.hci_service_app.activity_handler.customer.adapters.Shoppi
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.MenuFragment;
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.OrdersFragment;
 import com.service.hci.hci_service_app.data_layer.Api;
-import com.service.hci.hci_service_app.data_layer.Session;
 import com.service.hci.hci_service_app.data_types.Cart;
 
 import org.json.JSONArray;

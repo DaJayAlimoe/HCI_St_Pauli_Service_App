@@ -32,7 +32,7 @@ import java.util.TimerTask;
 public class AllOrdersFragment extends Fragment {
 
     private Timer autoUpdateTimer;
-    private AllOrdersAdapter allOrdersAdapter;
+    private OrderListAdapter orderListAdapter;
     private final Handler autoUpdateHandler = new Handler();
 
     public AllOrdersFragment() {
@@ -100,8 +100,40 @@ public class AllOrdersFragment extends Fragment {
         //OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
         //listView.setAdapter(itemListAdapter);
 
-        allOrdersAdapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
-        listView.setAdapter(allOrdersAdapter);
+        AllOrdersAdapter adapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                AlertDialog alertDialog = new AlertDialog.Builder(view.getContext()).create();
+                alertDialog.setTitle("Bestellung übernehmen");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Bestellung übernehmen",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                try {
+                                    JSONObject booking = new JSONObject();
+                                    booking.put("BookingId",adapter.getItem(i).getOrderNR());
+                                    JSONArray jsonArray = new JSONArray(booking);
+                                    stApi.takeOrder(jsonArray);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Abbrechen",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
@@ -148,12 +180,13 @@ public class AllOrdersFragment extends Fragment {
                     JSONObject value = keys.getJSONObject(i); // get single entry from array
                     JSONObject itemObj = value.getJSONObject("item"); // items in response
                     JSONObject seat = value.getJSONObject("seat");
+                    int orderNr = value.getInt("orderNr");
                     int amount = value.getInt("amount");                    Item myItem = new Item(itemObj);
                     Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
                     Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
                     Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
 
-                    Order order = new Order(seat.getInt("seatNr"),myItem,amount);
+                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,orderNr);
                     itemArrayList.add(order);
                     Log.i("Order " + i, order.toString());
                 }

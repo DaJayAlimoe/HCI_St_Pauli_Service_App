@@ -131,12 +131,15 @@ public class SelectedOrdersFragment extends Fragment {
                     JSONObject value = keys.getJSONObject(i); // get single entry from array
                     JSONObject itemObj = value.getJSONObject("item"); // items in response
                     JSONObject seat = value.getJSONObject("seat");
-                    int amount = value.getInt("amount");                    Item myItem = new Item(itemObj);
+                    int booking = (int) value.get("id");
+                    int orderNr = value.getInt("orderNr");
+                    int amount = value.getInt("amount");
+                    Item myItem = new Item(itemObj);
                     Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
                     Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
                     Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
 
-                    Order order = new Order(seat.getInt("seatNr"),myItem,amount);
+                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,booking);
                     itemArrayList.add(order);
                     Log.i("Order " + i, order.toString());
                 }

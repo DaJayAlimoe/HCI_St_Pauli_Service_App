@@ -1,7 +1,5 @@
 package com.service.hci.hci_service_app.data_types;
 
-import android.graphics.Color;
-
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -10,7 +8,7 @@ import java.util.ArrayList;
 public class Order {
 
     public enum OrderStatus {
-        PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
+        ORDERED(-1), PREORDERED(0), ONTHEWAY(1), CANCELED(2), CLOSED(3);
 
         private final int status;
         private final String button_text;
@@ -18,11 +16,14 @@ public class Order {
         OrderStatus(int status) {
             this.status = status;
             switch (this.status) {
-                case 0:
+                case -1:
                     this.button_text = "Bestellt";
                     break;
+                case 0:
+                    this.button_text = "Stornieren";
+                    break;
                 case 1:
-                    this.button_text = "Auf dem Weg";
+                    this.button_text = "Aufm Weg";
                     break;
                 case 2:
                     this.button_text = "Storniert";
@@ -61,13 +62,17 @@ public class Order {
     private Timestamp createdOn;
     private Timestamp lastUpdatedOn;
     private OrderStatus status;
+
     private int seatNR;
     private static ArrayList<JSONObject> orderList = new ArrayList<>();
 
-    public Order(int seatNR ,Item item, int amount) {
+
+
+    public Order(int seatNR ,Item item, int amount,int orderNr) {
         this.item = item;
         this.amount = amount;
         this.seatNR = seatNR;
+        this.orderNR = orderNr;
     }
 
     public Order(Item item, int amount, int orderNR, int eta, Timestamp activeAt, Timestamp createdOn, Timestamp lastUpdatedOn, OrderStatus status) {
