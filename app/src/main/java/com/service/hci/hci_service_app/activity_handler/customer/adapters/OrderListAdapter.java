@@ -117,12 +117,12 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                                     Api stApi = Api.getInstance(getContext());
                                     boolean cancleStatus = stApi.cancelOrder(getItem(position).getOrderNR());
                                     if(cancleStatus){
-                                        Toast.makeText(getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG);
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
                                         getItem(position).setStatus(Order.OrderStatus.CANCELED);
                                         notifyDataSetChanged();
+                                        Toast.makeText(v.getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG).show();
                                     }else{
-                                        Toast.makeText(getContext(),"Bestellung bereits in arbeit",Toast.LENGTH_LONG);
+                                        Toast.makeText(v.getContext(),"Bestellung bereits in arbeit",Toast.LENGTH_LONG).show();
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
                                     }
                                     dialog.dismiss();

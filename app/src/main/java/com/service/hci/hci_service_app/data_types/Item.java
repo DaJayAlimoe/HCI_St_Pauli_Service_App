@@ -66,11 +66,21 @@ public class Item {
         }
 
     }
+//    Item bier = new Item("Bier","Ein cooles Blondes Pils");
+//    Item cola = new Item("Coca Cola","Kohlensäurehaltiges Wasser, Zucker, Farbe (Caramel E150d), Phosphorsäure, natürliche Aromen einschließlich Koffein.");
+//    Item fanta = new Item("Fanta","Kohlensäurehaltiges Wasser, Zucker, Orangensaft aus Konzentrat (3,7%), Zitrusfrucht aus Konzentrat (1,3%), Zitronensäure.");
+//    Item wasser = new Item("Lautes Wasser","Kohlensäurehaltiges Wasser");
+//    Item stillWasser = new Item("Leises Wasser"," Stilles Wasser");
+//    Item sprite = new Item("Sprite","Kohlensäurehaltiges Wasser, Zucker, Zitronensäure, Süßungsmittel, Säureregulator , natürliche Zitronen- und Limettenaromen");
+//    Item breezel = new Item("Breezel","Eine leckere St.Paulianische Brääzzel");
+//    Item popcorn = new Item("Popcorn" , "Zucker , Mais, Butter");
 
     private int getPictureID(String pictureName) {
         switch (pictureName) {
-            case "Cola":
+            case "Cola Cola":
                 return R.drawable.cola;
+            case "Popcorn":
+                return R.drawable.popcorn;
             case "Bier":
                 return R.drawable.beer;
             case "Bratwurst":
@@ -79,8 +89,10 @@ public class Item {
                 return R.drawable.brezel;
             case "Fanta":
                 return R.drawable.fanta;
-//            case "Sprite":
-//                return R.drawable.hotdog;
+            case "Lautes Wasser":
+                return R.drawable.water;
+            case "Leises Wasser":
+                return R.drawable.water;
             case "Sprite":
                 return R.drawable.sprite;
             default:
