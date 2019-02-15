@@ -12,10 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
-import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
-
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
 import com.service.hci.hci_service_app.activity_handler.service.adapters.SelectedOrdersAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.Item;
@@ -34,12 +32,16 @@ import java.util.TimerTask;
 public class SelectedOrdersFragment extends Fragment {
 
     private Timer autoUpdateTimer;
-    private OrderListAdapter orderListAdapter;
+    private SelectedOrdersAdapter selectedOrdersAdapter;
     private final Handler autoUpdateHandler = new Handler();
 
 
     public SelectedOrdersFragment() {
-        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -80,9 +82,9 @@ public class SelectedOrdersFragment extends Fragment {
 
         ArrayList<Order> itemArrayList = this.getData();
 
-        SelectedOrdersAdapter adapter = new SelectedOrdersAdapter(this.getContext(),
+        selectedOrdersAdapter = new SelectedOrdersAdapter(this.getContext(),
                 R.layout.service_selected_orders_adapter_view, itemArrayList);
-        listView.setAdapter(adapter);
+        listView.setAdapter(selectedOrdersAdapter);
 
         // Inflate the layout for this fragment
         return view;
@@ -99,9 +101,9 @@ public class SelectedOrdersFragment extends Fragment {
                 autoUpdateHandler.post(new Runnable() {
                     public void run() {
                         ArrayList<Order> data = getData();
-                        orderListAdapter.clear();
-                        orderListAdapter.addAll(data);
-                        orderListAdapter.notifyDataSetChanged();
+                        selectedOrdersAdapter.clear();
+                        selectedOrdersAdapter.addAll(data);
+                        selectedOrdersAdapter.notifyDataSetChanged();
                     }
                 });
             }
