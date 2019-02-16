@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
@@ -112,22 +113,27 @@ public class AllOrdersFragment extends Fragment {
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Bestellung übernehmen",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
-                                try {
-                                    JSONObject booking = new JSONObject();
-                                    booking.put("booking_id",allOrdersAdapter.getItem(i).getOrderNR());
-                                    JSONArray jsonArray = new JSONArray();
-                                    jsonArray.put(booking);
-                                    stApi.takeOrder(jsonArray);
-                                    allOrdersAdapter.remove(allOrdersAdapter.getItem(i));
-                                    allOrdersAdapter.notifyDataSetChanged();
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }finally {
+                                if (allOrdersAdapter.getItem(i).getStatus() != Order.OrderStatus.CANCELED||allOrdersAdapter.getItem(i).getStatus() != Order.OrderStatus.ONTHEWAY ) {
+                                    try {
+                                        JSONObject booking = new JSONObject();
+                                        booking.put("booking_id", allOrdersAdapter.getItem(i).getOrderNR());
+                                        JSONArray jsonArray = new JSONArray();
+                                        jsonArray.put(booking);
+                                        stApi.takeOrder(jsonArray);
+                                        allOrdersAdapter.remove(allOrdersAdapter.getItem(i));
+                                        allOrdersAdapter.notifyDataSetChanged();
+                                        Toast.makeText(view.getContext(), "Bestellung erfolgreich übernommen", Toast.LENGTH_LONG).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        dialog.dismiss();
+                                    }
+                                }
+                                else
+                                {
+                                    Toast.makeText(view.getContext(), "Bestellung nicht mehr Verfügbar", Toast.LENGTH_LONG).show();
                                     dialog.dismiss();
                                 }
-
 
                             }
                         });
@@ -204,8 +210,8 @@ public class AllOrdersFragment extends Fragment {
                     Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
                     Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
                     Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
-
-                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,orderNr);
+                    String status = value.getString("status");
+                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,orderNr,Order.OrderStatus.valueOf(status));
                     itemArrayList.add(order);
                     Log.i("Order " + i, order.toString());
                 }

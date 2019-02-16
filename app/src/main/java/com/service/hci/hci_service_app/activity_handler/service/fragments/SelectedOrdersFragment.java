@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
@@ -96,7 +97,8 @@ public class SelectedOrdersFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 {
-                                  stApi.confirmOrder(selectedOrdersAdapter.getItem(i).getOrderNR());
+                                      stApi.confirmOrder(selectedOrdersAdapter.getItem(i).getOrderNR());
+                                    Toast.makeText(view.getContext(),"Bestellung erfolgreich abgeschlossen",Toast.LENGTH_LONG).show();
                                     dialog.dismiss();
                                 }
                             }
@@ -169,8 +171,9 @@ public class SelectedOrdersFragment extends Fragment {
                     int booking = (int) value.get("id");
                     int amount = value.getInt("amount");
                     Item myItem = new Item(itemObj);
+                    String status = value.getString("status");
 
-                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,booking);
+                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,booking,Order.OrderStatus.valueOf(status));
                     itemArrayList.add(order);
                     Log.i("SELECTED Order " + i, order.toString());
                 }

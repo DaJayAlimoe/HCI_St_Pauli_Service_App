@@ -83,11 +83,12 @@ public class Order {
         this.status = status;
     }
 
-    public Order(int seatNr, Item item, int amount, int orderNR) {
+    public Order(int seatNr, Item item, int amount, int orderNR,OrderStatus status) {
         this.item = item;
         this.seatNR = seatNr;
         this.amount = amount;
         this.orderNR = orderNR;
+        this.status = status;
     }
 
     public void setStatus(OrderStatus ordStatus) {
