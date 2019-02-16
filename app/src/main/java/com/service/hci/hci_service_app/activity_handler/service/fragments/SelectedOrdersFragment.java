@@ -1,14 +1,17 @@
 package com.service.hci.hci_service_app.activity_handler.service.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -83,7 +86,30 @@ public class SelectedOrdersFragment extends Fragment {
         selectedOrdersAdapter = new SelectedOrdersAdapter(this.getContext(),
                 R.layout.service_selected_orders_adapter_view, itemArrayList);
         listView.setAdapter(selectedOrdersAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                AlertDialog alertDialog = new AlertDialog.Builder(view.getContext()).create();
+                alertDialog.setTitle("Bestellung abgeschlossen ?");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Bestellung abgeschlossen",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                {
+                                  stApi.confirmOrder(selectedOrdersAdapter.getItem(i).getOrderNR());
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Abbrechen",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+        });
         // Inflate the layout for this fragment
         return view;
 
@@ -143,9 +169,6 @@ public class SelectedOrdersFragment extends Fragment {
                     int booking = (int) value.get("id");
                     int amount = value.getInt("amount");
                     Item myItem = new Item(itemObj);
-                    Timestamp actTime = Util.parseTimestamp(value.getString("activeAt"));
-                    Timestamp createTime = Util.parseTimestamp(value.getString("createdOn"));
-                    Timestamp updateTime = Util.parseTimestamp(value.getString("lastUpdatedOn"));
 
                     Order order = new Order(seat.getInt("seatNr"),myItem,amount,booking);
                     itemArrayList.add(order);

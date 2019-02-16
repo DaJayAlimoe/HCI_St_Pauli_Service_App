@@ -124,9 +124,11 @@ public class AllOrdersFragment extends Fragment {
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                }finally {
+                                    dialog.dismiss();
                                 }
 
-                                dialog.dismiss();
+
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Abbrechen",
