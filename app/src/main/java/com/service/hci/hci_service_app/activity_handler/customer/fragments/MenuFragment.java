@@ -79,9 +79,13 @@ public class MenuFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                Cart.getInstance().add(itemListAdapter.getItem(i), 1);
-                                Toast.makeText(view.getContext(), itemListAdapter.getItem(i).getName() + " den Warenkorb hinzugefügt", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
+                             if (  Cart.getInstance().add(itemListAdapter.getItem(i), 1)) {
+                                 Toast.makeText(view.getContext(), itemListAdapter.getItem(i).getName() + " den Warenkorb hinzugefügt", Toast.LENGTH_SHORT).show();
+                                 dialog.dismiss();
+                             }
+                             else{
+                                 Toast.makeText(view.getContext()," Sie können nicht mehr als 5 Elemente von einem Artikel im Warenkorb haben", Toast.LENGTH_SHORT).show();
+                             }
                             }
                         });
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Abbrechen",

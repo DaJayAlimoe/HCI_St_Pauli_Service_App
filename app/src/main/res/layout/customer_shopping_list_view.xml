@@ -49,16 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_customer_plus_cart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="25"
-                android:onClick="onClick"
-                android:text="+"
-                android:visibility="visible" />
-
             <EditText
                 android:id="@+id/numberView_customer_amount_cart"
                 android:layout_width="match_parent"
@@ -70,6 +60,16 @@
                 android:singleLine="true"
                 android:text="Anz"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            <Button
+                android:id="@+id/btn_customer_plus_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:onClick="onClick"
+                android:text="+"
+                android:visibility="visible" />
+
+
 
             <Button
                 android:id="@+id/btn_customer_delete_cartItem"

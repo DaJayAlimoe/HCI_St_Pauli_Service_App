@@ -2,6 +2,7 @@ package com.service.hci.hci_service_app.data_types;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
@@ -34,15 +35,24 @@ public class Cart {
         return cart;
     }
 
-    public void add(Item item, int amount)
+    public boolean add(Item item, int amount)
     {
         Log.i("Log in cart add", item.toString() + String.valueOf(amount));
         Item_amount item_amount= new Item_amount(item,amount);
         for (Item_amount ia:cart) {
-            if (ia.getItem().getName().equals(item.getName()))
-                return;
+            if (ia.getItem().getName().equals(item.getName())) {
+                if (ia.amount < 5) {
+                    ia.amount = ia.amount + 1;
+                    return true;
+                }
+                else {
+                    return false;
+                }
+
+            }
         }
         cart.add(item_amount);
+        return true;
     }
 
     public JSONArray getOrders(int userID){
