@@ -115,7 +115,6 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                     AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
                     alertDialog.setTitle("Bestellung wirklich stornieren?");
                     alertDialog.setMessage(String.valueOf(getItem(position).getAmount())+ "x "+ String.valueOf(getItem(position).getItem().getName()));
-
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Stornieren",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -139,6 +138,8 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                                     dialog.dismiss();
                                 }
                             });
+                    alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.btn_st_pauli));
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.btn_st_pauli));
                     alertDialog.show();
                 }
             });
