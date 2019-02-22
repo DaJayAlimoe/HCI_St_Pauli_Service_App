@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.andremion.counterfab.CounterFab;
 import com.service.hci.hci_service_app.R;
 
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
@@ -67,7 +68,8 @@ public class MenuFragment extends Fragment {
 
         ItemListAdapter itemListAdapter = new ItemListAdapter(view.getContext(), R.layout.customer_item_view, itemArrayList);
         listViewItems.setAdapter(itemListAdapter);
-
+        CounterFab counterFab= (CounterFab) view.findViewById(R.id.counterFabButton__customer_cart_menu);
+counterFab.setCount(0);
 
         listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,7 +83,9 @@ public class MenuFragment extends Fragment {
 
                              if (  Cart.getInstance().add(itemListAdapter.getItem(i), 1)) {
                                  Toast.makeText(view.getContext(), itemListAdapter.getItem(i).getName() + " den Warenkorb hinzugefügt", Toast.LENGTH_SHORT).show();
+                                 counterFab.increase();
                                  dialog.dismiss();
+
                              }
                              else{
                                  Toast.makeText(view.getContext()," Sie können nicht mehr als 5 Elemente von einem Artikel im Warenkorb haben", Toast.LENGTH_SHORT).show();

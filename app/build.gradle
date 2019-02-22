@@ -38,4 +38,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:gridlayout-v7:27.1.1'
     implementation 'com.github.blikoon:QRCodeScanner:0.1.2'
+    implementation 'com.github.andremion:counterfab:1.2.0'
 }

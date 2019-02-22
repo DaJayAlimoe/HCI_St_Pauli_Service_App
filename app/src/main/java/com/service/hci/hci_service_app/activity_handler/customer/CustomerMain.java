@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andremion.counterfab.CounterFab;
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.MenuFragment;
@@ -66,7 +67,7 @@ public class CustomerMain extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         Cart.initInstance();
-        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton__customer_cart_menu);
+        CounterFab floatingActionButton = (CounterFab)findViewById(R.id.counterFabButton__customer_cart_menu);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +105,9 @@ public class CustomerMain extends AppCompatActivity {
                             JSONArray orders = cart.getOrders(api.getSession().getUserId());
 
                             if (api.placeOrder(orders)) {
+                                floatingActionButton.setCount(0);
                                 Toast.makeText(v.getContext(), "Bestellung erfolgreich abgeschickt", Toast.LENGTH_SHORT).show();
+
                             } else {
                                 Toast.makeText(v.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
                             }

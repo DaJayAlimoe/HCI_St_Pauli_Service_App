@@ -34,8 +34,8 @@
         android:background="@color/windowBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton__customer_cart_menu"
+    <com.andremion.counterfab.CounterFab
+        android:id="@+id/counterFabButton__customer_cart_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
