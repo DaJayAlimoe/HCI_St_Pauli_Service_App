@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andremion.counterfab.CounterFab;
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.activity_handler.customer.CustomerMain;
 import com.service.hci.hci_service_app.data_types.Cart;
 import com.service.hci.hci_service_app.data_types.Item;
 import com.service.hci.hci_service_app.data_types.Item_amount;
@@ -88,13 +90,15 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
             holder.btnPlus = (Button) convertView.findViewById(R.id.btn_customer_plus_cart);
             holder.btnDelete = (Button) convertView.findViewById(R.id.btn_customer_delete_cartItem);
             holder.btnMinus = (Button) convertView.findViewById(R.id.btn_customer_minus_cart);
-
+            CounterFab counterFab = CustomerMain.getFloatingActionButton();
             holder.btnPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(getItem(position).getAmount() < 5) {
+                    if(getItem(position).getAmount() < 6) {
                         getItem(position).setAmount(getItem(position).getAmount() + 1);
                         holder.amount.setText(String.valueOf(getItem(position).getAmount()));
+
+                        counterFab.decrease();
                         notifyDataSetChanged();
                     }
                     else {
@@ -110,6 +114,7 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
                     if(getItem(position).getAmount() > 1) {
                         getItem(position).setAmount(getItem(position).getAmount() - 1);
                         holder.amount.setText(String.valueOf(getItem(position).getAmount()));
+                        counterFab.decrease();
                         notifyDataSetChanged();
                     }
                     else
