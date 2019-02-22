@@ -4,18 +4,27 @@
     android:layout_height="match_parent"
     tools:context=".activity_handler.Main">
 
-    <TextView
-        android:id="@+id/textView_main_qrcode"
+    <ImageView
+        android:id="@+id/clickable_image_skull"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:contentDescription="@string/pauli_skull"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/pauli_head_round_transparent" />
 
+    <TextView
+        android:id="@+id/textView_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/qr_code"
-        tools:context=".MainActivity"
-        tools:text="QR Code Scanner in Bearbeitung" />
+        android:layout_marginTop="240dp"
+        android:gravity="center"
+        android:text="@string/welcome"
+        android:textSize="20sp"
+        tools:context=".MainActivity" />
 
     <Button
-        android:id="@+id/btn_main_to_customer"
+        android:id="@+id/btn_main_to_service_or_customer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -23,31 +32,8 @@
         android:layout_marginBottom="41dp"
         android:background="@drawable/btn_st_pauli"
         android:textColor="@color/white"
-        android:text="@string/zur_kunden_uebersicht"
+        android:text="@string/zum_service_oder_customer"
         android:visibility="visible" />
-
-    <Button
-        android:id="@+id/btn_main_to_service"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="118dp"
-        android:background="@drawable/btn_st_pauli"
-        android:textColor="@color/white"
-        android:text="@string/zur_service_uebersicht"
-        android:visibility="visible" />
-
-    <Button
-        android:id="@+id/btn_main_to_qr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="195dp"
-        android:background="@drawable/btn_st_pauli"
-        android:textColor="@color/white"
-        android:text="@string/zum_qr_scan" />
 
 </RelativeLayout>
 

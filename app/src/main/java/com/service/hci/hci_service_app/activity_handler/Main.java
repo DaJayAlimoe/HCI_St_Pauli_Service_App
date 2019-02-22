@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.blikoon.qrcodescanner.QrCodeActivity;
 import com.service.hci.hci_service_app.R;
@@ -23,9 +24,8 @@ import com.service.hci.hci_service_app.data_layer.Session;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btn_service;
-    private Button btn_customer;
-    private Button btn_qr;
+    private Button btn_main_to_service_or_customer;
+    private ImageView btn_qr;
 
     private static final int REQUEST_CODE_QR_SCAN = 101;
     private final String LOGTAG = "ScanQRCode";
@@ -42,7 +42,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        activateUserBtn();
+        activateMainBtn();
     }
 
     @Override
@@ -50,15 +50,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
          // findViewById for booth buttons and add a onClickListener object to it
-        this.btn_customer = findViewById(R.id.btn_main_to_customer);
-        btn_customer.setOnClickListener(this);
-        this.btn_service = findViewById(R.id.btn_main_to_service);
-        btn_service.setOnClickListener(this);
 
-        this.btn_customer.setVisibility(View.GONE);
-        this.btn_service.setVisibility(View.GONE);
+        this.btn_main_to_service_or_customer = findViewById(R.id.btn_main_to_service_or_customer);
+        btn_main_to_service_or_customer.setOnClickListener(this);
 
-        this.btn_qr = findViewById(R.id.btn_main_to_qr);
+        this.btn_main_to_service_or_customer.setVisibility(View.GONE);
+
+        this.btn_qr = findViewById(R.id.clickable_image_skull);
         btn_qr.setOnClickListener(this);
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
@@ -67,23 +65,19 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-        activateUserBtn();
+        activateMainBtn();
     }
 
-    private void activateUserBtn(){
+    private void activateMainBtn(){
         Session session = Api.getSession();
 
         if(session != null) {
-            if(session.isEmployee()){
-                this.btn_service.setClickable(true);
-                this.btn_service.setVisibility(View.VISIBLE);
-                this.btn_customer.setVisibility(View.GONE);
-            }
-            else if(session.isSeat()){
-                this.btn_customer.setClickable(true);
-                this.btn_customer.setVisibility(View.VISIBLE);
-                this.btn_service.setVisibility(View.GONE);
-            }
+
+            this.btn_main_to_service_or_customer.setClickable(true);
+            this.btn_main_to_service_or_customer.setVisibility(View.VISIBLE);
+
+        } else {
+            this.btn_main_to_service_or_customer.setVisibility(View.GONE);
         }
     }
 
@@ -91,15 +85,19 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         int actView = v.getId();
 
-        if (actView == R.id.btn_main_to_customer) {
-            Intent intent = new Intent(Main.this, CustomerMain.class);
+        if (actView == R.id.btn_main_to_service_or_customer) {
+            Session session = Api.getSession();
+            Intent intent;
+            if (session.isEmployee()) {
+                 intent = new Intent(Main.this, ServiceMain.class);
+            } else if (session.isSeat()) {
+                intent = new Intent(Main.this, CustomerMain.class);
+            } else {
+                intent = new Intent(Main.this, Main.class);
+            }
             startActivity(intent);
 //            finish();
-        } else if (actView == R.id.btn_main_to_service) {
-            Intent intent = new Intent(Main.this, ServiceMain.class);
-            startActivity(intent);
-//            finish();
-        } else if (actView == R.id.btn_main_to_qr) {
+        } else if (actView == R.id.clickable_image_skull) {
             // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED ||
