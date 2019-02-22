@@ -75,6 +75,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
             this.btn_main_to_service_or_customer.setClickable(true);
             this.btn_main_to_service_or_customer.setVisibility(View.VISIBLE);
+            this.btn_main_to_service_or_customer.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), (R.color.black)));
 
         } else {
             this.btn_main_to_service_or_customer.setVisibility(View.GONE);
