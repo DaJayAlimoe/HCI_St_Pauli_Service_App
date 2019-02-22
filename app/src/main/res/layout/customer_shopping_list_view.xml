@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout_customer_item_view_cart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:weightSum="100"
+    android:background="@drawable/list_view_border"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
-    android:padding="30dp">
-
+    android:padding="20dp">
 
     <ImageView
         android:id="@+id/imgView_customer_picture_cart"
@@ -25,41 +26,25 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_weight="33.3"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView_customer_name_cart"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="25"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/textView_customer_description_cart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
             android:layout_weight="25"
             android:gravity="center"
-            android:text="@string/textview3" />
+            android:text="TextView" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/numberView_customer_amount_cart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="25"
-                android:ems="10"
-                android:inputType="number"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:text="Anz"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:orientation="horizontal"
+            android:layout_margin="1dp">
+
             <Button
                 android:id="@+id/btn_customer_plus_cart"
                 android:layout_width="match_parent"
@@ -69,15 +54,20 @@
                 android:text="+"
                 android:visibility="visible" />
 
-
-
-            <Button
-                android:id="@+id/btn_customer_delete_cartItem"
+            <EditText
+                android:id="@+id/numberView_customer_amount_cart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="15"
-                android:text="Entfernen"
-                android:visibility="visible" />
+                android:layout_weight="25"
+                android:ems="10"
+                android:inputType="none"
+                android:textIsSelectable="false"
+                android:focusable="false"
+                android:gravity="center"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:text="Anz"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <Button
                 android:id="@+id/btn_customer_minus_cart"
@@ -85,6 +75,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="25"
                 android:text="-" />
+
+            <ImageButton
+                android:id="@+id/btn_customer_delete_cartItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:visibility="visible"
+                app:srcCompat="@android:drawable/ic_menu_delete" />
         </LinearLayout>
 
     </LinearLayout>

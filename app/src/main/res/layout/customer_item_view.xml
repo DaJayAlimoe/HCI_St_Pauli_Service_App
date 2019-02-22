@@ -12,8 +12,6 @@
     android:padding="20dp"
     android:weightSum="100">
 
-
-
     <ImageView
         android:id="@+id/imgView_customer_picture_item"
         android:layout_width="match_parent"

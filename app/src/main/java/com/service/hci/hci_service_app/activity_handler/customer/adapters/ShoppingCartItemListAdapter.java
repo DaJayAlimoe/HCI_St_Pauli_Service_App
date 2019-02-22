@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,11 +85,11 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
             // to show animation
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.textView_customer_name_cart);
-            holder.description = (TextView) convertView.findViewById(R.id.textView_customer_description_cart);
+//            holder.description = (TextView) convertView.findViewById(R.id.textView_customer_description_cart);
             holder.amount = (EditText) convertView.findViewById(R.id.numberView_customer_amount_cart);
             holder.picture = (ImageView) convertView.findViewById(R.id.imgView_customer_picture_cart);
             holder.btnPlus = (Button) convertView.findViewById(R.id.btn_customer_plus_cart);
-            holder.btnDelete = (Button) convertView.findViewById(R.id.btn_customer_delete_cartItem);
+            holder.btnDelete = (ImageButton) convertView.findViewById(R.id.btn_customer_delete_cartItem);
             holder.btnMinus = (Button) convertView.findViewById(R.id.btn_customer_minus_cart);
             CounterFab counterFab = CustomerMain.getFloatingActionButton();
             holder.btnPlus.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +153,7 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
 
         holder.name.setText(name);
         holder.amount.setText(String.valueOf(getItem(position).getAmount()));
-        holder.description.setText(description);
+//        holder.description.setText(description);
         holder.picture.setImageResource(picture);
 
         return convertView;
@@ -161,10 +162,10 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
     static class ViewHolder {
         TextView name;
         EditText amount;
-        TextView description;
+//        TextView description;
         ImageView picture;
         Button btnMinus;
-        Button btnDelete;
+        ImageButton btnDelete;
         Button btnPlus;
     }
 }
