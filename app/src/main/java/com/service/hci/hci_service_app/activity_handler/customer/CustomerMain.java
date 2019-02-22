@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerMain extends AppCompatActivity {
-
+  static  CounterFab floatingActionButton;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -42,6 +42,10 @@ public class CustomerMain extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static CounterFab getFloatingActionButton() {
+        return floatingActionButton;
     }
 
     @Override
@@ -67,7 +71,8 @@ public class CustomerMain extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         Cart.initInstance();
-        CounterFab floatingActionButton = (CounterFab)findViewById(R.id.counterFabButton__customer_cart_menu);
+         floatingActionButton = (CounterFab)findViewById(R.id.counterFabButton__customer_cart_menu);
+        floatingActionButton.setCount(0);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

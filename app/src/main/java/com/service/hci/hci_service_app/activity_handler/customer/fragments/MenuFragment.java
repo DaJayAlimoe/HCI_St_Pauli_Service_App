@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.andremion.counterfab.CounterFab;
 import com.service.hci.hci_service_app.R;
 
+import com.service.hci.hci_service_app.activity_handler.customer.CustomerMain;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
@@ -68,8 +69,8 @@ public class MenuFragment extends Fragment {
 
         ItemListAdapter itemListAdapter = new ItemListAdapter(view.getContext(), R.layout.customer_item_view, itemArrayList);
         listViewItems.setAdapter(itemListAdapter);
-        CounterFab counterFab= (CounterFab) view.findViewById(R.id.counterFabButton__customer_cart_menu);
-counterFab.setCount(0);
+
+        CounterFab counterFab= (CounterFab) CustomerMain.getFloatingActionButton();
 
         listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
