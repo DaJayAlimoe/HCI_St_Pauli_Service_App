@@ -36,9 +36,11 @@
 
     <com.andremion.counterfab.CounterFab
         android:id="@+id/counterFabButton__customer_cart_menu"
+        app:badgeBackgroundColor = "@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        app:badgeTextColor = "@color/white"
         android:layout_margin="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="28dp"

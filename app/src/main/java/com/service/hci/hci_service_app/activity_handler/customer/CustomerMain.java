@@ -72,7 +72,6 @@ public class CustomerMain extends AppCompatActivity {
 
         Cart.initInstance();
          floatingActionButton = (CounterFab)findViewById(R.id.counterFabButton__customer_cart_menu);
-        floatingActionButton.setCount(0);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

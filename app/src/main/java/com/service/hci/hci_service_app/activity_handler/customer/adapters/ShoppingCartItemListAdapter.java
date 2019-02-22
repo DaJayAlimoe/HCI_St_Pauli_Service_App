@@ -94,11 +94,11 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
             holder.btnPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(getItem(position).getAmount() < 6) {
+                    if(getItem(position).getAmount() < 5) {
                         getItem(position).setAmount(getItem(position).getAmount() + 1);
                         holder.amount.setText(String.valueOf(getItem(position).getAmount()));
 
-                        counterFab.decrease();
+                        counterFab.increase();
                         notifyDataSetChanged();
                     }
                     else {
@@ -125,6 +125,7 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
             holder.btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    counterFab.setCount(counterFab.getCount()-getItem(position).getAmount());
                     remove(getItem(position));
                     Toast.makeText(getContext(),name + " aus dem Warenkorb entfernt " ,Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
