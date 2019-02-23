@@ -36,7 +36,7 @@ import java.util.TimerTask;
 public class SelectedOrdersFragment extends Fragment {
 
     private Timer autoUpdateTimer;
-    private SelectedOrdersAdapter selectedOrdersAdapter;
+    public SelectedOrdersAdapter selectedOrdersAdapter;
     private final Handler autoUpdateHandler = new Handler();
 
 
@@ -63,30 +63,16 @@ public class SelectedOrdersFragment extends Fragment {
         header2.setText("Typ");
         header3.setText("Menge");
 
-        //Dummy Liste
-        /*PartialOrder p1 = new PartialOrder(5060, 2, "Bier");
-        PartialOrder p2 = new PartialOrder(210, 5, "Limonade");
-        PartialOrder p3 = new PartialOrder(378, 7, "Cola");
-        PartialOrder p4 = new PartialOrder(3, 10, "Sprite");
-        PartialOrder p5 = new PartialOrder(6780, 15, "Bratwurst");
-        PartialOrder p6 = new PartialOrder(5500, 4, "Hot Dog");*/
-
-
         ArrayList<PartialOrder> partialOrders = new ArrayList<>();
-        /*partialOrders.add(p1);
-        partialOrders.add(p2);
-        partialOrders.add(p3);
-        partialOrders.add(p4);
-        partialOrders.add(p5);
-        partialOrders.add(p6);*/
 
         Api stApi = Api.getInstance(getContext());
 
         ArrayList<Order> itemArrayList = this.getData();
 
-        selectedOrdersAdapter = new SelectedOrdersAdapter(this.getContext(),
+        selectedOrdersAdapter = new SelectedOrdersAdapter(view.getContext(),
                 R.layout.service_selected_orders_adapter_view, itemArrayList);
         listView.setAdapter(selectedOrdersAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -97,8 +83,12 @@ public class SelectedOrdersFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 {
-                                      stApi.confirmOrder(selectedOrdersAdapter.getItem(i).getOrderNR());
-                                    Toast.makeText(view.getContext(),"Bestellung erfolgreich abgeschlossen",Toast.LENGTH_LONG).show();
+                                    stApi.confirmOrder(selectedOrdersAdapter.getItem(i).getOrderNR());
+
+                                    selectedOrdersAdapter.remove(selectedOrdersAdapter.getItem(i));
+                                    selectedOrdersAdapter.notifyDataSetChanged();
+
+                                    Toast.makeText(view.getContext(), "Bestellung erfolgreich abgeschlossen", Toast.LENGTH_LONG).show();
                                     dialog.dismiss();
                                 }
                             }
@@ -120,7 +110,7 @@ public class SelectedOrdersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        startTimer(30000, 30000);
+        startTimer(20000, 20000);
     }
 
     public void startTimer(int delay, int period) {
@@ -148,6 +138,7 @@ public class SelectedOrdersFragment extends Fragment {
             autoUpdateTimer.cancel();
         super.onPause();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -173,7 +164,7 @@ public class SelectedOrdersFragment extends Fragment {
                     Item myItem = new Item(itemObj);
                     String status = value.getString("status");
 
-                    Order order = new Order(seat.getInt("seatNr"),myItem,amount,booking,Order.OrderStatus.valueOf(status));
+                    Order order = new Order(seat.getInt("seatNr"), myItem, amount, booking, Order.OrderStatus.valueOf(status));
                     itemArrayList.add(order);
                     Log.i("SELECTED Order " + i, order.toString());
                 }

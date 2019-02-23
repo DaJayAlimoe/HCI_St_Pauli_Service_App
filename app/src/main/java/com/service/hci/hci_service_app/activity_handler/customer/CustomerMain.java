@@ -25,6 +25,7 @@ import com.service.hci.hci_service_app.activity_handler.customer.adapters.Shoppi
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.MenuFragment;
 import com.service.hci.hci_service_app.activity_handler.customer.fragments.OrdersFragment;
 import com.service.hci.hci_service_app.data_layer.Api;
+import com.service.hci.hci_service_app.data_layer.Session;
 import com.service.hci.hci_service_app.data_types.Cart;
 
 import org.json.JSONArray;
@@ -33,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerMain extends AppCompatActivity {
-  static  CounterFab floatingActionButton;
+    private CounterFab floatingActionButton;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -44,7 +46,7 @@ public class CustomerMain extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static CounterFab getFloatingActionButton() {
+    public CounterFab getFloatingActionButton() {
         return floatingActionButton;
     }
 
@@ -57,6 +59,8 @@ public class CustomerMain extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher_pauli_rounded);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         ViewPager viewPager = findViewById(R.id.viewPager_customer);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -66,12 +70,17 @@ public class CustomerMain extends AppCompatActivity {
         adapter.addFragment(new OrdersFragment(), "Meine Bestellungen");
         viewPager.setAdapter(adapter);
 
-        //TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+
+
         TabLayout tabLayout = findViewById(R.id.tabLayout_customer);
         tabLayout.setupWithViewPager(viewPager);
 
+        TextView seatView = (TextView) findViewById(R.id.textView_customer_main_seatNr);
+        Session session = Session.getInstance(getApplicationContext());
+        seatView.setText("Meine Sitznummer: "+ String.valueOf(session.getSeatNr()));
+
         Cart.initInstance();
-         floatingActionButton = (CounterFab)findViewById(R.id.counterFabButton__customer_cart_menu);
+        floatingActionButton = (CounterFab) findViewById(R.id.counterFabButton__customer_cart_menu);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,11 +124,13 @@ public class CustomerMain extends AppCompatActivity {
                             } else {
                                 Toast.makeText(v.getContext(), "Bestellung konnte nicht abgeschickt werden", Toast.LENGTH_SHORT).show();
                             }
-                            OrdersFragment of = (OrdersFragment)adapter.getItem(1);
-                            of.startTimer(0, 30000);
+
+                            OrdersFragment ordersFragment = (OrdersFragment) adapter.getItem(1);
+                            ordersFragment.startTimer(0, 30000);
+
                             dialog.dismiss();
                         } else {
-                                Toast.makeText(v.getContext(), "Fügen Sie dem Warenkorb erst etwas hinzu!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(v.getContext(), "Fügen Sie dem Warenkorb erst etwas hinzu!", Toast.LENGTH_SHORT).show();
                         }
 
                     }

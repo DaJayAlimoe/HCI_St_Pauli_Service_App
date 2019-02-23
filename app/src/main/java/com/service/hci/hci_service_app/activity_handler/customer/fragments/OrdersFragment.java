@@ -100,7 +100,6 @@ public class OrdersFragment extends Fragment {
 
         JSONObject myOrders = stApi.getMyOrders();
 
-
         if (!myOrders.isNull("bookings")) {
             try {
                 JSONArray keys = myOrders.getJSONArray("bookings");

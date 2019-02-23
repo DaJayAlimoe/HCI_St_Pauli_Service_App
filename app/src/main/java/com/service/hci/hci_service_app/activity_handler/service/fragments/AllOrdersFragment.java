@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
 import com.service.hci.hci_service_app.activity_handler.service.PartialOrder;
+import com.service.hci.hci_service_app.activity_handler.service.ServiceMain;
 import com.service.hci.hci_service_app.activity_handler.service.adapters.AllOrdersAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.Item;
@@ -38,6 +40,7 @@ public class AllOrdersFragment extends Fragment {
     private Timer autoUpdateTimer;
     private AllOrdersAdapter allOrdersAdapter;
     private final Handler autoUpdateHandler = new Handler();
+    private ServiceMain serviceMain;
 
     public AllOrdersFragment() {
     }
@@ -49,6 +52,7 @@ public class AllOrdersFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        serviceMain = (ServiceMain) getActivity();
 
         View view = inflater.inflate(R.layout.service_orders, container, false);
 
@@ -62,45 +66,12 @@ public class AllOrdersFragment extends Fragment {
         header2.setText("Typ");
         header3.setText("Menge");
 
-        //Dummy Liste
-      //  PartialOrder p1 = new PartialOrder(5060, 2, "Bier");
-        //PartialOrder p2 = new PartialOrder(210, 5, "Limonade");
-        //PartialOrder p3 = new PartialOrder(378, 7, "Cola");
-        //PartialOrder p4 = new PartialOrder(3, 10, "Sprite");
-        //PartialOrder p5 = new PartialOrder(6780, 15, "Bratwurst");
-        //PartialOrder p6 = new PartialOrder(5500, 4, "Hot Dog");
-        //PartialOrder p7 = new PartialOrder(444, 1, "Brezel");
-        //PartialOrder p8 = new PartialOrder(1234, 20, "Bier");
-        // PartialOrder p9 = new PartialOrder(567, 8, "Bratwurst");
-        //PartialOrder p10 = new PartialOrder(35, 9, "Cola");
-        //PartialOrder p11 = new PartialOrder(68, 1, "Fanta");
-
         ArrayList<PartialOrder> partialOrders = new ArrayList<>();
-        //  partialOrders.add(p1);
-        //partialOrders.add(p2);
-        //partialOrders.add(p3);
-        //partialOrders.add(p4);
-        //partialOrders.add(p5);
-        //partialOrders.add(p6);
-        //partialOrders.add(p7);
-        //partialOrders.add(p8);
-        //partialOrders.add(p9);
-        //partialOrders.add(p10);
-        //partialOrders.add(p11);
-        //partialOrders.add(p4);
-        //partialOrders.add(p6);
-        //partialOrders.add(p2);
-        //partialOrders.add(p5);
-        //partialOrders.add(p5);
-        //partialOrders.add(p5);
-        //partialOrders.add(p5);
+
         Api stApi = Api.getInstance(getContext());
 
-
-
         ArrayList<Order> itemArrayList = this.getData();
-        //OrderListAdapter itemListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
-        //listView.setAdapter(itemListAdapter);
+
 
         allOrdersAdapter = new AllOrdersAdapter(this.getContext(),R.layout.service_all_orders_adapter_view, itemArrayList);
         listView.setAdapter(allOrdersAdapter);
@@ -120,8 +91,16 @@ public class AllOrdersFragment extends Fragment {
                                         JSONArray jsonArray = new JSONArray();
                                         jsonArray.put(booking);
                                         stApi.takeOrder(jsonArray);
+                                        SelectedOrdersFragment selectedOrdersFragment =(SelectedOrdersFragment)serviceMain.adapter.getItem(1);
+
+                                        if(selectedOrdersFragment.selectedOrdersAdapter != null) {
+                                            selectedOrdersFragment.selectedOrdersAdapter.add(allOrdersAdapter.getItem(i));
+                                        }
+
                                         allOrdersAdapter.remove(allOrdersAdapter.getItem(i));
                                         allOrdersAdapter.notifyDataSetChanged();
+
+
                                         Toast.makeText(view.getContext(), "Bestellung erfolgreich übernommen", Toast.LENGTH_LONG).show();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -155,7 +134,7 @@ public class AllOrdersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        startTimer(30000, 30000);
+        startTimer(20000, 20000);
     }
 
     public void startTimer(int delay, int period) {

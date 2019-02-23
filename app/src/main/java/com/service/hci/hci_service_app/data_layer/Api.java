@@ -36,8 +36,8 @@ public class Api {
     // to test on Emulator "http://10.0.2.2:443/";
     // local ip
     private Api(Context context){
-        baseUrl = "http://141.22.246.109:443";
-//        baseUrl = "http://192.168.43.225:443";
+//        baseUrl = "http://141.22.246.109:443";
+        baseUrl = "http://192.168.178.38:443";
         session = Session.getInstance(context);
     }
 
@@ -64,10 +64,10 @@ public class Api {
 
             if(data != null) {
                 if(!data.isNull("employee")) {
-                    session.setUserData(true,data.getJSONObject("employee").getInt("id"),qrToken);
+                    session.setUserData(true,data.getJSONObject("employee").getInt("id"),qrToken, -1);
                     identified = true;
                 }else if(!data.isNull("seat")) {
-                    session.setUserData(false,data.getJSONObject("seat").getInt("id"),qrToken);
+                    session.setUserData(false,data.getJSONObject("seat").getInt("id"),qrToken, data.getJSONObject("seat").getInt("seatNr"));
                     identified = true;
                 } else {
                     identified = false;

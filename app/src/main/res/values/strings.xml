@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Service App</string>
+    <string name="app_name">FC St. Pauli Service App</string>
     <string name="qr_code">QR-Code</string>
     <string name="zum_service_oder_customer">Hauptmenü</string>
     <string name="welcome">Willkommen in der Beer2Point App\ndes FC St. Pauli!\n\n\nUm loszulegen, berühren Sie bitte das Logo und scannen Sie anschließend den QR Code auf ihrem Eintrittsticket ein.</string>
