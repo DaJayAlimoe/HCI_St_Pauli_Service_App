@@ -23,7 +23,6 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/ic_launcher_pauli_rounded"
                 android:layout_gravity="top|end"/>
-
         </android.support.v7.widget.Toolbar>
 
 
@@ -40,8 +39,8 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager_customer"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginBottom="?android:attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
         android:background="@color/windowBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
