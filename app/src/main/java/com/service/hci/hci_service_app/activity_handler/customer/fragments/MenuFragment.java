@@ -42,12 +42,13 @@ public class MenuFragment extends Fragment {
     public MenuFragment() {
     }
 
+    private CustomerMain customerMain;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.customer_menu, container, false);
         ListView listViewItems = (ListView) view.findViewById(R.id.listView_customer_menu); // get the chil d text view
-
+        customerMain = (CustomerMain) getActivity();
         Api stApi = Api.getInstance(getContext());
         JSONObject response = stApi.getItems();
         Session session = Session.getInstance(getContext());
@@ -70,7 +71,7 @@ public class MenuFragment extends Fragment {
         ItemListAdapter itemListAdapter = new ItemListAdapter(view.getContext(), R.layout.customer_item_view, itemArrayList);
         listViewItems.setAdapter(itemListAdapter);
 
-        CounterFab counterFab= (CounterFab) CustomerMain.getFloatingActionButton();
+        CounterFab counterFab= (CounterFab) customerMain.getFloatingActionButton();
 
         listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,7 +84,7 @@ public class MenuFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
 
                              if (  Cart.getInstance().add(itemListAdapter.getItem(i), 1)) {
-                                 Toast.makeText(view.getContext(), itemListAdapter.getItem(i).getName() + " den Warenkorb hinzugefügt", Toast.LENGTH_SHORT).show();
+                                 Toast.makeText(view.getContext(), itemListAdapter.getItem(i).getName() + " dem Warenkorb hinzugefügt", Toast.LENGTH_SHORT).show();
                                  counterFab.increase();
                                  dialog.dismiss();
 

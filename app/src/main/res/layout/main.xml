@@ -30,7 +30,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="41dp"
-        android:background="@drawable/btn_st_pauli"
+        android:padding="10dp"
+        android:background="@drawable/btn_st_pauli_main_menu"
         android:textColor="@color/white"
         android:text="@string/zum_service_oder_customer"
         android:visibility="visible" />

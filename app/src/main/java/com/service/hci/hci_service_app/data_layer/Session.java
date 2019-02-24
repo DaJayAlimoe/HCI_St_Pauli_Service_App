@@ -18,6 +18,8 @@ public class Session {
 
     private final String IS_SEAT = "isSeat";
 
+    private final String SEAT_NR= "seatNr";
+
     private final String TOKEN = "token";
 
     private final String ID = "id";
@@ -45,7 +47,7 @@ public class Session {
      * @param id
      * @param qrToken
      */
-    public void setUserData(boolean isEmpl, int id, String qrToken) {
+    public void setUserData(boolean isEmpl, int id, String qrToken, int seatNr) {
 //        if (session == null) {
 //            session = new Session(context);
 //        }
@@ -56,6 +58,7 @@ public class Session {
         }else{
             editor.putBoolean(IS_EMPLOYEE, false);
             editor.putBoolean(IS_SEAT, true);
+            editor.putInt(SEAT_NR, seatNr);
         }
         editor.putString(TOKEN, qrToken);
         editor.putInt(ID, id);
@@ -93,6 +96,14 @@ public class Session {
      */
     public int getUserId() {
         return preferences.getInt(ID,-1);
+    }
+
+    /**
+     * get searNr
+     * @return
+     */
+    public int getSeatNr() {
+        return preferences.getInt(SEAT_NR,-1);
     }
 
     /**

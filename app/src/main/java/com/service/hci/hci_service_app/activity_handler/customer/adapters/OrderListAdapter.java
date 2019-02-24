@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class OrderListAdapter extends ArrayAdapter<Order>  {
+public class OrderListAdapter extends ArrayAdapter<Order> {
     private Context context;
     private int ressource;
     private int lastPosition = -1;
@@ -99,12 +99,12 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
 //        result.startAnimation(animation);
 //        lastPosition = position;
 
-        holder.amount.setText(order.getAmount()+"x " + order.getItem().getName());
-        holder.description.setText("Wartezeit : " + order.getEta() / 60000 +" min");
+        holder.amount.setText(order.getAmount() + "x " + order.getItem().getName());
+        holder.description.setText("Wartezeit : " + order.getEta() / 60000 + " min");
 //        holder.description.setText(order.getItem().getDescription());
         holder.picture.setImageResource(order.getItem().getPicture());
 
-        if(order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() != Order.OrderStatus.CANCELED){
+        if (order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() != Order.OrderStatus.CANCELED) {
             // to cancel the order
             holder.statusButton.setText("Stornieren");
             holder.statusButton.setTextColor(ContextCompat.getColor(context, R.color.red));
@@ -114,19 +114,19 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                 public void onClick(View v) {
                     AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
                     alertDialog.setTitle("Bestellung wirklich stornieren?");
-                    alertDialog.setMessage(String.valueOf(getItem(position).getAmount())+ "x "+ String.valueOf(getItem(position).getItem().getName()));
+                    alertDialog.setMessage(String.valueOf(getItem(position).getAmount()) + "x " + String.valueOf(getItem(position).getItem().getName()));
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Stornieren",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Api stApi = Api.getInstance(getContext());
                                     boolean cancleStatus = stApi.cancelOrder(getItem(position).getOrderNR());
-                                    if(cancleStatus){
+                                    if (cancleStatus) {
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
                                         getItem(position).setStatus(Order.OrderStatus.CANCELED);
                                         notifyDataSetChanged();
-                                        Toast.makeText(v.getContext(),"Bestellung erfolgreich storniert",Toast.LENGTH_LONG).show();
-                                    }else{
-                                        Toast.makeText(v.getContext(),"Bestellung bereits in arbeit",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(v.getContext(), "Bestellung erfolgreich storniert", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(v.getContext(), "Bestellung bereits in arbeit", Toast.LENGTH_LONG).show();
                                         Log.i("cancelStatus", Boolean.toString(cancleStatus));
                                     }
                                     dialog.dismiss();
@@ -138,13 +138,17 @@ public class OrderListAdapter extends ArrayAdapter<Order>  {
                                     dialog.dismiss();
                                 }
                             });
-                    alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.btn_st_pauli));
-                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackground(ContextCompat.getDrawable(v.getContext(), R.drawable.btn_st_pauli));
+                    alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialog) {
+                            alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setBackground(ContextCompat.getDrawable(context, R.drawable.btn_st_pauli));
+                            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackground(ContextCompat.getDrawable(context, R.drawable.btn_st_pauli));
+                        }
+                    });
                     alertDialog.show();
                 }
             });
-        }
-        else {
+        } else {
             SpannableString spanString = new SpannableString(order.getButtonText());
             spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
             holder.statusButton.setTextColor(ContextCompat.getColor(context, R.color.black));

@@ -31,33 +31,57 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private final String LOGTAG = "ScanQRCode";
 
     private static final int MY_PERMISSIONS_REQUEST = 1;
+    Session session;
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("App wirklich beenden?");
+        alertDialog.setMessage("Damit werden alle persönlichen Informationen gelöscht.\n Um die App zu minimieren, den Home-Button drücken");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "App beenden",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Main.super.onBackPressed();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Abbrechen",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Session session = Session.getInstance(this);
-        session.remove();
+        this.session.remove();
+        Log.i("In onDestroy","...");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         activateMainBtn();
+        Log.i("In onResume","...");
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) { // test comment
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        session = Session.getInstance(this);
+        Log.i("In onCreate","...");
         setContentView(R.layout.main);
-         // findViewById for booth buttons and add a onClickListener object to it
+         // findViewById for both buttons and add an onClickListener object to it
 
         this.btn_main_to_service_or_customer = findViewById(R.id.btn_main_to_service_or_customer);
-        btn_main_to_service_or_customer.setOnClickListener(this);
+        this.btn_main_to_service_or_customer.setOnClickListener(this);
 
         this.btn_main_to_service_or_customer.setVisibility(View.GONE);
 
         this.btn_qr = findViewById(R.id.clickable_image_skull);
-        btn_qr.setOnClickListener(this);
+        this.btn_qr.setOnClickListener(this);
 
         if (getIntent().getBooleanExtra("EXIT", false)) {
             Intent intent = new Intent(getApplicationContext(), Main.class);
@@ -65,17 +89,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-        activateMainBtn();
     }
 
     private void activateMainBtn(){
-        Session session = Api.getSession();
 
-        if(session != null) {
-
+        if(session.isEmployee() || session.isSeat()) {
             this.btn_main_to_service_or_customer.setClickable(true);
             this.btn_main_to_service_or_customer.setVisibility(View.VISIBLE);
-            this.btn_main_to_service_or_customer.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), (R.color.black)));
 
         } else {
             this.btn_main_to_service_or_customer.setVisibility(View.GONE);
@@ -87,17 +107,17 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         int actView = v.getId();
 
         if (actView == R.id.btn_main_to_service_or_customer) {
-            Session session = Api.getSession();
             Intent intent;
             if (session.isEmployee()) {
                  intent = new Intent(Main.this, ServiceMain.class);
             } else if (session.isSeat()) {
                 intent = new Intent(Main.this, CustomerMain.class);
             } else {
+                finish();
                 intent = new Intent(Main.this, Main.class);
             }
             startActivity(intent);
-//            finish();
+
         } else if (actView == R.id.clickable_image_skull) {
             // Here, thisActivity is the current activity
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
@@ -168,7 +188,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         }
         if (requestCode == REQUEST_CODE_QR_SCAN) {
-            Session session = Session.getInstance(this);
 
             Api stApi = Api.getInstance(this);
 
@@ -186,11 +205,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             } else if (session.isEmployee()) {
                 intent = new Intent(Main.this, ServiceMain.class);
             } else {
+                finish();
                 intent = new Intent(Main.this, Main.class);
             }
-
             startActivity(intent);
-//            finish();
         }
     }
 

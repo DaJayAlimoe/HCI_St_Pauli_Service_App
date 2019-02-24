@@ -1,8 +1,11 @@
 package com.service.hci.hci_service_app.activity_handler.customer.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +37,12 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
     private int ressource;
     private int lastPosition = -1;
     private ArrayList<Item_amount> cartList;
+    private CustomerMain customerMain;
 
     public ShoppingCartItemListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item_amount> objects) {
         super(context, resource, objects);
         this.context = context;
+        customerMain = unwrap(context);
         this.ressource = resource;
     }
 
@@ -46,6 +51,16 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
         this.cartList.addAll(objects);
         notifyDataSetChanged();
     }
+
+    // because an adapter is inside an ContextWrapper and not directly in Context itself
+    private static CustomerMain unwrap(Context context) {
+        while (!(context instanceof Activity) && context instanceof ContextWrapper) {
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+
+        return (CustomerMain) context;
+    }
+
 
     @Override
     public int getCount() {
@@ -68,15 +83,13 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         String name = getItem(position).getItem().getName();
-        String description = getItem(position).getItem().getDescription();
         int picture = getItem(position).getItem().getPicture();
 
-        // create the view result for showing the aniomation
+        // create the view result for showing the animation
         final View result;
 
         // viewHolder object
         ViewHolder holder;
-
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(this.context);
@@ -85,13 +98,12 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
             // to show animation
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.textView_customer_name_cart);
-//            holder.description = (TextView) convertView.findViewById(R.id.textView_customer_description_cart);
             holder.amount = (EditText) convertView.findViewById(R.id.numberView_customer_amount_cart);
             holder.picture = (ImageView) convertView.findViewById(R.id.imgView_customer_picture_cart);
             holder.btnPlus = (Button) convertView.findViewById(R.id.btn_customer_plus_cart);
             holder.btnDelete = (ImageButton) convertView.findViewById(R.id.btn_customer_delete_cartItem);
             holder.btnMinus = (Button) convertView.findViewById(R.id.btn_customer_minus_cart);
-            CounterFab counterFab = CustomerMain.getFloatingActionButton();
+            CounterFab counterFab = customerMain.getFloatingActionButton();
             holder.btnPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,7 +165,6 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
 
         holder.name.setText(name);
         holder.amount.setText(String.valueOf(getItem(position).getAmount()));
-//        holder.description.setText(description);
         holder.picture.setImageResource(picture);
 
         return convertView;
@@ -162,7 +173,6 @@ public class ShoppingCartItemListAdapter extends ArrayAdapter<Item_amount> {
     static class ViewHolder {
         TextView name;
         EditText amount;
-//        TextView description;
         ImageView picture;
         Button btnMinus;
         ImageButton btnDelete;
