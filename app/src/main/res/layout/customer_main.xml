@@ -40,7 +40,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager_customer"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="?android:attr/actionBarSize"
         android:background="@color/windowBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -75,6 +75,6 @@
         android:layout_marginBottom="28dp"
         android:clickable="true"
         android:focusable="true"
-        android:text="" />/>
+        android:text="" />
 
 </android.support.design.widget.CoordinatorLayout>

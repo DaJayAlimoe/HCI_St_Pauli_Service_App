@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -35,6 +34,7 @@ import java.util.List;
 
 public class CustomerMain extends AppCompatActivity {
     private CounterFab floatingActionButton;
+    private TextView textViewSeatNr;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -49,6 +49,8 @@ public class CustomerMain extends AppCompatActivity {
     public CounterFab getFloatingActionButton() {
         return floatingActionButton;
     }
+
+    public TextView getTextViewSeatNr() {return textViewSeatNr; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,9 @@ public class CustomerMain extends AppCompatActivity {
         seatView.setText("Meine Sitznummer: "+ String.valueOf(session.getSeatNr()));
 
         Cart.initInstance();
+
+        textViewSeatNr = (TextView) findViewById(R.id.textView_customer_main_seatNr);
+
         floatingActionButton = (CounterFab) findViewById(R.id.counterFabButton__customer_cart_menu);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

@@ -1,35 +1,27 @@
 package com.service.hci.hci_service_app.activity_handler.customer.fragments;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.andremion.counterfab.CounterFab;
 import com.service.hci.hci_service_app.R;
-
 import com.service.hci.hci_service_app.activity_handler.customer.CustomerMain;
-import com.service.hci.hci_service_app.activity_handler.customer.adapters.ShoppingCartItemListAdapter;
+import com.service.hci.hci_service_app.activity_handler.customer.OnScrollObserver;
+import com.service.hci.hci_service_app.activity_handler.customer.adapters.ItemListAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_layer.Session;
 import com.service.hci.hci_service_app.data_types.Cart;
 import com.service.hci.hci_service_app.data_types.Item;
-import com.service.hci.hci_service_app.activity_handler.customer.adapters.ItemListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +46,8 @@ public class MenuFragment extends Fragment {
         Session session = Session.getInstance(getContext());
         session.setItems(response.toString());
         ArrayList<Item> itemArrayList = new ArrayList<>();
+
+        TextView textViewSeatNr = customerMain.getTextViewSeatNr();
 
         try {
             JSONArray items = response.getJSONArray("items");
@@ -101,6 +95,22 @@ public class MenuFragment extends Fragment {
                             }
                         });
                 alertDialog.show();
+            }
+        });
+
+        listViewItems.setOnScrollListener(new OnScrollObserver() {
+            @Override
+            public void onScrollUp() {
+                counterFab.setActivated(true);
+                counterFab.setVisibility(View.VISIBLE);
+                textViewSeatNr.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onScrollDown() {
+                counterFab.setActivated(false);
+                counterFab.setVisibility(View.INVISIBLE);
+                textViewSeatNr.setVisibility(View.INVISIBLE);
             }
         });
 

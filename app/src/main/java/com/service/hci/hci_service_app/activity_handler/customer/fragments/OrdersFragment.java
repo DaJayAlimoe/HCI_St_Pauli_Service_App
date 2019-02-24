@@ -1,17 +1,21 @@
 package com.service.hci.hci_service_app.activity_handler.customer.fragments;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.andremion.counterfab.CounterFab;
 import com.service.hci.hci_service_app.R;
+import com.service.hci.hci_service_app.activity_handler.customer.CustomerMain;
+import com.service.hci.hci_service_app.activity_handler.customer.OnScrollObserver;
 import com.service.hci.hci_service_app.activity_handler.customer.adapters.OrderListAdapter;
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.Item;
@@ -35,6 +39,8 @@ public class OrdersFragment extends Fragment {
     private OrderListAdapter orderListAdapter;
     private final Handler autoUpdateHandler = new Handler();
 
+    private CustomerMain customerMain;
+
     public OrdersFragment() {
     }
 
@@ -51,6 +57,26 @@ public class OrdersFragment extends Fragment {
         ArrayList<Order> itemArrayList = this.getData();
         orderListAdapter = new OrderListAdapter(view.getContext(), R.layout.customer_order_list_view, itemArrayList);
         listView.setAdapter(orderListAdapter);
+
+        customerMain = (CustomerMain) getActivity();
+        TextView textViewSeatNr = (TextView) customerMain.getTextViewSeatNr();
+        CounterFab counterFab= (CounterFab) customerMain.getFloatingActionButton();
+
+        listView.setOnScrollListener(new OnScrollObserver() {
+            @Override
+            public void onScrollUp() {
+                counterFab.setActivated(true);
+                counterFab.setVisibility(View.VISIBLE);
+                textViewSeatNr.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onScrollDown() {
+                counterFab.setActivated(false);
+                counterFab.setVisibility(View.INVISIBLE);
+                textViewSeatNr.setVisibility(View.INVISIBLE);
+            }
+        });
 
         return view;
     }
