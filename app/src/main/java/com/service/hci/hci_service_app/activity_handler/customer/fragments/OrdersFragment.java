@@ -67,14 +67,14 @@ public class OrdersFragment extends Fragment {
             public void onScrollUp() {
                 counterFab.setActivated(true);
                 counterFab.setVisibility(View.VISIBLE);
-                textViewSeatNr.setVisibility(View.VISIBLE);
+                //textViewSeatNr.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onScrollDown() {
                 counterFab.setActivated(false);
                 counterFab.setVisibility(View.INVISIBLE);
-                textViewSeatNr.setVisibility(View.INVISIBLE);
+                //textViewSeatNr.setVisibility(View.INVISIBLE);
             }
         });
 
