@@ -40,7 +40,7 @@
         android:id="@+id/viewPager_customer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="125dp"
         android:background="@color/windowBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
