@@ -72,7 +72,23 @@ public class CustomerMain extends AppCompatActivity {
         adapter.addFragment(new OrdersFragment(), "Meine Bestellungen");
         viewPager.setAdapter(adapter);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                floatingActionButton.setActivated(true);
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         TabLayout tabLayout = findViewById(R.id.tabLayout_customer);
         tabLayout.setupWithViewPager(viewPager);
