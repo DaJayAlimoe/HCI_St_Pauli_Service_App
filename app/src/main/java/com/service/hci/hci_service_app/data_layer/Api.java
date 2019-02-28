@@ -4,14 +4,17 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.OutputStreamWriter;
 import java.util.concurrent.ExecutionException;
-import org.json.*;
 
 public class Api {
     private String baseUrl;
@@ -37,7 +40,7 @@ public class Api {
     // local ip
     private Api(Context context){
 //        baseUrl = "http://141.22.246.109:443";
-        baseUrl = "http://192.168.178.38:443";
+        baseUrl = "http://141.22.241.19:443";
         session = Session.getInstance(context);
     }
 

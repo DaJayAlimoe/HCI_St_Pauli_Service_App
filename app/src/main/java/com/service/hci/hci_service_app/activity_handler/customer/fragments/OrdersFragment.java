@@ -84,7 +84,7 @@ public class OrdersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        startTimer(30000, 30000);
+        startTimer(10000, 10000);
     }
 
     public void startTimer(int delay, int period) {
@@ -117,7 +117,7 @@ public class OrdersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        startTimer(0, 30000);
+        startTimer(0, 10000);
     }
 
     private ArrayList<Order> getData() {

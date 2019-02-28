@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -134,7 +133,7 @@ public class AllOrdersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        startTimer(20000, 20000);
+        startTimer(10000, 10000);
     }
 
     public void startTimer(int delay, int period) {
@@ -166,7 +165,7 @@ public class AllOrdersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        startTimer(0, 30000);
+        startTimer(0, 10000);
     }
 
     private ArrayList<Order> getData() {

@@ -147,7 +147,7 @@ public class CustomerMain extends AppCompatActivity {
                             }
 
                             OrdersFragment ordersFragment = (OrdersFragment) adapter.getItem(1);
-                            ordersFragment.startTimer(0, 30000);
+                            ordersFragment.startTimer(0, 10000);
 
                             dialog.dismiss();
                         } else {

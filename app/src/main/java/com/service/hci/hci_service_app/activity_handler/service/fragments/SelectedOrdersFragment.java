@@ -22,13 +22,11 @@ import com.service.hci.hci_service_app.activity_handler.service.adapters.Selecte
 import com.service.hci.hci_service_app.data_layer.Api;
 import com.service.hci.hci_service_app.data_types.Item;
 import com.service.hci.hci_service_app.data_types.Order;
-import com.service.hci.hci_service_app.data_types.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -110,7 +108,7 @@ public class SelectedOrdersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        startTimer(20000, 20000);
+        startTimer(10000, 10000);
     }
 
     public void startTimer(int delay, int period) {
@@ -142,7 +140,7 @@ public class SelectedOrdersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        startTimer(0, 30000);
+        startTimer(0, 10000);
     }
 
     private ArrayList<Order> getData() {

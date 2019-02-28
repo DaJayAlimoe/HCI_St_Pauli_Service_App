@@ -2,10 +2,8 @@ package com.service.hci.hci_service_app.activity_handler.customer.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -16,8 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,14 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.service.hci.hci_service_app.R;
-import com.service.hci.hci_service_app.activity_handler.customer.fragments.OrdersFragment;
 import com.service.hci.hci_service_app.data_layer.Api;
-import com.service.hci.hci_service_app.data_types.*;
+import com.service.hci.hci_service_app.data_types.Order;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class OrderListAdapter extends ArrayAdapter<Order> {
     private Context context;
@@ -104,7 +97,8 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
 //        holder.description.setText(order.getItem().getDescription());
         holder.picture.setImageResource(order.getItem().getPicture());
 
-        if (order.getActiveAt().after(new Timestamp(System.currentTimeMillis())) && order.getStatus() != Order.OrderStatus.CANCELED) {
+        if (order.getActiveAt().after(new Timestamp(System.currentTimeMillis() - 5000)) &&
+                (order.getStatus() != Order.OrderStatus.CANCELED && order.getStatus() != Order.OrderStatus.ONTHEWAY)) {
             // to cancel the order
             holder.statusButton.setText("Stornieren");
             holder.statusButton.setTextColor(ContextCompat.getColor(context, R.color.red));
